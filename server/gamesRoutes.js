@@ -1,35 +1,16 @@
+// IMPORTS
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const { controller } = require('./gamesController');
 // const server = require('./server');
 const request = require('request');
+const axios = require('axios');
+const asyncHandler = require('express-async-handler');
 
-// ------------------------------------------------------
-//Twitch OAUTH
+// MONGODB REQUIREMENTS
+const Streamers = require('./models/streamerModel');
 
-const getToken = (url, callback) => {
-    const options =  {
-        url: process.env.TOKEN_URL,
-        json: true,
-        body: {
-            client_id: process.env.CLIENT_ID,
-            client_secret: process.env.CLIENT_SECRET,
-            grant_type: 'client_credentials'
-        }
-    };
-
-    request.post(options, (err, res, body) => {
-        if(err) {
-            return console.log('ERROR: ', err);
-        }
-        console.log(`Status: ${res.statusCode}`);
-        // console.log('Body', body);
-    
-        callback(res);
-    });
-};
-// ------------------------------------------------------
 
 // ------------------------------------------------------
 // // @desc Get Test Route
@@ -48,36 +29,69 @@ router.get('/test', (req, res) => {
 router.get('/getTopGames', (req, res) => {
     console.log('Get Top Games: ', res.statusCode);
     res.status(200).json({ Message: 'Get Top Games'});
+    
+    const getToken = (url, callback) => {
+        return new Promise((resolve, reject) => {
+            const options =  {
+                url: process.env.TOKEN_URI,
+                json: true,
+                body: {
+                    client_id: process.env.CLIENT_ID,
+                    client_secret: process.env.CLIENT_SECRET,
+                    grant_type: 'client_credentials'
+                }
+            };
+        
+            request.post(options, (err, res, body) => {
+                if(err) {
+                    return console.log('ERROR: ', err);
+                }
+                console.log(`Status: ${res.statusCode}`);
+                // console.log('Body', body);
+            
+                resolve({accessToken: callback(res)});
+                // reject({Message: reject});
+            });
+        })
+   
+    };
 
     const getGames = (url, accessToken, callback) => {
         const gamesOptions = {
-        url: process.env.GET_GAMES,
-        method: 'GET', 
-        headers: {
+            url: process.env.GET_GAMES,
+            method: 'GET', 
+            headers: {
             'Client-ID': process.env.CLIENT_ID,
             'Authorization': 'Bearer ' + accessToken
-        }
+            }
         };
     
         request.get(gamesOptions, (err, res, body) => {
-        if(err) {
-            console.log('ERROR GET GAMES', err);
-        }
-        console.log(`Status: ${res.statusCode}`);
-        console.log(JSON.parse(body));
+            if(err) {
+                console.log('ERROR GET GAMES', err);
+            }
+            let topGames = JSON.parse(body);
+            console.log(`Status: ${res.statusCode}`);
+            console.log("RESPONSE: ", JSON.parse(body));
+            return topGames.json;
         });
     }
-  
+
     var accessToken = '';
-    getToken(process.env.TOKEN_URL, (res)=> {
-        // console.log(res.body);
-        accessToken = res.body.access_token;
-        setTimeout(()=> {
-            getGames(process.env.GET_GAMES, accessToken, (response) =>{
+    getToken(process.env.TOKEN_URI, (res)=> {
+        console.log(res.body);
+        return accessToken = res.body.access_token;
         
-            });
+    }).then((response) => {
+        getGames(process.env.GET_GAMES, response.accessToken, (response) =>{
+            res.json(response);
         })
+    }).catch(err=> {
+        console.error("ERROR FETCHING DATA", err);
     });
+
+   
+
 });
 // ------------------------------------------------------
 
