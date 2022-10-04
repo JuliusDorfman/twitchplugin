@@ -10,9 +10,6 @@ const getTestRoute = (req, res) => {
     if(!req.body.text) {
         res.status(400).json({Message: 'Status 400'})
     }
-
-
-
     res.status(200).json({ Message: 'Get Test Route'})
 }
 

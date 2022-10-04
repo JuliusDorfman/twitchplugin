@@ -5,8 +5,6 @@ const router = express.Router();
 const { controller } = require('./gamesController');
 // const server = require('./server');
 const request = require('request');
-const axios = require('axios');
-const asyncHandler = require('express-async-handler');
 
 // MONGODB REQUIREMENTS
 const Streamers = require('./models/streamerModel');
@@ -27,9 +25,6 @@ router.get('/test', (req, res) => {
 // router.get('/', controller.getTopGames);
 
 router.get('/getTopGames', (req, res) => {
-    console.log('Get Top Games: ', res.statusCode);
-    res.status(200).json({ Message: 'Get Top Games'});
-    
     const getToken = (url, callback) => {
         return new Promise((resolve, reject) => {
             const options =  {
@@ -46,14 +41,10 @@ router.get('/getTopGames', (req, res) => {
                 if(err) {
                     return console.log('ERROR: ', err);
                 }
-                console.log(`Status: ${res.statusCode}`);
-                // console.log('Body', body);
-            
+
                 resolve({accessToken: callback(res)});
-                // reject({Message: reject});
             });
         })
-   
     };
 
     const getGames = (url, accessToken, callback) => {
@@ -66,31 +57,88 @@ router.get('/getTopGames', (req, res) => {
             }
         };
     
-        request.get(gamesOptions, (err, res, body) => {
+        request.get(gamesOptions, (err, incoming_res, body) => {
             if(err) {
                 console.log('ERROR GET GAMES', err);
             }
             let topGames = JSON.parse(body);
-            console.log(`Status: ${res.statusCode}`);
-            console.log("RESPONSE: ", JSON.parse(body));
-            return topGames.json;
+            console.log("FULL RESPONSE: ", JSON.parse(body))
+            callback(topGames);
         });
     }
 
     var accessToken = '';
     getToken(process.env.TOKEN_URI, (res)=> {
-        console.log(res.body);
         return accessToken = res.body.access_token;
         
     }).then((response) => {
-        getGames(process.env.GET_GAMES, response.accessToken, (response) =>{
-            res.json(response);
-        })
+        getGames(process.env.GET_GAMES, response.accessToken, (topGames) => {
+            res.status(200).json({ Message: topGames.data});
+            return topGames.data;
+        });
     }).catch(err=> {
         console.error("ERROR FETCHING DATA", err);
     });
 
-   
+});
+
+
+router.get('/getTopStreams', (req, res) => {
+
+    const getToken = (url, callback) => {
+        return new Promise((resolve, reject) => {
+            const options =  {
+                url: process.env.TOKEN_URI,
+                json: true,
+                body: {
+                    client_id: process.env.CLIENT_ID,
+                    client_secret: process.env.CLIENT_SECRET,
+                    grant_type: 'client_credentials'
+                }
+            };
+        
+            request.post(options, (err, res, body) => {
+                if(err) {
+                    return console.log('ERROR: ', err);
+                }
+
+                resolve({accessToken: callback(res)});
+            });
+        })
+    };
+
+    const getTopStreams = (url, accessToken, callback) => {
+        const streamOptions = {
+            url: process.env.GET_STREAMS,
+            method: 'GET', 
+            headers: {
+            'Client-ID': process.env.CLIENT_ID,
+            'Authorization': 'Bearer ' + accessToken
+            }
+        };
+    
+        request.get(streamOptions, (err, incoming_res, body) => {
+            if(err) {
+                console.log('ERROR GET GAMES', err);
+            }
+            let topStreams = JSON.parse(body);
+            console.log("FULL RESPONSE: ", JSON.parse(body))
+            callback(topStreams);
+        });
+    }
+
+    var accessToken = '';
+    getToken(process.env.TOKEN_URI, (res)=> {
+        return accessToken = res.body.access_token;
+        
+    }).then((response) => {
+        getTopStreams(process.env.GET_GAMES, response.accessToken, (topStreams) => {
+            res.status(200).json({ Message: topStreams.data});
+            return topStreams.data;
+        });
+    }).catch(err=> {
+        console.error("ERROR FETCHING DATA", err);
+    });
 
 });
 // ------------------------------------------------------

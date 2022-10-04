@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import Navbar from './Navbar';
 import React from 'react';
+import Streams from './Streams';
+
 
 class App extends React.Component  {
   constructor(props) {
@@ -16,7 +18,7 @@ class App extends React.Component  {
       <div className="App">
         <header className="App-header">
           <Navbar />
-   
+          <Streams />
         </header>
       </div>
     );
