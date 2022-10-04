@@ -5,10 +5,15 @@ const router = express.Router();
 const { controller } = require('./gamesController');
 // const server = require('./server');
 const request = require('request');
-
+const chalk = require('chalk');
+const twitchChat = chalk.hex('#8510d8');
 // MONGODB REQUIREMENTS
 const Streamers = require('./models/streamerModel');
+const { ConnectionPoolClosedEvent } = require('mongodb');
 
+// Twitch Chat Websocket
+const WebSocketClient = require('websocket').client;
+const client = new WebSocketClient();
 
 // ------------------------------------------------------
 // // @desc Get Test Route
@@ -141,6 +146,33 @@ router.get('/getTopStreams', (req, res) => {
     });
 
 });
+
+// ------------------------------------------------------
+// Connect to Channel Chat
+
+router.get('/getTwitchChat', (req, res) =>{
+   
+    // TODO: exponential backoff approach to reconnect
+
+    client.on('connectFailed', function(error) {
+        console.log('Connect Error: ' + error.toString());
+    });
+    
+    client.on('connect', function(connection) {
+        console.log(twitchChat.underline('Twitch Chat WebSocket Client Connected'));
+        res.status(200).send({Connected: 'Twitch Chat WebSocket Client Connected'});
+        
+        // Send CAP (optional), PASS, and NICK messages
+    });
+    
+
+    
+    client.connect('ws://irc-ws.chat.twitch.tv:80');
+    
+
+
+})
+
 // ------------------------------------------------------
 
  

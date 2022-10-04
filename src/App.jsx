@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+import './App.sass';
 import Navbar from './Navbar';
 import React from 'react';
 import Streams from './Streams';
@@ -18,8 +18,11 @@ class App extends React.Component  {
       <div className="App">
         <header className="App-header">
           <Navbar />
-          <Streams />
+          <div>State of Twitch</div>
         </header>
+        <main>
+          <Streams />
+        </main>
       </div>
     );
   }

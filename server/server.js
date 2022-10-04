@@ -1,5 +1,5 @@
 require('dotenv').config({path: '/server'});
-const chalk = require('chalk') ;
+const chalk = require('chalk');
 const request = require('request');
 const express = require('express');
 const port = process.env.PORT || 7000;

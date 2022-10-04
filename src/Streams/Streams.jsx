@@ -10,7 +10,8 @@ export default class Streams extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            games: []
+            games: [],
+            streams: [],
         }
     }
 
@@ -20,7 +21,7 @@ export default class Streams extends React.Component {
 
     handleClick = () => {
         api.get('/test').then(res => {
-            console.log('inside axios', res)
+            console.log('Handle Test Front End Event', res)
         }).catch((exception) => {
             console.log(exception);
         })
@@ -29,9 +30,8 @@ export default class Streams extends React.Component {
    
 
     handleGetTopGames = () => {
-        console.log('HandleTopGames');
         api.get('/getTopGames').then(res => {
-            console.log('inside top games', res)
+            console.log('HandleTopGames', res)
             let games = [];
             for (let i = 0; i < res.data.Message.length; i++) {
                 games.push(res.data.Message[i].name)
@@ -41,34 +41,83 @@ export default class Streams extends React.Component {
             console.log(exception);
         })
     }    
-   
 
-    names = [
-        '1',
-        '2',
-        '3'
-    ]
+    
+    handleGetTopStreams = () => {
+        api.get('/getTopStreams').then(res => {
+            console.log('HandleTopStreams', res);
+            let topStreamData = res.data.Message;
+            let streamsList = {};
+            for (let i = 0; i < topStreamData.length; i++) {
+                let streamName = topStreamData[i].user_name;
+                let streamViewers = topStreamData[i].viewer_count;
+                let streamGame = topStreamData[i].game_name;
+                let streamThumbnail = topStreamData[i].thumbnail_url;
+                streamsList[streamName] = [streamViewers, streamGame, streamThumbnail];
+            }
+            this.setState({streams: streamsList});
+        }).catch((exception) => {
+            console.log(exception);
+        })
+    }    
+   
+    handleGetTwitchChat = () => {
+        api.get('/getTwitchChat').then(res => {
+           console.log("HAndleGetTwitchChat: ", res.data)
+        }).catch((exception) => {
+            console.log(exception);
+        })
+    }    
+
+  
+    renderTopStreams = () => {
+        const streams = this.state.streams;
+
+        return Object.keys(streams).map((key, index) => {
+            console.log("key", key);
+            let streamerName = key;
+            let streamViewers = streams[key][0];
+            let streamGame = streams[key][1];
+            let streamThumbnail = streams[key][2];
+            return (
+            <div id={streamerName} className="streamer-window">
+                <div className="streamer-name">{streamerName}</div> 
+                <div className="streamer-viewers">Current Viewers: {streamViewers}</div>
+                <div className="streamer-game">Game: {streamGame}</div> 
+                <div className="streamer-thumbnail">{streamThumbnail}</div>
+            </div>
+            )
+        })
+    };
 
     render(){
-        const games = this.state.games;
-        const renderGames = () => {
-            return games.map((name) => {
-                console.log("name", name);
-                return (
-                <div id={`${name}`}>{name}</div>
-                )
-            })
-        }
+        // const games = this.state.games;
+        
+        // const renderGames = () => {
+        //     return games.map((name) => {
+        //         console.log("name", name);
+        //         return (
+        //         <div id={`${name}`}>{name}</div>
+        //         )
+        //     })
+        // }
+     
         return(
+           
             <div id='streams-component'>
-                <div className='stream-wrapper'>
-                    {console.log(this.state.games)}
-                    <button onClick={(e)=>{this.handleClick(e)}}>TEST BUTTON</button>
-                    <button onClick={(e)=>{this.handleGetTopGames(e)}}>getTopGames BUTTON</button>
-                    <div className="here">
-                        {renderGames()}
+                <div className='streams-wrapper'>
+                    {/* <button onClick={(e)=>{this.handleClick(e)}}>TEST BUTTON</button> */}
+                    {/* <button onClick={(e)=>{this.handleGetTopGames(e)}}>getTopGames BUTTON</button> */}
+                    <div className="streamer-windows-wrapper">
+                        <button onClick={(e)=>{this.handleGetTopStreams(e)}}>getTopStreams BUTTON</button>
+                        {this.renderTopStreams()}
+                    </div>
+                    {/* <button onClick={(e)=>{this.handleGetTwitchChat(e)}}>getTwitchChat BUTTON</button> */}
+                    <div className="art-wrapper">
+                    test
                     </div>
                 </div>
+                
             </div>
         )
     }
