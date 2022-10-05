@@ -15,10 +15,6 @@ export default class Streams extends React.Component {
         }
     }
 
-    componentDidMount() {
-      
-    }
-
     handleClick = () => {
         api.get('/test').then(res => {
             console.log('Handle Test Front End Event', res)
@@ -63,6 +59,8 @@ export default class Streams extends React.Component {
 
     handleGetTwitchChat = () => {
         api.get('/getTwitchChat').then(res => {
+            // Wait for 20 chats 
+            // send to stable diffusion bot
            console.log("HAndleGetTwitchChat: ", res.data)
         }).catch((exception) => {
             console.log(exception);
@@ -95,7 +93,6 @@ export default class Streams extends React.Component {
                 <div className="streamer-viewers">Current Viewers: {streamViewers}</div>
                 <div className="streamer-game">Game: {streamGame}</div> 
                 <div className="streamer-thumbnail"><img src={streamThumbnail}/></div>
-                
             </div>
             )
         })
@@ -130,7 +127,7 @@ export default class Streams extends React.Component {
                     </div>
                     {/* <button onClick={(e)=>{this.handleGetTwitchChat(e)}}>getTwitchChat BUTTON</button> */}
                     <div className="art-wrapper">
-                    test
+                        <button onClick={(e)=>{this.handleGetTwitchChat(e)}}>getTwitchChat Button</button>
                     </div>
                 </div>
                 

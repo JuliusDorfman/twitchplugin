@@ -9,6 +9,7 @@ const chalk = require('chalk');
 const twitchChat = chalk.hex('#8510d8');
 // MONGODB REQUIREMENTS
 const Streamers = require('./models/streamerModel');
+const tmi = require('tmi.js');
 
 // ------------------------------------------------------
 // // @desc Get Test Route
@@ -62,7 +63,7 @@ router.get('/getTopGames', (req, res) => {
                 console.log('ERROR GET GAMES', err);
             }
             let topGames = JSON.parse(body);
-            console.log("FULL RESPONSE: ", JSON.parse(body))
+            // console.log("FULL RESPONSE: ", JSON.parse(body))
             callback(topGames);
         });
     }
@@ -122,7 +123,7 @@ router.get('/getTopStreams', (req, res) => {
                 console.log('ERROR GET GAMES', err);
             }
             let topStreams = JSON.parse(body);
-            console.log("FULL RESPONSE: ", JSON.parse(body))
+            // console.log("FULL RESPONSE: ", JSON.parse(body))
             callback(topStreams);
         });
     }
@@ -148,7 +149,6 @@ const WebSocketClient = require('websocket').client;
 const client = new WebSocketClient();
 
 router.get('/getTwitchChat', (req, res) =>{
-   
     const getToken = (url, callback) => {
         return new Promise((resolve, reject) => {
             const options =  {
@@ -167,41 +167,71 @@ router.get('/getTwitchChat', (req, res) =>{
                 }
 
                 resolve({accessToken: callback(res)});
+                
             });
-        })
+        });
     };
 
-    accessToken = '';
+    var accessToken = '';
     getToken(process.env.TOKEN_URI, (res)=> {
         return accessToken = res.body.access_token;
+    }).then((response) => {
+
+    // TODO: exponential backoff approach to reconnect  
+    //       i.e. try connecting in 1 second... 2... 4... ect...
+        // Initialize options using tmi node package
+        const tmiClient = new tmi.Client({
+            options: { debug: true },
+            connection: {
+                reconnect: true,
+                secure: true,
+            },
+            identity: {
+                username: process.env.TWITCH_USERNAME,
+                password: process.env.TWITCH_BOT_ACCESS_TOKEN,
+            },
+            channels: ['stateoftwitchart']
+        })
+
+        tmiClient.on('connectFailed', function(error) {
+            console.log('Connect Error: ' + error.toString());
+        })
+       
+        // Listening
+        tmiClient.on('connected', (channel, tags, message, self) => {
+            console.log(twitchChat.underline(`Twitch Chat WebSocket Client Connected. Now Listening...`));
+
+            if (self) return;
+  
+            tmiClient.say(channel, `@${tags.username}, `);
+            tmiClient.on('chat', (channel, tags, message, self) => {
+                if (self) return;
+                console.log('channel', channel);
+                console.log('tags', tags);
+
+                console.log('username', tags['display-name']);
+                console.log('Message', message);
+            })
+            // // Send CAP (optional), PASS, and NICK messages
+            // connection.sendUTF('CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands');
+            // connection.sendUTF(`PASS ${process.env.TWITCH_BOT_ACCESS_TOKEN}`);
+            // connection.sendUTF(`NICK ${process.env.TWITCH_USERNAME}`);
+            // res.status(200).send({connected: response.accessToken})
         
-    })
+            // // connection.sendUTF('JOIN #bar,#foo');
+        })
 
-
-
-    // TODO: exponential backoff approach to reconnect
-
-    client.on('connectFailed', function(error) {
-        console.log('Connect Error: ' + error.toString());
-    });
-    
-    client.on('connect', function(connection) {
-        console.log(twitchChat.underline(`Twitch Chat WebSocket Client Connected`));
-        // res.status(200).send({Connected: 'Twitch Chat WebSocket Client Connected'});
         
-        // Send CAP (optional), PASS, and NICK messages
-        connection.sendUTF('CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands');
-        connection.sendUTF(`PASS oauth:${accessToken}`);
-        connection.sendUTF('NICK stateofchatart');
-        console.log("CHAT ACCESS", accessToken)
-        res.status(200).send({connected: accessToken})
-    
-        // connection.sendUTF('JOIN #bar,#foo');
-    });
-    
+        
+        tmiClient.connect('ws://irc-ws.chat.twitch.tv:80').catch(console.error)
+        
 
-    
-    client.connect('ws://irc-ws.chat.twitch.tv:80');
+    }).catch(err => {
+        chalk.red(console.log("Error getting Auth for Chatbot", err));
+        // console.log("Error getting Auth for Chatbot", err)
+    });
+
+
     
 
 
