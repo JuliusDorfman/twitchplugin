@@ -60,7 +60,7 @@ export default class Streams extends React.Component {
             console.log(exception);
         })
     }    
-   
+
     handleGetTwitchChat = () => {
         api.get('/getTwitchChat').then(res => {
            console.log("HAndleGetTwitchChat: ", res.data)
@@ -79,16 +79,32 @@ export default class Streams extends React.Component {
             let streamViewers = streams[key][0];
             let streamGame = streams[key][1];
             let streamThumbnail = streams[key][2];
+            
+            let reWidth = /{width}/gi;
+            let reHeight = /{height}/gi;
+
+            streamThumbnail = streamThumbnail.replace(reHeight, (match) => {
+                return '190';
+            })
+            streamThumbnail = streamThumbnail.replace(reWidth, (match) => {
+                return '300';
+            })
             return (
             <div id={streamerName} className="streamer-window">
                 <div className="streamer-name">{streamerName}</div> 
                 <div className="streamer-viewers">Current Viewers: {streamViewers}</div>
                 <div className="streamer-game">Game: {streamGame}</div> 
-                <div className="streamer-thumbnail">{streamThumbnail}</div>
+                <div className="streamer-thumbnail"><img src={streamThumbnail}/></div>
+                
             </div>
             )
         })
     };
+
+    componentDidMount() {
+        this.handleGetTopStreams();
+        this.renderTopStreams();
+    }
 
     render(){
         // const games = this.state.games;

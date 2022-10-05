@@ -9,11 +9,6 @@ const chalk = require('chalk');
 const twitchChat = chalk.hex('#8510d8');
 // MONGODB REQUIREMENTS
 const Streamers = require('./models/streamerModel');
-const { ConnectionPoolClosedEvent } = require('mongodb');
-
-// Twitch Chat Websocket
-const WebSocketClient = require('websocket').client;
-const client = new WebSocketClient();
 
 // ------------------------------------------------------
 // // @desc Get Test Route
@@ -84,10 +79,10 @@ router.get('/getTopGames', (req, res) => {
     }).catch(err=> {
         console.error("ERROR FETCHING DATA", err);
     });
-
 });
 
-
+// Globally accessable Access Token
+// var accessToken = '';
 router.get('/getTopStreams', (req, res) => {
 
     const getToken = (url, callback) => {
@@ -149,9 +144,41 @@ router.get('/getTopStreams', (req, res) => {
 
 // ------------------------------------------------------
 // Connect to Channel Chat
+const WebSocketClient = require('websocket').client;
+const client = new WebSocketClient();
 
 router.get('/getTwitchChat', (req, res) =>{
    
+    const getToken = (url, callback) => {
+        return new Promise((resolve, reject) => {
+            const options =  {
+                url: process.env.TOKEN_URI,
+                json: true,
+                body: {
+                    client_id: process.env.CLIENT_ID,
+                    client_secret: process.env.CLIENT_SECRET,
+                    grant_type: 'client_credentials'
+                }
+            };
+        
+            request.post(options, (err, res, body) => {
+                if(err) {
+                    return console.log('ERROR: ', err);
+                }
+
+                resolve({accessToken: callback(res)});
+            });
+        })
+    };
+
+    accessToken = '';
+    getToken(process.env.TOKEN_URI, (res)=> {
+        return accessToken = res.body.access_token;
+        
+    })
+
+
+
     // TODO: exponential backoff approach to reconnect
 
     client.on('connectFailed', function(error) {
@@ -159,10 +186,17 @@ router.get('/getTwitchChat', (req, res) =>{
     });
     
     client.on('connect', function(connection) {
-        console.log(twitchChat.underline('Twitch Chat WebSocket Client Connected'));
-        res.status(200).send({Connected: 'Twitch Chat WebSocket Client Connected'});
+        console.log(twitchChat.underline(`Twitch Chat WebSocket Client Connected`));
+        // res.status(200).send({Connected: 'Twitch Chat WebSocket Client Connected'});
         
         // Send CAP (optional), PASS, and NICK messages
+        connection.sendUTF('CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands');
+        connection.sendUTF(`PASS oauth:${accessToken}`);
+        connection.sendUTF('NICK stateofchatart');
+        console.log("CHAT ACCESS", accessToken)
+        res.status(200).send({connected: accessToken})
+    
+        // connection.sendUTF('JOIN #bar,#foo');
     });
     
 
