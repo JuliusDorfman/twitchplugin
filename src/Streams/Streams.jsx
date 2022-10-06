@@ -93,15 +93,13 @@ export default class Streams extends React.Component {
 
     renderTwitchChat = () => {
         let chatInput = this.state.chatInput;
-        console.log("after set state", chatInput);
+        console.log("Render Twitch Chat: ", chatInput);
         // send to stable diffusion bot
      
         return chatInput.map((chat, index) => {
-
             return (
                 <div id={`${chat} - ${index}`} className="ind-chat">{chat}</div>
             )
-             
         })
     }
 
