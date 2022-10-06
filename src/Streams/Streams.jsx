@@ -1,6 +1,7 @@
 import React from 'react';
 import './Streams.sass';
 import axios from 'axios';
+import chalk from 'chalk';
 
 
 const api = axios.create({
@@ -12,18 +13,9 @@ export default class Streams extends React.Component {
         this.state = {
             games: [],
             streams: [],
+            chatInput: [],
         }
     }
-
-    handleClick = () => {
-        api.get('/test').then(res => {
-            console.log('Handle Test Front End Event', res)
-        }).catch((exception) => {
-            console.log(exception);
-        })
-    }
-
-   
 
     handleGetTopGames = () => {
         api.get('/getTopGames').then(res => {
@@ -37,9 +29,9 @@ export default class Streams extends React.Component {
             console.log(exception);
         })
     }    
-
-    
+ 
     handleGetTopStreams = () => {
+        chalk.green(console.log('GET TOP STREAMS'));
         api.get('/getTopStreams').then(res => {
             console.log('HandleTopStreams', res);
             let topStreamData = res.data.Message;
@@ -56,27 +48,15 @@ export default class Streams extends React.Component {
             console.log(exception);
         })
     }    
-
-    handleGetTwitchChat = () => {
-        api.get('/getTwitchChat').then(res => {
-            // Wait for 20 chats 
-            // send to stable diffusion bot
-           console.log("HAndleGetTwitchChat: ", res.data)
-        }).catch((exception) => {
-            console.log(exception);
-        })
-    }    
-
-  
+    
     renderTopStreams = () => {
         const streams = this.state.streams;
 
-        return Object.keys(streams).map((key, index) => {
-            console.log("key", key);
-            let streamerName = key;
-            let streamViewers = streams[key][0];
-            let streamGame = streams[key][1];
-            let streamThumbnail = streams[key][2];
+        return Object.keys(streams).map((streamer, index) => {
+            let streamerName = streamer;
+            let streamViewers = streams[streamer][0];
+            let streamGame = streams[streamer][1];
+            let streamThumbnail = streams[streamer][2];
             
             let reWidth = /{width}/gi;
             let reHeight = /{height}/gi;
@@ -98,39 +78,53 @@ export default class Streams extends React.Component {
         })
     };
 
+    handleGetTwitchChat = () => {
+        chalk.green(console.log("HandleGetTwitchChat: "));
+        api.get('/getTwitchChat').then(res => {
+            // Wait for 5 chats 
+            
+            this.setState({chatInput: res.data.chatInput}, ()=> {
+                this.renderTwitchChat();
+            });
+        }).catch((exception) => {
+            console.log('handleGetTwitchChat exception: ', exception);
+        })
+    }    
+
+    renderTwitchChat = () => {
+        let chatInput = this.state.chatInput;
+        console.log("after set state", chatInput);
+        // send to stable diffusion bot
+     
+        return chatInput.map((chat, index) => {
+
+            return (
+                <div id={`${chat} - ${index}`} className="ind-chat">{chat}</div>
+            )
+             
+        })
+    }
+
+  
     componentDidMount() {
         this.handleGetTopStreams();
-        this.renderTopStreams();
     }
 
     render(){
-        // const games = this.state.games;
-        
-        // const renderGames = () => {
-        //     return games.map((name) => {
-        //         console.log("name", name);
-        //         return (
-        //         <div id={`${name}`}>{name}</div>
-        //         )
-        //     })
-        // }
-     
         return(
-           
             <div id='streams-component'>
                 <div className='streams-wrapper'>
-                    {/* <button onClick={(e)=>{this.handleClick(e)}}>TEST BUTTON</button> */}
-                    {/* <button onClick={(e)=>{this.handleGetTopGames(e)}}>getTopGames BUTTON</button> */}
                     <div className="streamer-windows-wrapper">
                         <button onClick={(e)=>{this.handleGetTopStreams(e)}}>getTopStreams BUTTON</button>
                         {this.renderTopStreams()}
                     </div>
-                    {/* <button onClick={(e)=>{this.handleGetTwitchChat(e)}}>getTwitchChat BUTTON</button> */}
                     <div className="art-wrapper">
                         <button onClick={(e)=>{this.handleGetTwitchChat(e)}}>getTwitchChat Button</button>
+                        <div className="chats-wrapper">
+                            {this.renderTwitchChat()}
+                        </div>
                     </div>
                 </div>
-                
             </div>
         )
     }

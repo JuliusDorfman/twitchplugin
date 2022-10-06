@@ -6,7 +6,7 @@ const { controller } = require('./gamesController');
 // const server = require('./server');
 const request = require('request');
 const chalk = require('chalk');
-const twitchChat = chalk.hex('#8510d8');
+const twitchChat = chalk.hex('#8510d8').bgWhiteBright;
 // MONGODB REQUIREMENTS
 const Streamers = require('./models/streamerModel');
 const tmi = require('tmi.js');
@@ -175,8 +175,7 @@ router.get('/getTwitchChat', (req, res) =>{
     var accessToken = '';
     getToken(process.env.TOKEN_URI, (res)=> {
         return accessToken = res.body.access_token;
-    }).then((response) => {
-
+    }).then(() => {
     // TODO: exponential backoff approach to reconnect  
     //       i.e. try connecting in 1 second... 2... 4... ect...
         // Initialize options using tmi node package
@@ -190,13 +189,17 @@ router.get('/getTwitchChat', (req, res) =>{
                 username: process.env.TWITCH_USERNAME,
                 password: process.env.TWITCH_BOT_ACCESS_TOKEN,
             },
-            channels: ['stateoftwitchart']
+            channels: ['stateoftwitchart', 'dorfroe'],
         })
 
         tmiClient.on('connectFailed', function(error) {
             console.log('Connect Error: ' + error.toString());
         })
        
+        tmiClient.on('connecting', (address, port) => {
+            chalk.yellow(console.log("Connecting..."))
+        })
+
         // Listening
         tmiClient.on('connected', (channel, tags, message, self) => {
             console.log(twitchChat.underline(`Twitch Chat WebSocket Client Connected. Now Listening...`));
@@ -204,21 +207,37 @@ router.get('/getTwitchChat', (req, res) =>{
             if (self) return;
   
             tmiClient.say(channel, `@${tags.username}, `);
-            tmiClient.on('chat', (channel, tags, message, self) => {
-                if (self) return;
-                console.log('channel', channel);
-                console.log('tags', tags);
+           
 
-                console.log('username', tags['display-name']);
-                console.log('Message', message);
-            })
             // // Send CAP (optional), PASS, and NICK messages
-            // connection.sendUTF('CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands');
-            // connection.sendUTF(`PASS ${process.env.TWITCH_BOT_ACCESS_TOKEN}`);
-            // connection.sendUTF(`NICK ${process.env.TWITCH_USERNAME}`);
-            // res.status(200).send({connected: response.accessToken})
+    
+            
         
             // // connection.sendUTF('JOIN #bar,#foo');
+        })
+        let chatCounter = 0;
+        let chatInput = [];
+        console.log('initial chat counter', chatCounter);
+        tmiClient.on('chat', (channel, tags, message, self) => {
+            if (self) return;
+            console.log('channel', channel);
+            // console.log('tags', tags);
+            console.log('username', tags['display-name']);
+            console.log('Message', message);
+            chatInput.push(message);
+            chatCounter += 1;
+            if (chatCounter === 2) {
+                tmiClient.disconnect().then(()=> {
+                    chalk.bgBlackBright.bold.blueBright(console.log('Return Data', chatInput));
+                    res.status(200).json({chatInput: chatInput})
+                    return {chatInput: chatInput};
+                    chatCounter = 0;
+                    chatInput = [];
+                }).catch(err =>{
+                    throw err;
+                })
+            }
+            console.log('chatCounter', chatCounter);
         })
 
         
