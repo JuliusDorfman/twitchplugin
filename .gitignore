@@ -28,4 +28,4 @@ yarn-error.log*
 
 
 # Large Folder
-/server/stable-diffusion
+/server/stable-diffusion/*
