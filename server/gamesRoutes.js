@@ -260,14 +260,8 @@ router.post('/postRenderChatArt', (req, res, body) => {
     const pythonPath = path.join(__dirname, 'stable-diffusion', 'text2img.py')
     console.log("incoming req: ", req.body.artPrompt);
     let artPrompt = req.body.artPrompt;
-
-
-
-    // const childPython = spawn('python', ['--version']);
-    
-    // TESTING
-    // let artPrompt = 'green frog running around casting magic'
-    //TESTING 
+    artPrompt = artPrompt.join().replace(",", " ");
+    artPromp = [artPrompt];
 
     console.log(chalk.yellow.underline('Art Generation Prompt: '));
     console.log(chalk.yellowBright(artPrompt));

@@ -29,8 +29,7 @@ export default class Streams extends React.Component {
     handleGetTest = (e) => {
         e.preventDefault();
         console.log('handleGetTest');
-        // let chatInput = ["Fema%%!le Ali!@#)($(*%&*^^en runn2ing through",  "forest m51ade of broc^$#!olli"];
-        let chatInput = ["Fema%%!le Ali!@#"];
+        let chatInput = ["Fema%%!le Ali!@#)($(*%&*^^en runn2ing through",  "forest m51ade of broc^$#!olli"];
         chatInput = chatInput.join(" ");
         const regexCharCheck = /[^A-Za-z0-9 ]/g;
         
