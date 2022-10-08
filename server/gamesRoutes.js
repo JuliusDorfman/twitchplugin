@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
+const path = require ('path');
 const { controller } = require('./gamesController');
 // const server = require('./server');
 const request = require('request');
@@ -10,6 +11,10 @@ const twitchChat = chalk.hex('#8510d8').bgWhiteBright;
 // MONGODB REQUIREMENTS
 const Streamers = require('./models/streamerModel');
 const tmi = require('tmi.js');
+// const { callPythonScript } = require('../server/stable-diffusion/testnode.js');
+
+// Required for running Python
+const { spawn } = require('child_process');
 
 // ------------------------------------------------------
 // // @desc Get Test Route
@@ -197,7 +202,7 @@ router.get('/getTwitchChat', (req, res) =>{
         })
        
         tmiClient.on('connecting', (address, port) => {
-            chalk.yellow(console.log("Connecting..."))
+            console.log(chalk.yellow("Connecting..."))
         })
 
         // Listening
@@ -228,33 +233,69 @@ router.get('/getTwitchChat', (req, res) =>{
             chatCounter += 1;
             if (chatCounter === 2) {
                 tmiClient.disconnect().then(()=> {
-                    chalk.bgBlackBright.bold.blueBright(console.log('Return Data', chatInput));
+                    chalk.bold.blueBright(console.log('Return Data', chatInput));
                     res.status(200).json({chatInput: chatInput})
-                    return {chatInput: chatInput};
+                
                     chatCounter = 0;
                     chatInput = [];
                 }).catch(err =>{
                     throw err;
                 })
             }
+
             console.log('chatCounter', chatCounter);
         })
-
-        
         
         tmiClient.connect('ws://irc-ws.chat.twitch.tv:80').catch(console.error)
-        
 
     }).catch(err => {
-        chalk.red(console.log("Error getting Auth for Chatbot", err));
+        console.log(chalk.red("Error getting Auth for Chatbot", err));
         // console.log("Error getting Auth for Chatbot", err)
     });
 
-
-    
-
-
 })
+
+
+router.post('/postRenderChatArt', (req, res, body) => {
+    const pythonPath = path.join(__dirname, 'stable-diffusion', 'text2img.py')
+    console.log("incoming req: ", req.body.artPrompt);
+    let artPrompt = req.body.artPrompt;
+
+
+
+    // const childPython = spawn('python', ['--version']);
+    
+    // TESTING
+    // let artPrompt = 'green frog running around casting magic'
+    //TESTING 
+
+    console.log(chalk.yellow.underline('Art Generation Prompt: '));
+    console.log(chalk.yellowBright(artPrompt));
+
+    return new Promise((resolve, reject) => {
+        callPythonScript = (artPrompt) => {
+            const childPython = spawn('python', [pythonPath, artPrompt], {
+                cwd: process.cwd(),
+                detached: true,
+                stdio: "inherit"
+            });
+        }
+        resolve(pythonPromise());
+    });
+
+
+    async function pythonPromise() {
+        try {
+            const pythonPromiseResult = await callPythonScript(artPrompt);
+        } catch(err) {
+            throw err
+        }
+    }
+
+   
+})
+
+
 
 // ------------------------------------------------------
 
