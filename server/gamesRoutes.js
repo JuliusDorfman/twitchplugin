@@ -153,7 +153,10 @@ router.get('/getTopStreams', (req, res) => {
 const WebSocketClient = require('websocket').client;
 const client = new WebSocketClient();
 
-router.get('/getTwitchChat', (req, res) =>{
+router.post('/getTwitchChat', (req, res, body) =>{
+
+    let channelToJoin = req.body.channelToJoin;
+
     const getToken = (url, callback) => {
         return new Promise((resolve, reject) => {
             const options =  {
@@ -194,7 +197,7 @@ router.get('/getTwitchChat', (req, res) =>{
                 username: process.env.TWITCH_USERNAME,
                 password: process.env.TWITCH_BOT_ACCESS_TOKEN,
             },
-            channels: ['stateoftwitchart', 'dorfroe'],
+            channels: [channelToJoin],
         })
 
         tmiClient.on('connectFailed', function(error) {
@@ -208,7 +211,6 @@ router.get('/getTwitchChat', (req, res) =>{
         // Listening
         tmiClient.on('connected', (channel, tags, message, self) => {
             console.log(twitchChat.underline(`Twitch Chat WebSocket Client Connected. Now Listening...`));
-
             if (self) return;
   
             tmiClient.say(channel, `@${tags.username}, `);

@@ -1,3 +1,6 @@
+$lavander-color: #E6E6FA
+  
+
 #streams-component
     position: relative
     display: flex
@@ -21,14 +24,47 @@
     display: flex
     flex-direction: column
     justify-content: center    
-
+    
 .streamer-window 
+    display: flex
+    flex-direction: row
     text-align: left    
+    width: 80vw
     > * 
-        margin-top: 15px
+        margin: 15px auto 0 auto
+
+.streamer-info-wrapper
+    display: flex
+    flex-direction: column
+    box-shadow: -10px -5px 5px black
+    border: 1px solid black
+
+.streamer-info-wrapper,
+.streamer-art-wrapper
+    margin-top: 80px
+
 
 .streamer-name
     font-size: 1.5em
+    padding: 10px
+    // color: lightgray
+    color: #1a1e25
+    background-color: $lavander-color   
+
+.streamer-viewers,
+.streamer-game
+    // color: darkgray
+    padding-left: 10px
+    color: #1a1e25
+    background-color: $lavander-color
+    
+.streamer-viewers
+    font-size: .9em
+    padding-bottom: 10px
+
+.streamer-screenshot
+    height: 100%
+    width: 100%
 
 // Art Windows
 
@@ -36,9 +72,22 @@
     align-self: start
 
 .chats-wrapper
-    border: gray 1px solid
+    // border: gray 1px solid
     height: 200px
     width: 200px
 
 .ind-chat
     font-size: 2em
+
+.no-image-found
+    height: 200px
+    width: 200px
+
+.bolded 
+    font-weight: bold
+
+.italicized 
+    font-style: italic
+
+.smaller-font
+    font-size: .9em    

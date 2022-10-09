@@ -2,6 +2,7 @@ import React from 'react';
 import './Streams.sass';
 import axios from 'axios';
 import chalk from 'chalk';
+import noImageFound from '../Assets/piano_falling.jpg'
 // import { callPythonScript } from '../../server/stable-diffusion/testnode'; 
 
 const api = axios.create({
@@ -11,19 +12,19 @@ export default class Streams extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            pageRerender: false,
             games: [],
             streams: [],
             chatInput: [],
+            artImage: ''
             // renderTwitchChat: 
         }
 
-        this.handleGetTest = this.handleGetTest.bind(this);
-        // this.handleGetTopGames = this.handleGetTopGames(this);
-        // this.handleGetTopStreams = this.handleGetTopStreams(this);
-        // this.renderTopStreams = this.renderTopStreams(this);
-        // this.handleGetTwitchChat = this.handleGetTwitchChat(this);
-        // this.renderTwitchChat = this.renderTwitchChat(this);
-        // this.handleGetArt = this.handleGetArt(this);
+        // this.handleGetTest = this.handleGetTest.bind(this);
+    }
+
+    handleDummyFunction = () => {
+        console.log('dummmmy')
     }
 
     handleGetTest = (e) => {
@@ -58,8 +59,8 @@ export default class Streams extends React.Component {
     }    
  
     handleGetTopStreams = () => {
-        chalk.green(console.log('GET TOP STREAMS'));
         api.get('/getTopStreams').then(res => {
+            chalk.green(console.log('GET TOP STREAMS', res.data));
             let topStreamData = res.data.Message;
             let streamsList = {};
             for (let i = 0; i < topStreamData.length; i++) {
@@ -67,7 +68,8 @@ export default class Streams extends React.Component {
                 let streamViewers = topStreamData[i].viewer_count;
                 let streamGame = topStreamData[i].game_name;
                 let streamThumbnail = topStreamData[i].thumbnail_url;
-                streamsList[streamName] = [streamViewers, streamGame, streamThumbnail];
+                let streamChannel = topStreamData[i].user_login;
+                streamsList[streamName] = [streamViewers, streamGame, streamThumbnail, streamChannel];
             }
             this.setState({streams: streamsList});
         }).catch((exception) => {
@@ -83,6 +85,7 @@ export default class Streams extends React.Component {
             let streamViewers = streams[streamer][0];
             let streamGame = streams[streamer][1];
             let streamThumbnail = streams[streamer][2];
+            let streamChannel = streams[streamer][3];
             
             let reWidth = /{width}/gi;
             let reHeight = /{height}/gi;
@@ -95,10 +98,25 @@ export default class Streams extends React.Component {
             })
             return (
             <div id={`${streamerName}-${index}`} className="streamer-window">
-                <div className="streamer-name">{streamerName}</div> 
-                <div className="streamer-viewers">Current Viewers: {streamViewers}</div>
-                <div className="streamer-game">Game: {streamGame}</div> 
-                <div className="streamer-thumbnail"><img src={streamThumbnail}/></div>
+                <div className="streamer-info-wrapper">
+                    <div className="streamer-name"><span className="bolded">{streamerName}</span></div> 
+                    <div className="streamer-game"><span className="smaller-font">Game: </span><span className="bolded">{streamGame}</span></div> 
+                    <div className="streamer-viewers"><span className="italicized smaller-font">Current Viewers: {streamViewers}</span></div>
+                    <div className="streamer-thumbnail"><img className="streamer-screenshot" alt="streamer-thumbnail" src={streamThumbnail}/></div>
+                </div>
+                <div className="streamer-art-wrapper">
+                    {
+                        this.state.artImage !== '' 
+                            ?
+                        <div className="no-image-found" style={{
+                            backgroundImage: `url("${noImageFound}")`
+                        }}>
+                            ERROR OCCURED PLEASE REFRESH AND TRY AGAIN
+                        </div>
+                            :
+                        <button streamchannel={streamChannel} onClick={this.handleGetArt}>RENDER ART</button>
+                    }
+                </div>
             </div>
             )
         })
@@ -108,11 +126,20 @@ export default class Streams extends React.Component {
         e.preventDefault();
         chalk.green(console.log("HandleGetTwitchChat: "));
         this.setState({chatInput: []})
-        api.get('/getTwitchChat').then(res => {
+        api.post('/getTwitchChat').then(res => {
             let chatArtPrompt = res.data.chatInput
-            console.log('chatArtPrompt: ', chatArtPrompt.join(" "));
-            const regexCharCheck = /[A-Za-z0-9]/g;
-            // chatArtPrompt = chatArtPrompt.replace(regexCharCheck, '');
+            console.log('arr or string', chatArtPrompt)
+            const regexCharCheck = /[^A-Za-z0-9 ]/g;
+           
+            chatArtPrompt = chatArtPrompt.map((input, index) => {
+                console.log("input: ", input)
+                return input = input.replace(regexCharCheck, (input) => { 
+                    console.log('inside input', input)
+                    return '';
+                });
+            })
+            
+            // console.log('chatArtPrompt: ', chatArtPrompt.join(" "));
             console.log("CHAT ART PROMPT: ", chatArtPrompt);
             // Wait for {number} of chats 
             this.setState({chatInput: chatArtPrompt}, ()=> {
@@ -136,15 +163,37 @@ export default class Streams extends React.Component {
 
     handleGetArt = (e) => {
         e.preventDefault();
-        let chatInput = this.state.chatInput;
-        chalk.yellow(console.log("handleGetArt PROMPT: ", chatInput));
-        api.post('/postRenderChatArt', {
-            artPrompt: chatInput,
+        console.log("e.streamChannel", e.target.getAttribute("streamchannel"));
+        let channelToJoin = e.target.getAttribute("streamchannel");
+        api.post('/getTwitchChat', {
+            channelToJoin: channelToJoin
+        }).then(res => { 
+            let chatArtPrompt = res.data.chatInput
+            const regexCharCheck = /[^A-Za-z0-9 ]/g;
+           
+            chatArtPrompt = chatArtPrompt.map((input, index) => {
+                return input = input.replace(regexCharCheck, (input) => { 
+                    return '';
+                });
+            })
+            console.log('chatArtPrompt: THIS WILL BE PASSED: ', chatArtPrompt)
+            api.post('/postRenderChatArt', {
+            artPrompt: chatArtPrompt,
         }).then((res)=> {
             console.log('handleGetTest res.data: ', res.data)
         }).catch(err =>{
             throw err;
         }) 
+
+        }).catch(err => {
+            throw err
+        })
+
+        chalk.cyan(console.log("entered chat: "))
+        let chatInput = this.state.chatInput;
+        chalk.yellow(console.log("handleGetArt PROMPT: ", chatInput));
+
+      
     }
 
   
@@ -157,16 +206,15 @@ export default class Streams extends React.Component {
             <div id='streams-component'>
                 <div className='streams-wrapper'>
                     <div className="streamer-windows-wrapper">
-                        <button onClick={this.handleGetTest}>GET TEST</button>
-                        <button onClick={this.handleGetTopStreams}>getTopStreams BUTTON</button>
+                        {/* <button onClick={this.handleGetTest}>GET TEST</button> */}
+                        {/* <button onClick={this.handleGetTopStreams}>getTopStreams BUTTON</button> */}
                         {this.renderTopStreams()}
                     </div>
                     <div className="art-wrapper">
-                        <button onClick={this.handleGetTwitchChat}>getTwitchChat Button</button>
+                        {/* <button onClick={this.handleGetTwitchChat}>getTwitchChat Button</button>
                         <div className="chats-wrapper">
                             {this.renderTwitchChat()}
-                        </div>
-                        <button onClick={this.handleGetArt}>RENDER ART</button>
+                        </div> */}
                     </div>
                 </div>
             </div>
