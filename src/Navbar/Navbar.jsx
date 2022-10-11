@@ -18,7 +18,7 @@ export default class Navbar extends React.Component {
   handleSearchInput = (e) => {
     e.preventDefault();
     // todo on keydown dont accept special characters
-    let searchInput = e.target.value.replace(/[^a-z0-9]/gi, '').toLowerCase()
+    let searchInput = e.target.value.replace(/[^a-zA-Z0-9]/gi, '')
     this.setState({searchInput: searchInput}, ()=> {
       
     })
@@ -26,7 +26,7 @@ export default class Navbar extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({searchSubmit: this.state.searchInput}, () => {
+    this.setState({searchSubmit: this.state.searchInput.toLowerCase()}, () => {
       console.log("searchSubmit State: ", this.state.searchSubmit);
       this.setState({searchInput: ''})
     });
@@ -46,6 +46,9 @@ export default class Navbar extends React.Component {
     })
 }    
 
+handler = (e) => {
+  e.preventDefault();
+}
 
   render() {
     
@@ -58,10 +61,13 @@ export default class Navbar extends React.Component {
               this.handleGetTopGames(e)
             })}>Home</li>
             <li>
-              <form id="search-form">
+              <form id="search-form" onSubmit={this.handler}>
                 <label>Search: </label>                
-                <input id="search-input" type="text" className="search" name="search" value={this.state.searchInput} onChange={this.handleSearchInput} placeholder='e.g. xQc, pokimane, non-case-sensative' autoComplete='off'/>
-                <div id="search-submit" onClick={this.handleSubmit}>Submit</div>
+                <input id="search-input" type="text" className="search" 
+                  name="search" value={this.state.searchInput} 
+                  onChange={this.handleSearchInput} placeholder='e.g. xQc, pokimane, non-case-sensative' 
+                  autoComplete='off'/>
+                <div id="search-submit" onClick={(e)=>{this.handleSubmit(e)}}>Submit</div>
               </form>
             </li>
             <li></li>

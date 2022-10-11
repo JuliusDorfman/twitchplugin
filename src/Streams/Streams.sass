@@ -68,8 +68,32 @@ $lavander-color: #E6E6FA
 
 // Art Windows
 
-.art-wrapper 
-    align-self: start
+.streamer-art-wrapper
+
+.art-rendered
+    height: 295px
+    width: 295px
+    > img
+        height: inherit
+        width: inherit
+
+.render-art-button
+    border: 1px solid black
+    border-radius: 3px
+    padding: 5px
+    cursor: pointer
+    transition: 1s
+    background-color: beige
+    &:hover
+        transition: .5s
+        background-color: rgba(255, 200, 255, 1)
+        // color: lavender
+        font-weight: bold
+        padding: 10px
+        transform: translate(-10px, -1px)
+
+.render-art-not-available 
+    display: none
 
 .chats-wrapper
     // border: gray 1px solid
