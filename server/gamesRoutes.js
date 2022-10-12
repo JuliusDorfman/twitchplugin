@@ -9,7 +9,7 @@ const request = require('request');
 const chalk = require('chalk');
 const twitchChat = chalk.hex('#8510d8').bgWhiteBright;
 const app = express();
-
+const fs = require('fs');
 app.use('/images', express.static(path.join(__dirname, 'server', 'state-diffusion')));
 
 // MONGODB REQUIREMENTS
@@ -17,9 +17,17 @@ const Streamers = require('./models/streamerModel');
 const tmi = require('tmi.js');
 
 // AWS S3 REQUIREMENTS
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3({
+    region: process.env.AWS_BUCKET_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY
+})
+
+// MULTER REQUIREMENTS
 // const multer = require('multer');
 // const { uploadFile } = require('./s3');
-
+// const upload = multer({ dest: 'uploads' })
 // Required for running Python
 const { spawn } = require('child_process');
 
@@ -264,7 +272,7 @@ router.post('/getTwitchChat', (req, res, body) =>{
             console.log('Message', message);
             chatInput.push(message);
             chatCounter += 1;
-            if (chatCounter === 2) {
+            if (chatCounter === 1) {
                 tmiClient.disconnect().then(()=> {
                     chalk.bold.blueBright(console.log('Return Data', chatInput));
                     res.status(200).json({
@@ -320,10 +328,11 @@ router.post('/postRenderChatArt', (req, res, body) => {
                 // console.log("Done10: ");
                 console.log("DONE11:")
                 res.json({artFileName: finalResponse})
-                // AWS S3 FOR UPLOADING SAVED FILES
-                // getFile(imagePath);
-           
 
+
+                // AWS S3 FOR UPLOADING SAVED FILES
+                // let imagePath = '100822Oct10-green-61.png';
+                uploadFileToAWS(finalResponse);
             })
         }
 
@@ -348,28 +357,85 @@ router.post('/postRenderChatArt', (req, res, body) => {
 })
 
 
+uploadFileToAWS = (fileName) => {
+    // Read content from the file
+    fileName = fileName.trim()
+    let publicPath = path.join(__dirname, '../src/Assets/', fileName.trim());
+    console.log("publicPath: ", publicPath);
+    let serverPath = path.join(__dirname, 'stable-diffusion', fileName.trim());
+    console.log("serverPath: ", serverPath);
+
+
+    const fileContent = fs.createReadStream(serverPath)
+        
+        console.log("fileContent", fileContent.path);
+        
+        
+        const parms = {
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: fileName.trim(),
+            Body: fileContent,
+            ContentType: "image/png",
+        };
+        
+        s3.upload(parms, (err, data) => {
+            if (err) {
+                throw err;
+            }
+            console.log("File Uploaded: ", data.Location);
+            console.log("File Data: ", data)
+            // res.send({s3ImageAddress: data.Location});
+        })
+    }
+    
+// router.get(`/gets3ImageURL/:imageFileName`, (req, res) => {
+// router.get(`/gets3ImageURL/`, (req, res) => {
+
+//     const parms = {
+//         Bucket: process.env.AWS_BUCKET_NAME,
+//         Key: fileName,
+//         Body: serverPath,
+//         Content_Type: "image/png"
+//     };
+
+//     s3.getObject(parms, (err, data) => {
+//         if (err) {
+//             throw err;
+//         }
+//         console.log("File Received: ", data);
+//         // return res
+//     })
+//     console.log("HIT BACKEND")
+// })
+
+// .then(res=>{
+//     res.json({s3imageURL: res.data})
+// })
+
+
+
+
 // MORE AWS ISSUES
 // if (header['content-transfer-encoding'])
 //         encoding = header['content-transfer-encoding'][0].toLowerCase();
 //       else
 //         encoding = '7bit';
-// function getFile(imagePath) {
-//     console.log("in getfile");
-//     request.post('/postImage', upload.single("image"), (req, res, next) => {
-
-//         console.log('in here')
-//         // console.log("did the post",{artFileName: imagePath})
-//         console.log("REQUEST REQUEST REQUEST REQUEST ", req.file);
-//         console.log("RESPONSE RESPONSE RESPONSE RESPONSE ", res);
-//         const file = req.file;
-//         console.log("AWS Upload FILE", file);
-//         console.log("AWS Upload imagePath", imagePath);
-//         const result = uploadFile(imagePath);
-//         console.log(result);
-//         const description = req.body.description;
-//         console.log("AWS Description FILE: ", description);
-//         res.send('')
-//     })
+    // MULTER for AWS S3
+    // request.post('/postImage', upload(req, res).single('image'), (req, res) => {
+    //     upload.single('image')
+    //     console.log('in here')
+    //     // console.log("did the post",{artFileName: imagePath})
+    //     console.log("REQUEST REQUEST REQUEST REQUEST ", req.file);
+    //     console.log("RESPONSE RESPONSE RESPONSE RESPONSE ", res);
+    //     const file = req.file;
+    //     console.log("AWS Upload FILE", file);
+    //     console.log("AWS Upload imagePath", imagePath);
+    //     const result = uploadFile(imagePath);
+    //     console.log(result);
+    //     const description = req.body.description;
+    //     console.log("AWS Description FILE: ", description);
+    //     res.send('')
+    // })
 // }                
 
 

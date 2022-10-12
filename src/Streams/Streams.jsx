@@ -80,11 +80,11 @@ export default class Streams extends React.Component {
 
         return Object.keys(streams).map((streamer, index) => {
             let streamerName = streamer;
-            let streamViewers = streams[streamer][0];
-            let streamGame = streams[streamer][1];
-            let streamThumbnail = streams[streamer][2];
-            let streamChannel = streams[streamer][3];
-            
+            let streamViewers = streams[streamerName][0];
+            let streamGame = streams[streamerName][1];
+            let streamThumbnail = streams[streamerName][2];
+            let streamChannel = streams[streamerName][3];
+            let streamArtLink = streams[streamerName][4];
             let reWidth = /{width}/gi;
             let reHeight = /{height}/gi;
 
@@ -108,10 +108,12 @@ export default class Streams extends React.Component {
                         this.state.artImageFileName !== '' 
                         ?
                         <div className={`art-rendered art-rendered-${streamerName}`}>
-                            {/* {(console.log("this.state.streams.streamer.link", this.state.streams[streamerName][4]))} */}
+                            {(console.log("this.state.streams.streamer.link", this.state.streams[streamerName][4]))}
+                            {(console.log("this.state.streams.streamer.link variable", streamArtLink))}
+                            {(console.log("this.state.streams.streamer.link static", '../Assets/100822Oct10-green-61.png'))}
                             {this.state.streams[streamerName][4] 
                                 ?
-                            <img src={require(`../Assets/${this.state.artImageFileName}`)}/> 
+                            <img id={`img-${index}`} alt={`art-generated-for-${streamerName}`} src={require('../Assets/100822Oct10-green-61.png')}/> 
                                 :
                             <div>None</div>
                             }
@@ -171,7 +173,7 @@ export default class Streams extends React.Component {
 
     handleGetArt = (e) => {
         e.preventDefault();
-        let result =  e.target.style.display = 'none';
+        e.target.style.display = 'none';
         console.log("Streamer Name: ", e.target.getAttribute("streamername"));
         let channelToJoin = e.target.getAttribute("streamername");
         api.post('/getTwitchChat', {
@@ -194,37 +196,43 @@ export default class Streams extends React.Component {
             api.post('/postRenderChatArt', {
                 artPrompt: chatArtPrompt,
             }).then((res)=> {
-                // console.log("Before regex: ", res.data.artFileName);
                 // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
                 let artFileName = res.data.artFileName.replace(/\s/g, "");
+                console.log('artFileName: ', artFileName)
                 channelToJoin = channelToJoin.replace(/\s/g, "");
-                // console.log("After regex: ", artFileName);
                 this.setState({artPrompt: []})
                 this.setState({artImageFileName: artFileName}, ()=>{
                     console.log('Image filename: ', artFileName)
                     let streams = this.state.streams;
                     console.log("Streams: ", streams);
                     this.setState({artPrompt: []}, ()=>{
-                        let newLink = 'require(`../Assets/${this.state.artImageFileName}`)';
+                        // let newLink = 'require(`../Assets/${this.state.artImageFileName}`)';
+                        let newLink = `${this.state.artImageFileName}`;
+                        console.log('newLink Before: ', newLink);
                         let currentStream = this.state.streams[channelToJoin];
+                        console.log('newLink After: ', newLink);
                         currentStream[4] = newLink;
-                        // console.log("streams[channelToJoin]", streams[channelToJoin])
-                        // console.log('currentStream', currentStream)
+                        console.log("streams[channelToJoin]", streams[channelToJoin])
+                        console.log('currentStream', currentStream)
                         this.setState({[streams[channelToJoin]]: currentStream}, ()=>{
                             // return (<img src={this.state.streams[channelToJoin[4]]}/>)
                             // return (<img src={noImageFound}/>)
                             // console.log("AFTER SETTING STATE: ", streams[channelToJoin]);
+                            // axios.get(`/gets3ImageURL/:${newLink}`, (req, res) =>{
+                            api.get(`/gets3ImageURL/`, (req, res) =>{
+                                return res
+                            }).then(res =>{
+                                console.log('axios res', res);
+                            })
                         });
                     })
                 })
             }).catch(err =>{
                 throw err;
             }) 
-
-            }).catch(err => {
-                throw err
-            })
-
+        }).catch(err => {
+            throw err
+        })
     }
 
   
@@ -233,7 +241,6 @@ export default class Streams extends React.Component {
     }
 
     render(){
-        
         return(
             <div id='streams-component'>
                 <div className='streams-wrapper'>
