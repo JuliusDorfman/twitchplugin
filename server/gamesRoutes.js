@@ -262,7 +262,7 @@ router.post('/getTwitchChat', (req, res, body) =>{
             }
         }
        
-        let clientTimemout =() => setTimeout(chatTimeoutFunction, 15000)
+        let clientTimemout =() => setTimeout(chatTimeoutFunction, 60000)
         
         tmiClient.on('chat', (channel, tags, message, self) => {
             if (self) return;
