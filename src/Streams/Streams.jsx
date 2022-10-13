@@ -3,6 +3,7 @@ import './Streams.sass';
 import axios from 'axios';
 import chalk from 'chalk';
 import noImageFound from '../Assets/piano_falling.jpg'
+import Spinner from '../Components/';
 // import { callPythonScript } from '../../server/stable-diffusion/testnode'; 
 const api = axios.create({
     baseURL: `http://localhost:7000/` || process.env.PORT
@@ -16,7 +17,8 @@ export default class Streams extends React.Component {
             streams: [],
             chatInput: [],
             showRenderButton: 'render-art-available',
-            artImageFileName: ''
+            artImageFileName: '',
+            loadingArt: false
         }
     }
 
@@ -55,6 +57,12 @@ export default class Streams extends React.Component {
     //     })
     // }    
  
+    // handleSearchForStreamer = () => {
+    //  api.get('./getStreamer${searchInput}').then(res => {
+        // console.log('Streamer Search: ', res.data);
+    // })
+    // }
+
     handleGetTopStreams = () => {
         api.get('/getTopStreams').then(res => {
             chalk.green(console.log('GET TOP STREAMS', res.data));
@@ -66,8 +74,9 @@ export default class Streams extends React.Component {
                 let streamGame = topStreamData[i].game_name;
                 let streamThumbnail = topStreamData[i].thumbnail_url;
                 let streamChannel = topStreamData[i].user_name;
+                let streamURL = `https://www.twitch.tv/${topStreamData[i].user_login}`;
                 let streamerArtImage = '';
-                streamsList[streamName] = [streamViewers, streamGame, streamThumbnail, streamChannel, streamerArtImage];
+                streamsList[streamName] = [streamViewers, streamGame, streamThumbnail, streamChannel, streamerArtImage, streamURL];
             }
             this.setState({streams: streamsList});
         }).catch((exception) => {
@@ -85,6 +94,7 @@ export default class Streams extends React.Component {
             let streamThumbnail = streams[streamerName][2];
             let streamChannel = streams[streamerName][3];
             let streamArtLink = streams[streamerName][4];
+            let streamURL = streams[streamerName][5];
             let reWidth = /{width}/gi;
             let reHeight = /{height}/gi;
 
@@ -100,32 +110,40 @@ export default class Streams extends React.Component {
                     <div className="streamer-name"><span className="bolded">{streamChannel}</span></div> 
                     <div className="streamer-game"><span className="smaller-font">Game: </span><span className="bolded">{streamGame}</span></div> 
                     <div className="streamer-viewers"><span className="italicized smaller-font">Current Viewers: {streamViewers}</span></div>
-                    <div className="streamer-thumbnail"><img className="streamer-screenshot" alt="streamer-thumbnail" src={streamThumbnail}/></div>
+                    <a href={streamURL} target="_blank"><div className="streamer-thumbnail"><img className="streamer-screenshot" alt="streamer-thumbnail" src={streamThumbnail}/></div></a>
                 </div>
-                <div className="streamer-art-wrapper">
-                <button buttonvalue={streamerName} className="render-art-button" streamername={streamerName} onClick={this.handleGetArt}>RENDER ART</button>
+                <div id={`streamer-art-wrapper-${streamerName}`} className="streamer-art-wrapper">
+                    {/* TESTING */}
+                {/* {this.state.loadingArt === false */}
+
+                <div>
+                    {this.state.loadingArt === false 
+                    ?                     
+                        <button id={`id-${streamerName}`} buttonvalue={streamerName} className="render-art-button" streamername={streamerName} onClick={this.handleGetArt}>RENDER ART</button>
+                    :
+                        null
+                    }
                     {
-                        this.state.artImageFileName !== '' 
+                        this.state.streamArtLink !== '' 
                         ?
-                        <div className={`art-rendered art-rendered-${streamerName}`}>
-                            {(console.log("this.state.streams.streamer.link", this.state.streams[streamerName][4]))}
-                            {(console.log("this.state.streams.streamer.link variable", streamArtLink))}
-                            {(console.log("this.state.streams.streamer.link static", '../Assets/100822Oct10-green-61.png'))}
+                        <div id={`art-wrapper-${streamerName}`} className={`art-rendered art-rendered-${streamerName}`}>
                             {this.state.streams[streamerName][4] 
                                 ?
-                            <img id={`img-${index}`} alt={`art-generated-for-${streamerName}`} src={require('../Assets/100822Oct10-green-61.png')}/> 
+                            <img id={`img-${index}`} alt={`art-generated-for-${streamerName}`} src={streamArtLink}/> 
                                 :
-                            <div>None</div>
+                                        this.state.loadingArt === false 
+                                    ?     
+                                        <div>None</div>
+                                    :
+                                        <Spinner />
                             }
-                        rendered
                         </div>
                             :
-                        <div className="no-image-found" style={{
-                            backgroundImage: `url("${noImageFound}")`
-                        }}>
-                            ERROR OCCURED PLEASE REFRESH AND TRY AGAIN
+                        <div>
                         </div>
                     }
+                    </div>
+
                 </div>
             </div>
             )
@@ -143,7 +161,7 @@ export default class Streams extends React.Component {
            
             chatArtPrompt = chatArtPrompt.map((input, index) => {
                 console.log("input: ", input)
-                return input = input.replace(regexCharCheck, (input) => { 
+                return input = input.replaceAll(regexCharCheck, (input) => { 
                     console.log('inside input', input)
                     return '';
                 });
@@ -173,6 +191,7 @@ export default class Streams extends React.Component {
 
     handleGetArt = (e) => {
         e.preventDefault();
+        this.setState({loadingArt: true});
         e.target.style.display = 'none';
         console.log("Streamer Name: ", e.target.getAttribute("streamername"));
         let channelToJoin = e.target.getAttribute("streamername");
@@ -181,6 +200,7 @@ export default class Streams extends React.Component {
         }).then(res => { 
             if(res.data.noChat === true) {
                 const noChatInput = "Sorry! Your channel is dead! There weren't enough chatters!";
+                this.setState({loadingArt: false})
                 console.log("true no chat", noChatInput);
                 return noChatInput;
             }
@@ -198,32 +218,26 @@ export default class Streams extends React.Component {
             }).then((res)=> {
                 // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
                 let artFileName = res.data.artFileName.replace(/\s/g, "");
-                console.log('artFileName: ', artFileName)
                 channelToJoin = channelToJoin.replace(/\s/g, "");
                 this.setState({artPrompt: []})
                 this.setState({artImageFileName: artFileName}, ()=>{
                     console.log('Image filename: ', artFileName)
                     let streams = this.state.streams;
-                    console.log("Streams: ", streams);
-                    this.setState({artPrompt: []}, ()=>{
-                        // let newLink = 'require(`../Assets/${this.state.artImageFileName}`)';
-                        let newLink = `${this.state.artImageFileName}`;
-                        console.log('newLink Before: ', newLink);
-                        let currentStream = this.state.streams[channelToJoin];
-                        console.log('newLink After: ', newLink);
-                        currentStream[4] = newLink;
-                        console.log("streams[channelToJoin]", streams[channelToJoin])
-                        console.log('currentStream', currentStream)
-                        this.setState({[streams[channelToJoin]]: currentStream}, ()=>{
-                            // return (<img src={this.state.streams[channelToJoin[4]]}/>)
-                            // return (<img src={noImageFound}/>)
-                            // console.log("AFTER SETTING STATE: ", streams[channelToJoin]);
-                            // axios.get(`/gets3ImageURL/:${newLink}`, (req, res) =>{
-                            api.get(`/gets3ImageURL/`, (req, res) =>{
-                                return res
-                            }).then(res =>{
-                                console.log('axios res', res);
-                            })
+                    // console.log("Streams: ", streams);
+                    api.post('/uploadFileAWS', ({fileName: artFileName}), (req, res) => {
+                        console.log("res", res);
+                    }).then(res=> {
+                        console.log('AFTER UPLOAD', res);
+                        this.setState({artPrompt: []}, ()=>{
+                            // let newLink = `${this.state.artImageFileName}`;
+                            let newLink = res.data.s3ImageAddress;
+                            let currentStream = this.state.streams[channelToJoin];
+                            currentStream[4] = newLink;
+                            // console.log("streams[channelToJoin]", streams[channelToJoin])
+                            // console.log('currentStream', currentStream)
+
+                            this.setState({[streams[channelToJoin]]: currentStream});
+                            this.setState({loadingArt: false})
                         });
                     })
                 })
@@ -235,6 +249,15 @@ export default class Streams extends React.Component {
         })
     }
 
+    spinnerComponent = () => {
+
+
+        return (
+            <div className="spinner-component">
+                
+            </div>
+        )
+    }
   
     componentDidMount() {
         this.handleGetTopStreams();

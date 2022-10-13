@@ -21,6 +21,7 @@ class App extends React.Component  {
   render() {
     return (
       <div className="App">
+
         <header className="App-header">
           <Navbar searchSubmit={this.state.searchInput} pageRerender={this.state.pageRerender} handleDummyFunction={this.dummyFunction}/>
           <div>State of Twitch</div>

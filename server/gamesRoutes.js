@@ -10,7 +10,7 @@ const chalk = require('chalk');
 const twitchChat = chalk.hex('#8510d8').bgWhiteBright;
 const app = express();
 const fs = require('fs');
-app.use('/images', express.static(path.join(__dirname, 'server', 'state-diffusion')));
+// app.use('/images', express.static(path.join(__dirname, 'server', 'state-diffusion')));
 
 // MONGODB REQUIREMENTS
 const Streamers = require('./models/streamerModel');
@@ -262,7 +262,7 @@ router.post('/getTwitchChat', (req, res, body) =>{
             }
         }
        
-        let clientTimemout =() => setTimeout(chatTimeoutFunction, 10000)
+        let clientTimemout =() => setTimeout(chatTimeoutFunction, 15000)
         
         tmiClient.on('chat', (channel, tags, message, self) => {
             if (self) return;
@@ -272,7 +272,7 @@ router.post('/getTwitchChat', (req, res, body) =>{
             console.log('Message', message);
             chatInput.push(message);
             chatCounter += 1;
-            if (chatCounter === 1) {
+            if (chatCounter === 10) {
                 tmiClient.disconnect().then(()=> {
                     chalk.bold.blueBright(console.log('Return Data', chatInput));
                     res.status(200).json({
@@ -303,7 +303,8 @@ router.post('/getTwitchChat', (req, res, body) =>{
 router.post('/postRenderChatArt', (req, res, body) => {
     const pythonPath = path.join(__dirname, 'stable-diffusion', 'text2img.py');
     let artPrompt = req.body.artPrompt;
-    artPrompt = artPrompt.join().replace(",", " ");
+  
+    artPrompt = artPrompt.join().replaceAll(",", " ");
     console.log(chalk.yellow.underline('Art Generation Prompt: '));
     console.log(chalk.yellowBright(artPrompt));
 
@@ -330,9 +331,9 @@ router.post('/postRenderChatArt', (req, res, body) => {
                 res.json({artFileName: finalResponse})
 
 
-                // AWS S3 FOR UPLOADING SAVED FILES
+                // UNUSED MULTER S3 FOR UPLOADING SAVED FILES
                 // let imagePath = '100822Oct10-green-61.png';
-                uploadFileToAWS(finalResponse);
+                // uploadFileToAWS(finalResponse);
             })
         }
 
@@ -357,12 +358,12 @@ router.post('/postRenderChatArt', (req, res, body) => {
 })
 
 
-uploadFileToAWS = (fileName) => {
+router.post('/uploadFileAWS', (req, res) => {
     // Read content from the file
-    fileName = fileName.trim()
-    let publicPath = path.join(__dirname, '../src/Assets/', fileName.trim());
-    console.log("publicPath: ", publicPath);
-    let serverPath = path.join(__dirname, 'stable-diffusion', fileName.trim());
+    fileName = req.body.fileName.trim()
+    // let publicPath = path.join(__dirname, '../src/Assets/', fileName.trim());
+    // console.log("publicPath: ", publicPath);
+    let serverPath = path.join(__dirname, 'stable-diffusion', 'generatedimages', fileName.trim());
     console.log("serverPath: ", serverPath);
 
 
@@ -375,6 +376,7 @@ uploadFileToAWS = (fileName) => {
             Bucket: process.env.AWS_BUCKET_NAME,
             Key: fileName.trim(),
             Body: fileContent,
+            ACL: 'public-read',
             ContentType: "image/png",
         };
         
@@ -383,60 +385,15 @@ uploadFileToAWS = (fileName) => {
                 throw err;
             }
             console.log("File Uploaded: ", data.Location);
-            console.log("File Data: ", data)
-            // res.send({s3ImageAddress: data.Location});
-        })
-    }
-    
-// router.get(`/gets3ImageURL/:imageFileName`, (req, res) => {
-// router.get(`/gets3ImageURL/`, (req, res) => {
-
-//     const parms = {
-//         Bucket: process.env.AWS_BUCKET_NAME,
-//         Key: fileName,
-//         Body: serverPath,
-//         Content_Type: "image/png"
-//     };
-
-//     s3.getObject(parms, (err, data) => {
-//         if (err) {
-//             throw err;
-//         }
-//         console.log("File Received: ", data);
-//         // return res
-//     })
-//     console.log("HIT BACKEND")
-// })
-
-// .then(res=>{
-//     res.json({s3imageURL: res.data})
-// })
+            // console.log("File Data: ", data)
+            // res.json({imageURL: data.Location})
+            res.send({s3ImageAddress: data.Location});
+    })
+})
 
 
+module.exports = router;
 
-
-// MORE AWS ISSUES
-// if (header['content-transfer-encoding'])
-//         encoding = header['content-transfer-encoding'][0].toLowerCase();
-//       else
-//         encoding = '7bit';
-    // MULTER for AWS S3
-    // request.post('/postImage', upload(req, res).single('image'), (req, res) => {
-    //     upload.single('image')
-    //     console.log('in here')
-    //     // console.log("did the post",{artFileName: imagePath})
-    //     console.log("REQUEST REQUEST REQUEST REQUEST ", req.file);
-    //     console.log("RESPONSE RESPONSE RESPONSE RESPONSE ", res);
-    //     const file = req.file;
-    //     console.log("AWS Upload FILE", file);
-    //     console.log("AWS Upload imagePath", imagePath);
-    //     const result = uploadFile(imagePath);
-    //     console.log(result);
-    //     const description = req.body.description;
-    //     console.log("AWS Description FILE: ", description);
-    //     res.send('')
-    // })
-// }                
 
 
 // ------------------------------------------------------
@@ -457,5 +414,3 @@ uploadFileToAWS = (fileName) => {
 // })
 
 
-
-module.exports = router;
