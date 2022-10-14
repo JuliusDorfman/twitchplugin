@@ -5,6 +5,7 @@ import chalk from 'chalk';
 // import noImageFound from '../Assets/piano_falling.jpg'
 import Spinner from '../Components/Spinner';
 import Typewriter from 'typewriter-effect';
+import Appbackground from '../Components/Appbackground';
 const api = axios.create({
     baseURL: `http://localhost:7000/` || process.env.PORT
 });
@@ -22,7 +23,7 @@ export default class Streams extends React.Component {
             firstTimeUser: true
         }
     }
-s
+
     updateStreamsRendered = (res) =>{
         // chalk.green(console.log('Incoming Stream Data', res.data));
         let topStreamData = res.data.Message;
@@ -61,7 +62,7 @@ s
     // }
 
     getSnapshotBeforeUpdate(prevProps) {
-        return { notifyRequired: prevProps.streamername != this.props.streamername,
+        return { notifyRequired: prevProps.streamername !== this.props.streamername,
                  getHomeTest: this.props.getHome[0] };
       }
 
@@ -160,7 +161,7 @@ s
                 <div>
                     {this.state.loadingArt === false 
                     ?                     
-                        <button id={`id-${streamerName}`} buttonvalue={streamerName} className="render-art-button" streamername={streamerName} onClick={this.handleGetArt}>RENDER ART</button>
+                        <button id={`id-${streamerName}`} buttonvalue={streamerName} className="render-art-button" streamername={streamerName} onClick={this.handleGetArt}><div className="smaller-font"> Show me </div><div className="bolded">{streamChannel}</div></button>
                     :
                         null
                     }
@@ -298,7 +299,14 @@ s
     render(){
         return(
             <div id='streams-component'>
+                { this.state.loadingArt === false 
+                ?
                 <div className="secret-home-button" onClick={this.handleGetTopStreams}>Home</div>
+                :
+                <div style={{position: 'relative'}}>
+                
+                </div>
+                }
                 <div className="streams-wrapper">
                     <div className="streamer-windows-wrapper">
                         {/* <button onClick={this.handleGetTest}>GET TEST</button> */}
@@ -312,6 +320,7 @@ s
                         </div> */}
                     </div>
                 </div>
+            <Appbackground />
             </div>
         )
     }

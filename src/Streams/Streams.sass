@@ -1,4 +1,4 @@
-$lavander-color: #E6E6FA
+$lavander-color: #E6E6FA90
 $twitch-color: #6441a5
   
 
@@ -38,9 +38,12 @@ $twitch-color: #6441a5
     display: flex
     flex-direction: column
     box-shadow: -10px -5px 5px black
-    border: 2px solid black
+    border-width: 2px
+    border-style: solid
+    border-color: black
     width: min-content
     height: min-content
+    background-color: $lavander-color
 
 .streamer-info-wrapper,
 .streamer-art-wrapper
@@ -131,7 +134,7 @@ $twitch-color: #6441a5
 
 .streamer-thumbnail 
     height: 190px    
-    width: 300px
+    width: 290px
 
 
 // Art Windows
@@ -146,16 +149,19 @@ $twitch-color: #6441a5
 .render-art-button
     border: 1px solid black
     border-radius: 3px
-    padding: 5px
+    padding: 15px
     cursor: pointer
     transition: 1s
     background-color: beige
+    box-shadow: -10px -5px 5px black
+    border-width: 2px
+    border-style: solid
+    border-color: black
     &:hover
         transition: .5s
         background-color: rgba(255, 200, 255, 1)
-        font-weight: bold
-        padding: 10px
-        transform: translate(-10px, -1px)
+        padding: 15px
+        // transform: translate(-10px, -1px)
 
 .render-art-not-available 
     display: none
@@ -192,3 +198,14 @@ $twitch-color: #6441a5
         font-weight: bold
         padding: 10px
         transform: translate(-10px, -1px)
+
+
+    
+@media (max-width: 1000px)
+    .streamer-windows-wrapper > *
+        flex-direction: column
+        margin-bottom: 500px
+
+
+    .streamer-art-wrapper
+        text-align: center

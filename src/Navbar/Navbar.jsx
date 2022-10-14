@@ -1,10 +1,6 @@
 import React from 'react';
 import './Navbar.sass';
 
-import axios from 'axios';
-const api = axios.create({
-  baseURL: `http://localhost:7000/` || process.env.PORT
-});
 export default class Navbar extends React.Component {
   constructor(props) {
     super(props);
@@ -58,7 +54,7 @@ export default class Navbar extends React.Component {
                 <label>Search: </label>                
                 <input id="search-input" type="text" className="search" 
                   name="search" value={this.state.searchInput} 
-                  onChange={this.handleSearchInput} onKeyDown={(e) => this.handleEnter(e)} placeholder='e.g. xQc, pokimane, non-case-sensative' 
+                  onChange={this.handleSearchInput} onKeyDown={(e) => this.handleEnter(e)} placeholder='e.g. xQc, pokimane...' 
                   autoComplete='off' />
                 <div id="search-submit" onClick={this.handleSubmit}>Submit</div>
               </form>

@@ -56,7 +56,7 @@ $-lavender-color: #E6E6FA
     right: 0
     padding: 2%
     opacity: 1
-    background-color: floralwhite
+    background-color: transparent
     border: solid lavender
     border-width: 0px 0px 0px 1px
     border-radius: 25% 0 0 25%
@@ -64,7 +64,7 @@ $-lavender-color: #E6E6FA
     transition: 1s
     box-shadow: none
     z-index: 5
-    opacity: .4
+    opacity: 1
     cursor: pointer
     &:hover
         opacity: 1
@@ -84,3 +84,12 @@ $-lavender-color: #E6E6FA
     font-size: 1em
     transition: 1s
     z-index: 5
+
+
+@media (max-width: 1000px)    
+
+    .instructions-toggle-true
+        padding: 0
+
+    #instructions-component
+        height: 50vh    

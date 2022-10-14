@@ -3,7 +3,7 @@
   min-height: 100vh;
   text-align: center;
   color: #1a1e25;
-  background-color: #E6E6FA;
+  /* background-color: #E6E6FA; */
 }
 
 .App-header {
@@ -14,6 +14,6 @@
   justify-content: flex-end;
   font-size: calc(10px + 2vmin);
   color: #1a1e25;
-  background-color: #E6E6FA;
+  /* background-color: #E6E6FA; */
 }/*# sourceMappingURL=App.css.map */
 
