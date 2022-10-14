@@ -39,35 +39,35 @@ router.get('/test', (req, res) => {
     console.log('Get Test Route: ', res.statusCode);
     res.status(200).json({ Message: 'Get Test Route'});
 });
-// ------------------------------------------------------
+// Twitch Token Request (No Scope)
+const getToken = (url, callback) => {
+    return new Promise((resolve, reject) => {
+        const options =  {
+            url: process.env.TOKEN_URI,
+            json: true,
+            body: {
+                client_id: process.env.CLIENT_ID,
+                client_secret: process.env.CLIENT_SECRET,
+                grant_type: 'client_credentials'
+            }
+        };
+    
+        request.post(options, (err, res, body) => {
+            if(err) {
+                return console.log('ERROR: ', err);
+            }
+            
+            resolve({accessToken: callback(res)});
+        });
+    })
+};
 
-// ------------------------------------------------------
+
 // // @ desc Get Top Games from Twitch
 // router.get('/', controller.getTopGames);
 
 router.get('/getTopGames', (req, res) => {
-    const getToken = (url, callback) => {
-        return new Promise((resolve, reject) => {
-            const options =  {
-                url: process.env.TOKEN_URI,
-                json: true,
-                body: {
-                    client_id: process.env.CLIENT_ID,
-                    client_secret: process.env.CLIENT_SECRET,
-                    grant_type: 'client_credentials'
-                }
-            };
-        
-            request.post(options, (err, res, body) => {
-                if(err) {
-                    return console.log('ERROR: ', err);
-                }
-
-                resolve({accessToken: callback(res)});
-            });
-        })
-    };
-
+   
     const getGames = (url, accessToken, callback) => {
         const gamesOptions = {
             url: process.env.GET_GAMES,
@@ -88,7 +88,6 @@ router.get('/getTopGames', (req, res) => {
         });
     }
 
-    var accessToken = '';
     getToken(process.env.TOKEN_URI, (res)=> {
         return accessToken = res.body.access_token;
         
@@ -102,39 +101,21 @@ router.get('/getTopGames', (req, res) => {
     });
 });
 
-// Globally accessable Access Token
-// var accessToken = '';
+
+
+// ------------------------------------------------------
+// // @ desc Streams with highest current viewers from Twitch
+// ------------------------------------------------------
+
 router.get('/getTopStreams', (req, res) => {
-
-    const getToken = (url, callback) => {
-        return new Promise((resolve, reject) => {
-            const options =  {
-                url: process.env.TOKEN_URI,
-                json: true,
-                body: {
-                    client_id: process.env.CLIENT_ID,
-                    client_secret: process.env.CLIENT_SECRET,
-                    grant_type: 'client_credentials'
-                }
-            };
-        
-            request.post(options, (err, res, body) => {
-                if(err) {
-                    return console.log('ERROR: ', err);
-                }
-
-                resolve({accessToken: callback(res)});
-            });
-        })
-    };
 
     const getTopStreams = (url, accessToken, callback) => {
         const streamOptions = {
             url: process.env.GET_STREAMS,
             method: 'GET', 
             headers: {
-            'Client-ID': process.env.CLIENT_ID,
-            'Authorization': 'Bearer ' + accessToken
+                'Client-ID': process.env.CLIENT_ID,
+                'Authorization': 'Bearer ' + accessToken
             }
         };
     
@@ -143,12 +124,12 @@ router.get('/getTopStreams', (req, res) => {
                 console.log('ERROR GET GAMES', err);
             }
             let topStreams = JSON.parse(body);
-            // console.log("FULL RESPONSE: ", JSON.parse(body))
+            // console.log("FULL RESPONSE: ", incoming_res.toJSON())
             callback(topStreams);
         });
     }
 
-    var accessToken = '';
+    
     getToken(process.env.TOKEN_URI, (res)=> {
         return accessToken = res.body.access_token;
         
@@ -163,8 +144,106 @@ router.get('/getTopStreams', (req, res) => {
 
 });
 
+
 // ------------------------------------------------------
-// Connect to Channel Chat
+// // @ desc Single Streamer Channel
+// ------------------------------------------------------
+
+router.post('/getStreamerChannel', (req, res) => {
+    let query = req.body.streamerName
+    console.log("req", req.body.streamerName);
+
+    const getStreamerChannel = (url, accessToken, callback) => {
+        const streamOptions = {
+            url: process.env.GET_CHANNEL + `/?query=${query}&first=10`,
+            method: 'GET', 
+            headers: {
+                'Client-ID': process.env.CLIENT_ID,
+                'Authorization': 'Bearer ' + accessToken,
+            },
+        };
+    
+        request.get(streamOptions, (err, incoming_res, body) => {
+            if(err) {
+                console.log('ERROR GET GAMES', err);
+            }
+            let streamerChannel = JSON.parse(body);
+            console.log("FULL RESPONSE: ", incoming_res.toJSON())
+            callback(streamerChannel);
+        });
+    }
+
+    getToken(process.env.TOKEN_URI, (res)=> {
+        return accessToken = res.body.access_token;
+        
+    }).then((response) => {
+        getStreamerChannel(process.env.GET_CHANNEL, response.accessToken, (streamerChannel) => {
+            console.log("streamerChannel", streamerChannel)
+            res.status(200).json({ Message: streamerChannel.data});
+            return streamerChannel.data;
+        });
+    }).catch(err=> {
+        console.error("ERROR FETCHING DATA", err);
+    });
+
+
+
+
+
+    // const getStreamerChannel = (url, accessToken, callback) => {
+    //     const streamerOptions = {
+    //         url: process.env.GET_USERS,
+    //         method: 'GET', 
+    //         login: req.body.streamerName,
+    //         'login': req.body.streamerName,
+    //         headers: {
+    //         'Client-ID': process.env.CLIENT_ID,
+    //         'Authorization': 'Bearer ' + accessToken,
+    //         'login': req.body.streamerName,
+    //         login: req.body.streamerName,
+    //         'Accept': 'application/vnd.twitchtv.v5+json',
+    //         'id': 71092938,
+    //         'id': 
+    //         },
+    //         request: {
+    //             uri: URL = {
+    //                 query: req.body.streamerName
+    //             }
+    //         }
+    //     };
+    //     // console.log('streamerOptions', streamerOptions)
+    //     request.get(streamerOptions, (err, incoming_res, body) => {
+
+    //         if(err) {
+    //             console.log('ERROR GET GAMES', err);
+    //         }
+    //         let streamerChannel = JSON.parse(body);
+    //         console.log("FULL RESPONSE: ", incoming_res.toJSON())
+    //         callback(streamerChannel);
+    //     });
+    // }
+
+    
+    // getToken(process.env.TOKEN_URI, (res)=> {
+    //     return accessToken = res.body.access_token;
+        
+    // }).then((response) => {
+    //     getStreamerChannel(process.env.GET_USERS, response.accessToken, (streamerChannel) => {
+    //         console.log('getStreamer', streamerChannel)
+    //         res.status(200).json({ Message: streamerChannel.data});
+    //         return streamerChannel.data;
+    //     });
+    // }).catch(err=> {
+    //     console.error("ERROR FETCHING DATA", err);
+    // });
+
+})
+
+
+
+// ------------------------------------------------------
+// Connect to a Channels Chatroom
+// ------------------------------------------------------
 const WebSocketClient = require('websocket').client;
 const client = new WebSocketClient();
 
@@ -172,35 +251,13 @@ router.post('/getTwitchChat', (req, res, body) =>{
 
     let channelToJoin = req.body.channelToJoin;
     
-    const getToken = (url, callback) => {
-        return new Promise((resolve, reject) => {
-            const options =  {
-                url: process.env.TOKEN_URI,
-                json: true,
-                body: {
-                    client_id: process.env.CLIENT_ID,
-                    client_secret: process.env.CLIENT_SECRET,
-                    grant_type: 'client_credentials'
-                }
-            };
-        
-            request.post(options, (err, res, body) => {
-                if(err) {
-                    return console.log('ERROR: ', err);
-                }
-
-                resolve({accessToken: callback(res)});
-                
-            });
-        });
-    };
-
-    var accessToken = '';
+    
     getToken(process.env.TOKEN_URI, (res)=> {
         return accessToken = res.body.access_token;
     }).then(() => {
     // TODO: exponential backoff approach to reconnect  
     //       i.e. try connecting in 1 second... 2... 4... ect...
+
         // Initialize options using tmi node package
         const tmiClient = new tmi.Client({
             options: { debug: true },
@@ -294,12 +351,13 @@ router.post('/getTwitchChat', (req, res, body) =>{
 
     }).catch(err => {
         console.log(chalk.red("Error getting Auth for Chatbot", err));
-        // console.log("Error getting Auth for Chatbot", err)
     });
 
 })
 
-
+// ------------------------------------------------------
+// @desc Create a Python Child Process for Stable Diffusion Art Generator
+// ------------------------------------------------------
 router.post('/postRenderChatArt', (req, res, body) => {
     const pythonPath = path.join(__dirname, 'stable-diffusion', 'text2img.py');
     let artPrompt = req.body.artPrompt;
@@ -357,6 +415,9 @@ router.post('/postRenderChatArt', (req, res, body) => {
    
 })
 
+// ------------------------------------------------------
+// @desc Upload Generated Art Image to Amazon Web Services S3 Service
+// ------------------------------------------------------
 
 router.post('/uploadFileAWS', (req, res) => {
     // Read content from the file
@@ -385,8 +446,6 @@ router.post('/uploadFileAWS', (req, res) => {
                 throw err;
             }
             console.log("File Uploaded: ", data.Location);
-            // console.log("File Data: ", data)
-            // res.json({imageURL: data.Location})
             res.send({s3ImageAddress: data.Location});
     })
 })

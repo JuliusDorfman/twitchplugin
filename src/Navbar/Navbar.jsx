@@ -9,6 +9,7 @@ export default class Navbar extends React.Component {
   constructor(props) {
     super(props);
       this.state = {
+        currentPage: 'home',
         pageRerender: false,
         searchInput: '',
         searchSubmit: ''
@@ -24,31 +25,22 @@ export default class Navbar extends React.Component {
     })
   }
 
+  handler = (e) => {
+    e.preventDefault();
+  }
+
+
   handleSubmit = (e) => {
     e.preventDefault();
+    if (this.state.searchInput === '') {
+      return null;
+    }
     this.setState({searchSubmit: this.state.searchInput.toLowerCase()}, () => {
-      console.log("searchSubmit State: ", this.state.searchSubmit);
-      this.setState({searchInput: ''})
+      this.setState({searchInput: ''});
+      this.props.passStreamerName({searchSubmit: this.state.searchSubmit});
     });
   }
 
-  handleGetTopGames = (e) => {
-    e.preventDefault();
-    api.get('/getTopGames').then(res => {
-        console.log('HandleTopGames', res)
-        let games = [];
-        for (let i = 0; i < res.data.Message.length; i++) {
-            games.push(res.data.Message[i].name)
-        }
-        this.setState({games: [...games]});
-    }).catch((exception) => {
-        console.log(exception);
-    })
-}    
-
-handler = (e) => {
-  e.preventDefault();
-}
 
   render() {
     
@@ -56,10 +48,7 @@ handler = (e) => {
       <div id="navbar-component">
         <div className="navbar-wrapper">
           <ul className="navbar-links">
-            <li id="home-button" onClick={((e) => {
-              this.props.handleDummyFunction(e)
-              this.handleGetTopGames(e)
-            })}>Home</li>
+            <li id="home-button"></li>
             <li>
               <form id="search-form" onSubmit={this.handler}>
                 <label>Search: </label>                

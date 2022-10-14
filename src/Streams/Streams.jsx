@@ -2,14 +2,14 @@ import React from 'react';
 import './Streams.sass';
 import axios from 'axios';
 import chalk from 'chalk';
-import noImageFound from '../Assets/piano_falling.jpg'
-import Spinner from '../Components/';
-// import { callPythonScript } from '../../server/stable-diffusion/testnode'; 
+// import noImageFound from '../Assets/piano_falling.jpg'
+import Spinner from '../Components/Spinner';
+import Typewriter from 'typewriter-effect';
 const api = axios.create({
     baseURL: `http://localhost:7000/` || process.env.PORT
 });
 export default class Streams extends React.Component {
-    constructor(props) {
+    constructor(props, ref) {
         super(props);
         this.state = {
             pageRerender: false,
@@ -18,31 +18,72 @@ export default class Streams extends React.Component {
             chatInput: [],
             showRenderButton: 'render-art-available',
             artImageFileName: '',
-            loadingArt: false
+            loadingArt: false,
+            firstTimeUser: true
         }
     }
-
-    // handleDummyFunction = () => {
-    //     console.log('dummmmy')
-    // }
-
+s
+    updateStreamsRendered = (res) =>{
+        // chalk.green(console.log('Incoming Stream Data', res.data));
+        let topStreamData = res.data.Message;
+        let streamsList = {};
+        for (let i = 0; i < topStreamData.length; i++) {
+            let streamName = topStreamData[i].user_login || topStreamData[i].broadcaster_login;
+            let streamViewers = topStreamData[i].viewer_count || "Unavailable";
+            let streamGame = topStreamData[i].game_name;
+            let streamThumbnail = topStreamData[i].thumbnail_url;
+            let streamChannel = topStreamData[i].user_name || topStreamData[i].display_name;
+            let streamURL = `https://www.twitch.tv/${topStreamData[i].user_login}`;
+            let streamLive = topStreamData[i].type || topStreamData[i].is_live;
+            let streamerArtImage = '';
+            streamsList[streamName] = [streamViewers, streamGame, streamThumbnail, 
+                streamChannel, streamerArtImage, streamURL, streamLive];
+        }
+        this.setState({streams: streamsList});
+    }
     // handleGetTest = (e) => {
     //     e.preventDefault();
-    //     console.log('handleGetTest');
-    //     let chatInput = ["Fema%%!le Ali!@#)($(*%&*^^en runn2ing through",  "forest m51ade of broc^$#!olli"];
-    //     chatInput = chatInput.join(" ");
-    //     const regexCharCheck = /[^A-Za-z0-9 ]/g;
+    //     console.log('handleGetTest', this.props);
+
+        // let chatInput = ["Fema%%!le Ali!@#)($(*%&*^^en runn2ing through",  "forest m51ade of broc^$#!olli"];
+        // chatInput = chatInput.join(" ");
+        // const regexCharCheck = /[^A-Za-z0-9 ]/g;
         
-    //     chatInput = chatInput.replace(regexCharCheck, '');        
-    //     console.log("Post Processing Chat Input: ", chatInput)
-    //     api.post('/postRenderChatArt', {
-    //         artPrompt: chatInput,
-    //     }).then((res)=> {
-    //         console.log('handleGetTest res.data: ', res.data)
-    //     }).catch(err =>{
-    //         throw err;
-    //     }) 
+        // chatInput = chatInput.replace(regexCharCheck, '');        
+        // console.log("Post Processing Chat Input: ", chatInput)
+        // api.post('/postRenderChatArt', {
+        //     artPrompt: chatInput,
+        // }).then((res)=> {
+        //     console.log('handleGetTest res.data: ', res.data)
+        // }).catch(err =>{
+        //     throw err;
+        // }) 
     // }
+
+    getSnapshotBeforeUpdate(prevProps) {
+        return { notifyRequired: prevProps.streamername != this.props.streamername,
+                 getHomeTest: this.props.getHome[0] };
+      }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (snapshot.notifyRequired) {
+            this.handleGetStreamer(snapshot.streamer);
+        }
+         if (snapshot.getHomeTest === true){
+            this.handleGetTopStreams();
+         }
+    }
+
+    handleGetStreamer = () => {
+        console.log("handleGetStreamer", this.props.streamername)
+        api.post('/getStreamerChannel', {streamerName: this.props.streamername}, (req, res) => {
+                console.log("FRONTEND RES Inside: ", res.data)
+            }).then(res => {
+                this.updateStreamsRendered(res);
+            }).catch(err =>{
+            throw err
+        })
+    }
 
     // handleGetTopGames = () => {
     //     api.get('/getTopGames').then(res => {
@@ -57,28 +98,16 @@ export default class Streams extends React.Component {
     //     })
     // }    
  
-    // handleSearchForStreamer = () => {
-    //  api.get('./getStreamer${searchInput}').then(res => {
-        // console.log('Streamer Search: ', res.data);
-    // })
-    // }
+    handleSearchForStreamer = (chatInput) => {
+     api.post('./getStreamerChannel').then(res => {
+        console.log('Streamer Search: ', res.data);
+    })
+    }
 
     handleGetTopStreams = () => {
         api.get('/getTopStreams').then(res => {
-            chalk.green(console.log('GET TOP STREAMS', res.data));
-            let topStreamData = res.data.Message;
-            let streamsList = {};
-            for (let i = 0; i < topStreamData.length; i++) {
-                let streamName = topStreamData[i].user_login;
-                let streamViewers = topStreamData[i].viewer_count;
-                let streamGame = topStreamData[i].game_name;
-                let streamThumbnail = topStreamData[i].thumbnail_url;
-                let streamChannel = topStreamData[i].user_name;
-                let streamURL = `https://www.twitch.tv/${topStreamData[i].user_login}`;
-                let streamerArtImage = '';
-                streamsList[streamName] = [streamViewers, streamGame, streamThumbnail, streamChannel, streamerArtImage, streamURL];
-            }
-            this.setState({streams: streamsList});
+            console.log('TOP STREAMS: ', res)
+            this.updateStreamsRendered(res);
         }).catch((exception) => {
             console.log(exception);
         })
@@ -95,6 +124,7 @@ export default class Streams extends React.Component {
             let streamChannel = streams[streamerName][3];
             let streamArtLink = streams[streamerName][4];
             let streamURL = streams[streamerName][5];
+            let streamLive = streams[streamerName][6];
             let reWidth = /{width}/gi;
             let reHeight = /{height}/gi;
 
@@ -107,15 +137,27 @@ export default class Streams extends React.Component {
             return (
             <div id={`${streamerName}-${index}`} className="streamer-window">
                 <div className="streamer-info-wrapper">
-                    <div className="streamer-name"><span className="bolded">{streamChannel}</span></div> 
-                    <div className="streamer-game"><span className="smaller-font">Game: </span><span className="bolded">{streamGame}</span></div> 
+                    <div className="streamer-name">
+                        <a href={streamURL} rel="noreferrer" target="_blank">
+                            <span className="bolded">{streamChannel}</span> 
+                        </a>
+                        {streamLive === 'live' || streamLive
+                            ? 
+                            <a href={streamURL} rel="noreferrer" target="_blank">
+                                <div className="live">
+                                    <p>Live: </p>
+                                </div> 
+                            </a>
+                            : 
+                            <div className="not-live">
+                                    <p>Not Live: </p>
+                            </div>} 
+                    </div> 
+                    <div className="streamer-game"><span className="smaller-font">Category: </span><span className="bolded">{streamGame}</span></div> 
                     <div className="streamer-viewers"><span className="italicized smaller-font">Current Viewers: {streamViewers}</span></div>
-                    <a href={streamURL} target="_blank"><div className="streamer-thumbnail"><img className="streamer-screenshot" alt="streamer-thumbnail" src={streamThumbnail}/></div></a>
+                    <a href={streamURL} rel="noreferrer" target="_blank"><div className="streamer-thumbnail"><img className="streamer-screenshot" alt="streamer-thumbnail" src={streamThumbnail}/></div></a>
                 </div>
                 <div id={`streamer-art-wrapper-${streamerName}`} className="streamer-art-wrapper">
-                    {/* TESTING */}
-                {/* {this.state.loadingArt === false */}
-
                 <div>
                     {this.state.loadingArt === false 
                     ?                     
@@ -133,7 +175,7 @@ export default class Streams extends React.Component {
                                 :
                                         this.state.loadingArt === false 
                                     ?     
-                                        <div>None</div>
+                                        <div></div>
                                     :
                                         <Spinner />
                             }
@@ -152,6 +194,7 @@ export default class Streams extends React.Component {
 
     handleGetTwitchChat = (e) => {
         e.preventDefault();
+        this.setState({firstTimeUser: false})
         chalk.green(console.log("HandleGetTwitchChat: "));
         this.setState({chatInput: []})
         api.post('/getTwitchChat').then(res => {
@@ -249,16 +292,6 @@ export default class Streams extends React.Component {
         })
     }
 
-    spinnerComponent = () => {
-
-
-        return (
-            <div className="spinner-component">
-                
-            </div>
-        )
-    }
-  
     componentDidMount() {
         this.handleGetTopStreams();
     }
@@ -266,7 +299,8 @@ export default class Streams extends React.Component {
     render(){
         return(
             <div id='streams-component'>
-                <div className='streams-wrapper'>
+                <div className="secret-home-button" onClick={this.handleGetTopStreams}>Home</div>
+                <div className="streams-wrapper">
                     <div className="streamer-windows-wrapper">
                         {/* <button onClick={this.handleGetTest}>GET TEST</button> */}
                         {/* <button onClick={this.handleGetTopStreams}>getTopStreams BUTTON</button> */}
