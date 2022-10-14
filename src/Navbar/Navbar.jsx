@@ -14,6 +14,7 @@ export default class Navbar extends React.Component {
         searchInput: '',
         searchSubmit: ''
       }
+      // this.handleEnter = this.handleEnter.bind(this)
   }
 
   handleSearchInput = (e) => {
@@ -31,7 +32,6 @@ export default class Navbar extends React.Component {
 
 
   handleSubmit = (e) => {
-    e.preventDefault();
     if (this.state.searchInput === '') {
       return null;
     }
@@ -41,7 +41,11 @@ export default class Navbar extends React.Component {
     });
   }
 
-
+  handleEnter = (e) =>{
+    if (e.keyCode === 13) {
+      this.handleSubmit(e);
+    }
+  }
   render() {
     
     return(
@@ -54,9 +58,9 @@ export default class Navbar extends React.Component {
                 <label>Search: </label>                
                 <input id="search-input" type="text" className="search" 
                   name="search" value={this.state.searchInput} 
-                  onChange={this.handleSearchInput} placeholder='e.g. xQc, pokimane, non-case-sensative' 
-                  autoComplete='off'/>
-                <div id="search-submit" onClick={(e)=>{this.handleSubmit(e)}}>Submit</div>
+                  onChange={this.handleSearchInput} onKeyDown={(e) => this.handleEnter(e)} placeholder='e.g. xQc, pokimane, non-case-sensative' 
+                  autoComplete='off' />
+                <div id="search-submit" onClick={this.handleSubmit}>Submit</div>
               </form>
             </li>
             <li></li>

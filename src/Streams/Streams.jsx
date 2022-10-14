@@ -75,7 +75,6 @@ s
     }
 
     handleGetStreamer = () => {
-        console.log("handleGetStreamer", this.props.streamername)
         api.post('/getStreamerChannel', {streamerName: this.props.streamername}, (req, res) => {
                 console.log("FRONTEND RES Inside: ", res.data)
             }).then(res => {
