@@ -6,6 +6,8 @@ import chalk from 'chalk';
 import Spinner from '../Components/Spinner';
 import Typewriter from 'typewriter-effect';
 import Appbackground from '../Components/Appbackground';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button'
 const api = axios.create({
     baseURL: `http://localhost:7000/` || process.env.PORT
 });
@@ -20,7 +22,8 @@ export default class Streams extends React.Component {
             showRenderButton: 'render-art-available',
             artImageFileName: '',
             loadingArt: false,
-            firstTimeUser: true
+            firstTimeUser: true,
+            chatTimeOut: false
         }
     }
 
@@ -161,7 +164,7 @@ export default class Streams extends React.Component {
                 <div>
                     {this.state.loadingArt === false 
                     ?                     
-                        <button id={`id-${streamerName}`} buttonvalue={streamerName} className="render-art-button" streamername={streamerName} onClick={this.handleGetArt}><div className="smaller-font"> Show me </div><div className="bolded">{streamChannel}</div></button>
+                        <button id={`id-${streamerName}`} buttonvalue={streamerName} className="render-art-button" streamername={streamerName} onClick={this.handleGetArt}><div className="smaller-font" streamername={streamerName}> Show me </div><div className="bolded" streamername={streamerName}>{streamChannel}</div></button>
                     :
                         null
                     }
@@ -194,10 +197,16 @@ export default class Streams extends React.Component {
 
     handleGetTwitchChat = (e) => {
         e.preventDefault();
+        console.log(e)
+        if (e.noChat === true){
+            this.setState({chatTimeOut: true})
+            return
+        }
         this.setState({firstTimeUser: false})
         chalk.green(console.log("HandleGetTwitchChat: "));
         this.setState({chatInput: []})
         api.post('/getTwitchChat').then(res => {
+            // TODO: Handle errors from twitch chat
             let chatArtPrompt = res.data.chatInput;
             console.log('arr or string', chatArtPrompt);
             const regexCharCheck = /[^A-Za-z0-9 ]/g;
@@ -233,11 +242,11 @@ export default class Streams extends React.Component {
     }
 
     handleGetArt = (e) => {
-        e.preventDefault();
-        this.setState({loadingArt: true});
-        e.target.style.display = 'none';
-        console.log("Streamer Name: ", e.target.getAttribute("streamername"));
         let channelToJoin = e.target.getAttribute("streamername");
+        console.log("Streamer Name: ", e.target.getAttribute("streamername"));
+        this.setState({loadingArt: true});
+        console.log("Streamer Name: ", e.target.getAttribute("streamername"));
+        e.target.style.display = 'none';
         api.post('/getTwitchChat', {
             channelToJoin: channelToJoin
         }).then(res => { 
@@ -292,10 +301,41 @@ export default class Streams extends React.Component {
         })
     }
 
-    componentDidMount() {
-        this.handleGetTopStreams();
+    handleHideModal = (e) => {
+        e.preventDefault();
+        let chatState = this.state.chatState === true ? false : true;
+        
+        this.setState({chatTimeOut: chatState});
     }
 
+    componentDidMount() {
+        this.handleGetTopStreams();
+        this.modalErrorRender();
+    }
+    modalErrorRender = () => {
+        return (
+         this.state.chatTimeOut === true ?
+            <Modal.Dialog id="alert-modal">
+                <Modal.Header>
+                    <Modal.Title>No Response from Twitch</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <p>This happens sometimes with their API.</p>
+                    <p>It is worth trying multiple times.</p>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={(e)=>this.handleHideModal(e)}>I'll Try Again</Button>
+                    {/* <Button variant="secondary" onClick={(e) => {this.handleHideModal(e)}}>I'll Try Again</Button> */}
+                    {/* <Button variant="primary">Save changes</Button> */}
+                </Modal.Footer>
+            </Modal.Dialog>
+            :
+            null
+        )
+            
+    }
     render(){
         return(
             <div id='streams-component'>
@@ -308,6 +348,7 @@ export default class Streams extends React.Component {
                 </div>
                 }
                 <div className="streams-wrapper">
+                        {this.modalErrorRender()}
                     <div className="streamer-windows-wrapper">
                         {/* <button onClick={this.handleGetTest}>GET TEST</button> */}
                         {/* <button onClick={this.handleGetTopStreams}>getTopStreams BUTTON</button> */}

@@ -199,6 +199,41 @@ $twitch-color: #6441a5
         padding: 10px
         transform: translate(-10px, -1px)
 
+#alert-modal 
+    position: fixed
+    top: 30%
+    left: 50%
+    color: black
+    font-weight: bold
+    background-color: #c08585
+    z-index: 1000
+    width: 200px
+    height: 200px
+    border: 1px solid black
+    border-radius: 10px
+    font-size: 1em
+    box-shadow: -10px -5px 5px black
+    > .modal-content
+            display: flex
+            align-content: center
+            justify-content: center
+            flex-direction: column
+            height: inherit
+            button 
+                border: 1px solid black
+                border-radius: 3px
+                padding: 15px
+                cursor: pointer
+                transition: 1s
+                background-color: beige
+                box-shadow: -10px -5px 5px black
+                border-width: 2px
+                border-style: solid
+                border-color: black
+                &:hover
+                    transition: .5s
+                    background-color: rgba(255, 200, 255, 1)
+                    padding: 15px
 
     
 @media (max-width: 1000px)

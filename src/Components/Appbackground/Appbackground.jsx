@@ -5,7 +5,7 @@ import './Appbackground.sass';
 
 export const Appbackground = () => {
   const particlesInit = useCallback(async (engine) => {
-    console.log("Engine 1", engine);
+    // console.log("Engine 1", engine);
     // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
     // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
     // starting from v2 you can add only the features you need reducing the bundle size
@@ -13,7 +13,7 @@ export const Appbackground = () => {
   }, []);
 
   const particlesLoaded = useCallback(async (container) => {
-    await console.log("container 2", container);
+    // await console.log("container 2", container);
   }, []);
 
   const randomNumber = (num) => {

@@ -186,57 +186,6 @@ router.post('/getStreamerChannel', (req, res) => {
         console.error("ERROR FETCHING DATA", err);
     });
 
-
-
-
-
-    // const getStreamerChannel = (url, accessToken, callback) => {
-    //     const streamerOptions = {
-    //         url: process.env.GET_USERS,
-    //         method: 'GET', 
-    //         login: req.body.streamerName,
-    //         'login': req.body.streamerName,
-    //         headers: {
-    //         'Client-ID': process.env.CLIENT_ID,
-    //         'Authorization': 'Bearer ' + accessToken,
-    //         'login': req.body.streamerName,
-    //         login: req.body.streamerName,
-    //         'Accept': 'application/vnd.twitchtv.v5+json',
-    //         'id': 71092938,
-    //         'id': 
-    //         },
-    //         request: {
-    //             uri: URL = {
-    //                 query: req.body.streamerName
-    //             }
-    //         }
-    //     };
-    //     // console.log('streamerOptions', streamerOptions)
-    //     request.get(streamerOptions, (err, incoming_res, body) => {
-
-    //         if(err) {
-    //             console.log('ERROR GET GAMES', err);
-    //         }
-    //         let streamerChannel = JSON.parse(body);
-    //         console.log("FULL RESPONSE: ", incoming_res.toJSON())
-    //         callback(streamerChannel);
-    //     });
-    // }
-
-    
-    // getToken(process.env.TOKEN_URI, (res)=> {
-    //     return accessToken = res.body.access_token;
-        
-    // }).then((response) => {
-    //     getStreamerChannel(process.env.GET_USERS, response.accessToken, (streamerChannel) => {
-    //         console.log('getStreamer', streamerChannel)
-    //         res.status(200).json({ Message: streamerChannel.data});
-    //         return streamerChannel.data;
-    //     });
-    // }).catch(err=> {
-    //     console.error("ERROR FETCHING DATA", err);
-    // });
-
 })
 
 
@@ -297,7 +246,6 @@ router.post('/getTwitchChat', (req, res, body) =>{
 
             // TODO: Send CAP, PASS, and NICK messages
             // TODO: Not needed since wont be connected for more than a few seconds
-            
             connected = true;
                         
             clientTimemout();
@@ -341,13 +289,20 @@ router.post('/getTwitchChat', (req, res, body) =>{
                     connected = false;
                     clearTimeout(clientTimemout);
                 }).catch(err =>{
+                    console.log("Error on Chat: ", err)
                     throw err;
                 })
             }
             console.log('chatCounter', chatCounter);
         })
         
-        tmiClient.connect('ws://irc-ws.chat.twitch.tv:80').catch(console.error)
+        tmiClient.connect('ws://irc-ws.chat.twitch.tv:80')
+            .then(res => {
+                
+            })
+            .catch(err => {
+                // res.send({err: "Disconnected"})
+            })
 
     }).catch(err => {
         console.log(chalk.red("Error getting Auth for Chatbot", err));
@@ -359,7 +314,8 @@ router.post('/getTwitchChat', (req, res, body) =>{
 // @desc Create a Python Child Process for Stable Diffusion Art Generator
 // ------------------------------------------------------
 router.post('/postRenderChatArt', (req, res, body) => {
-    const pythonPath = path.join(__dirname, 'stable-diffusion', 'text2img.py');
+    // const pythonPath = path.join(__dirname, 'stable-diffusion', 'text2img.py');
+    const pythonPath = path.join(__dirname, 'dreamstudio.py');
     let artPrompt = req.body.artPrompt;
   
     artPrompt = artPrompt.join().replaceAll(",", " ");
@@ -424,8 +380,40 @@ router.post('/uploadFileAWS', (req, res) => {
     fileName = req.body.fileName.trim()
     // let publicPath = path.join(__dirname, '../src/Assets/', fileName.trim());
     // console.log("publicPath: ", publicPath);
-    let serverPath = path.join(__dirname, 'stable-diffusion', 'generatedimages', fileName.trim());
-    console.log("serverPath: ", serverPath);
+    // let serverPath = path.join(__dirname, 'stable-diffusion', 'generatedimages.py', fileName.trim());
+    console.log('PRE FIX',fileName);
+
+    let firstPointer = 0;
+    let secondPointer = 0;
+    let firstChar = '<';
+    let secondChar = '>';
+    let removedString = ''
+    for (let i = 0; i < fileName.length; i++) {
+        if (fileName[i]===firstChar){
+            firstPointer = i;
+        }
+        if (fileName[i]===secondChar){
+            secondPointer = i+1;
+        }
+        if (firstPointer !== 0 && secondPointer !== 0) {
+            
+          break
+        }
+    }
+    
+    removedString = fileName.slice(firstPointer, secondPointer);
+
+    fileName = fileName.replace(removedString, '');
+
+    console.log("POST FIX", fileName);
+
+
+    let serverPath = path.join(__dirname, 'generatedimages', fileName);
+    // console.log("serverPath: ", serverPath);
+
+
+
+    
 
 
     const fileContent = fs.createReadStream(serverPath)
