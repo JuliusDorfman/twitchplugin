@@ -19,9 +19,9 @@ const tmi = require('tmi.js');
 // AWS S3 REQUIREMENTS
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({
-    region: process.env.AWS_BUCKET_REGION,
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_KEY
+    region: process.env.AMZ_BUCKET_REGION,
+    accessKeyId: process.env.AMZ_ACCESS_KEY,
+    secretAccessKey: process.env.AMZ_SECRET_KEY
 })
 
 // MULTER REQUIREMENTS
@@ -422,7 +422,7 @@ router.post('/uploadFileAWS', (req, res) => {
         
         
         const parms = {
-            Bucket: process.env.AWS_BUCKET_NAME,
+            Bucket: process.env.AMZ_BUCKET_NAME,
             Key: fileName.trim(),
             Body: fileContent,
             ACL: 'public-read',
