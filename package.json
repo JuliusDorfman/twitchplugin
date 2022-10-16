@@ -1,7 +1,11 @@
 {
     "name": "twitchplugin",
     "version": "0.1.0",
+    "author": "Julius_Dorfman",
     "private": true,
+    "engines": {
+        "node": "16.17.1"
+    },
     "dependencies": {
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.4.0",

@@ -6,6 +6,9 @@ const port = process.env.PORT || 7000;
 const connectDB = require('./config/mongoDB');
 const cors = require('cors');
 
+// Heroku cluster efficiency
+const CONCURRENCY = process.env.WEB_CURRENCY || 1;
+
 connectDB();
 
 // ROUTES
