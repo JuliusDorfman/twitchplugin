@@ -2,7 +2,7 @@ require('dotenv').config({path: '/server'});
 const chalk = require('chalk');
 const request = require('request');
 const express = require('express');
-const port = process.env.PORT || 7000;
+const port = process.env.PORT || localhost;
 const connectDB = require('./config/mongoDB');
 const cors = require('cors');
 
@@ -18,5 +18,5 @@ app.use(cors());
 app.use(express.json());
 
 // Handle Routes 
-app.use('/', require('./gamesRoutes'));
+app.use('/*', require('./gamesRoutes'));
 
