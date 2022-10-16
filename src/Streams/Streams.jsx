@@ -253,6 +253,7 @@ export default class Streams extends React.Component {
             if(res.data.noChat === true) {
                 const noChatInput = "Sorry! Your channel is dead! There weren't enough chatters!";
                 this.setState({loadingArt: false})
+                this.modalErrorRender()
                 console.log("true no chat", noChatInput);
                 return noChatInput;
             }
@@ -321,8 +322,8 @@ export default class Streams extends React.Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <p>This happens sometimes with their API.</p>
-                    <p>It is worth trying multiple times.</p>
+                    <p>Your channel might not be active enough.</p>
+                    <p>It is worth trying a few more times!</p>
                 </Modal.Body>
 
                 <Modal.Footer>

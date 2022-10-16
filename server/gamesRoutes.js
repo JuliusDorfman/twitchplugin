@@ -377,6 +377,7 @@ router.post('/postRenderChatArt', (req, res, body) => {
 
 router.post('/uploadFileAWS', (req, res) => {
     // Read content from the file
+    console.log('filename: ', req.body)
     fileName = req.body.fileName.trim()
     // let publicPath = path.join(__dirname, '../src/Assets/', fileName.trim());
     // console.log("publicPath: ", publicPath);
