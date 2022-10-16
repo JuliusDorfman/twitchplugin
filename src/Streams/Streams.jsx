@@ -9,7 +9,8 @@ import Appbackground from '../Components/Appbackground';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
 const api = axios.create({
-    baseURL:  process.env.PORT || `http://localhost:7000/`
+    baseURL:  process.env.PORT 
+    // baseURL:  process.env.PORT || `http://localhost:7000/`
 });
 export default class Streams extends React.Component {
     constructor(props, ref) {
