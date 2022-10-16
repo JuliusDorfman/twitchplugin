@@ -281,6 +281,9 @@ export default class Streams extends React.Component {
                     let streams = this.state.streams;
                     // console.log("Streams: ", streams);
                     api.post('/uploadFileAWS', ({fileName: artFileName}), (req, res) => {
+                        if (res.data.s3ImageAddress === "NoImage") {
+                            this.setState({oadingArt: false});
+                        }
                         console.log("res", res);
                     }).then(res=> {
                         console.log('AFTER UPLOAD', res);

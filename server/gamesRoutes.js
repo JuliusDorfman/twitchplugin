@@ -412,15 +412,9 @@ router.post('/uploadFileAWS', (req, res) => {
     let serverPath = path.join(__dirname, 'generatedimages', fileName.trim());
     // console.log("serverPath: ", serverPath);
 
-
-
-    
-
-
     const fileContent = fs.createReadStream(serverPath)
         
         console.log("fileContent", fileContent.path);
-        
         
         const parms = {
             Bucket: process.env.AMZ_BUCKET_NAME,
@@ -432,10 +426,12 @@ router.post('/uploadFileAWS', (req, res) => {
         
         s3.upload(parms, (err, data) => {
             if (err) {
+                res.send({s3ImageAddress: "NoImage"})
                 throw err;
-            }
+            } 
             console.log("File Uploaded: ", data.Location);
             res.send({s3ImageAddress: data.Location});
+            
     })
 })
 
