@@ -149,13 +149,13 @@ export default class Streams extends React.Component {
                         </a>
                         {streamLive === 'live' || streamLive
                             ? 
-                            <a href={streamURL} rel="noreferrer" target="_blank">
+                            <a id={`${streamChannel}-link-live`} href={streamURL} rel="noreferrer" target="_blank">
                                 <div className="live">
                                     <p>Live: </p>
                                 </div> 
                             </a>
                             : 
-                            <div className="not-live">
+                            <div id={`${streamChannel}-not-live`} className="not-live">
                                     <p>Not Live: </p>
                             </div>} 
                     </div> 

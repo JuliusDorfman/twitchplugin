@@ -1,5 +1,6 @@
 import io
 import os, sys
+from tkinter.tix import DirSelectDialog
 import warnings
 from PIL import Image
 from array import array
@@ -43,18 +44,18 @@ for resp in answers:
         if artifact.type == generation.ARTIFACT_IMAGE:
             img = Image.open(io.BytesIO(artifact.binary))
             # img = Image.save(io.BytesIO(artifact.binary))
-            display(img)
-
+            # display(img)
 # Create an image counter that resets at the end of the day
+
             num = random.randrange(1, 100)
             today = datetime.now().strftime("%m%d%y%h%m")
             promptSubstr = prompt.replace(" ", "")
 
             if len(promptSubstr) > 5:
                 promptSubstr = promptSubstr[0:5]
-
+                
             savedFileName = f'{today}-{promptSubstr}-{num}.png'
-
+   
             os.chdir('./generatedimages')
             img.save(savedFileName)
             print(savedFileName)

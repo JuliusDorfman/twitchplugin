@@ -3,8 +3,8 @@ const path = require ('path');
 require('dotenv').config({path: path.join(__dirname, '/.env')});
 const express = require('express');
 const router = express.Router();
-const { controller } = require('./gamesController');
-const server = require('./server');
+// const { controller } = require('./gamesController');
+// const server = require('../server');
 const request = require('request');
 const chalk = require('chalk');
 const twitchChat = chalk.hex('#8510d8').bgWhiteBright;
@@ -168,7 +168,7 @@ router.post('/getStreamerChannel', (req, res) => {
                 console.log('ERROR GET GAMES', err);
             }
             let streamerChannel = JSON.parse(body);
-            console.log("FULL RESPONSE: ", incoming_res.toJSON())
+            // console.log("FULL RESPONSE: ", incoming_res.toJSON())
             callback(streamerChannel);
         });
     }
@@ -178,7 +178,7 @@ router.post('/getStreamerChannel', (req, res) => {
         
     }).then((response) => {
         getStreamerChannel(process.env.GET_CHANNEL, response.accessToken, (streamerChannel) => {
-            console.log("streamerChannel", streamerChannel)
+            // console.log("streamerChannel", streamerChannel.data)
             res.status(200).json({ Message: streamerChannel.data});
             return streamerChannel.data;
         });
@@ -328,7 +328,7 @@ router.post('/postRenderChatArt', (req, res, body) => {
             const childPython = spawn('python', [pythonPath, artPrompt], {
                 cwd: process.cwd(),
                 detached: false,
-                stdio: ["inherit"]
+                stdio: [null, "pipe", "inherit"]
             });
         //    console.log("Done4")
            let finalResponse = '';
@@ -409,7 +409,7 @@ router.post('/uploadFileAWS', (req, res) => {
     console.log("POST FIX", fileName);
 
 
-    let serverPath = path.join(__dirname, 'generatedimages', fileName);
+    let serverPath = path.join(__dirname, 'generatedimages', fileName.trim());
     // console.log("serverPath: ", serverPath);
 
 
