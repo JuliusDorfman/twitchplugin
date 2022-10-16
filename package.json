@@ -30,7 +30,7 @@
         "websocket": "^1.0.34"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "concurrently \"nodemon ./server/server.js\" \"react-scripts start\"",
         "dev": "concurrently \"nodemon ./server/server.js\" \"react-scripts start\"",
         "build": "react-scripts build",
         "test": "react-scripts test",
