@@ -2,14 +2,14 @@ require('dotenv').config({path: '/server'});
 const chalk = require('chalk');
 const request = require('request');
 const express = require('express');
-const port = process.env.PORT || 7000;
-const connectDB = require('./config/mongoDB');
+const port = process.env.PORT ? process.env.PORT : 7000;
+// const connectDB = require('./config/mongoDB');
 const cors = require('cors');
 
 // Heroku cluster efficiency
-const CONCURRENCY = process.env.WEB_CURRENCY || 1;
+// const CONCURRENCY = process.env.WEB_CURRENCY || 1;
 
-connectDB();
+// connectDB();
 
 // ROUTES
 const app = express();
