@@ -4,12 +4,12 @@ import axios from 'axios';
 import chalk from 'chalk';
 // import noImageFound from '../Assets/piano_falling.jpg'
 import Spinner from '../Components/Spinner';
-import Typewriter from 'typewriter-effect';
+// import Typewriter from 'typewriter-effect';
 import Appbackground from '../Components/Appbackground';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
 const api = axios.create({
-    baseURL: `http://localhost:7000/` || process.env.PORT
+    baseURL:  process.env.PORT || `http://localhost:7000/`
 });
 export default class Streams extends React.Component {
     constructor(props, ref) {

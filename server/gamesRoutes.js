@@ -1,10 +1,10 @@
 // IMPORTS
-require('dotenv').config();
+const path = require ('path');
+require('dotenv').config({path: path.join(__dirname, '/.env')});
 const express = require('express');
 const router = express.Router();
-const path = require ('path');
 const { controller } = require('./gamesController');
-// const server = require('./server');
+const server = require('./server');
 const request = require('request');
 const chalk = require('chalk');
 const twitchChat = chalk.hex('#8510d8').bgWhiteBright;
@@ -13,7 +13,7 @@ const fs = require('fs');
 // app.use('/images', express.static(path.join(__dirname, 'server', 'state-diffusion')));
 
 // MONGODB REQUIREMENTS
-const Streamers = require('./models/streamerModel');
+// const Streamers = require('./models/streamerModel');
 const tmi = require('tmi.js');
 
 // AWS S3 REQUIREMENTS
@@ -377,7 +377,7 @@ router.post('/postRenderChatArt', (req, res, body) => {
 
 router.post('/uploadFileAWS', (req, res) => {
     // Read content from the file
-    console.log('filename: ', req.body)
+    // console.log('filename: ', req.body)
     fileName = req.body.fileName.trim()
     // let publicPath = path.join(__dirname, '../src/Assets/', fileName.trim());
     // console.log("publicPath: ", publicPath);

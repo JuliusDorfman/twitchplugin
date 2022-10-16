@@ -1,12 +1,13 @@
-require('dotenv').config({path: '/server'});
-const chalk = require('chalk');
-const express = require('express');
-const port = process.env.PORT ? process.env.PORT : 7000;
-// const connectDB = require('./config/mongoDB');
-const cors = require('cors');
+const path = require ('path');
+require('dotenv').config({path: path.join(__dirname, '/')});
 
-// Heroku cluster efficiency
-// const CONCURRENCY = process.env.WEB_CURRENCY || 1;
+// require('dotenv').config({path: '/server'});
+const chalk = require('chalk');
+const request = require('request');
+const express = require('express');
+const port = process.env.PORT || 7000;
+const connectDB = require('./config/mongoDB');
+const cors = require('cors');
 
 // connectDB();
 
@@ -21,4 +22,3 @@ app.use(express.json());
 
 // Handle Routes 
 app.use('/', require('./gamesRoutes'));
-

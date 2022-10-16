@@ -3,7 +3,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import Instructions from './Components/Instructions';
 import Streams from './Streams';
-import Appbackground from './Components/Appbackground';
+// import Appbackground from './Components/Appbackground';
  
 class App extends React.Component  {
   constructor(props) {
