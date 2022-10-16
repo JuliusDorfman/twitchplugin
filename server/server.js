@@ -19,7 +19,7 @@ const cors = require('cors');
 // ROUTES
 const app = express();
 
-app.listen(port, () => console.log(chalk.blueBright(`Server started on port ${port}. Listening...`)));
+
 
 app.use(express.urlencoded({extended: false}));
 app.use(cors());
@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-
+app.listen(port, () => console.log(chalk.blueBright(`Server started on port ${port}. Listening...`)));
 
 // Handle Routes 
 app.use('/', require('./gamesRoutes'));
