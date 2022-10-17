@@ -9,12 +9,14 @@ import Appbackground from '../Components/Appbackground';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
 
+const variableURL = process.env.PORT;
+
 const api = axios.create({
     // baseURL:  process.env.PORT 
     // baseURL:  process.env.PORT || 'https://state-of-twitch-art.herokuapp.com/' || `http://localhost:7000/`
-    baseURL:  'https://state-of-twitch-art.herokuapp.com/' 
+    // baseURL: variableURL
 });
-
+console.log(variableURL)
 export default class Streams extends React.Component {
     constructor(props, ref) {
         super(props);
@@ -32,7 +34,7 @@ export default class Streams extends React.Component {
     }
 
     updateStreamsRendered = (res) =>{
-        // chalk.green(console.log('Incoming Stream Data', res.data));
+        chalk.green(console.log('Incoming Stream Data', res.data));
         let topStreamData = res.data.Message;
         let streamsList = {};
         for (let i = 0; i < topStreamData.length; i++) {
