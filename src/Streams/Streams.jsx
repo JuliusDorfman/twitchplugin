@@ -1,7 +1,6 @@
 import React from 'react';
 import './Streams.sass';
 import axios from 'axios';
-import chalk from 'chalk';
 // import noImageFound from '../Assets/piano_falling.jpg'
 import Spinner from '../Components/Spinner';
 // import Typewriter from 'typewriter-effect';
@@ -11,11 +10,11 @@ import Button from 'react-bootstrap/Button'
 
 let port = ''
 if (process.env.NODE_ENV === 'production') {
-    port = 'https://state-of-twitch-art.herokuapp.com/'
+    port = 'https://state-of-twitch-art.herokuapp.com/api/'
 }
 
 
-const  baseURL = port || `http://localhost:7000` ;
+const  baseURL = port || `http://localhost:7000/api` ;
 
 let api = axios.create({
     baseURL: baseURL,
@@ -43,7 +42,7 @@ export default class Streams extends React.Component {
     }
 
     updateStreamsRendered = (res) =>{
-        chalk.green(console.log('Incoming Stream Data', res.data));
+        console.log('Incoming Stream Data', res.data);
         let topStreamData = res.data.Message;
         let streamsList = {};
         for (let i = 0; i < topStreamData.length; i++) {
@@ -218,7 +217,7 @@ export default class Streams extends React.Component {
             return
         }
         this.setState({firstTimeUser: false})
-        chalk.green(console.log("HandleGetTwitchChat: "));
+        console.log("HandleGetTwitchChat: ");
         this.setState({chatInput: []})
         api.post(`/getTwitchChat`).then(res => {
             // TODO: Handle errors from twitch chat
