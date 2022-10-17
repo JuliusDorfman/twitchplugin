@@ -14,7 +14,6 @@ const bodyParser = require('body-parser');
 
 
 
-
 // ROUTES
 const app = express();
 
@@ -24,8 +23,9 @@ app.use(express.json());
 app.use(bodyParser.json());
 const port = process.env.PORT || 7000;
 
+
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(__dirname));
+	app.use(express.static('/build'));
 	app.get('*', (req, res) => {
 		res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 	});
@@ -35,4 +35,6 @@ app.listen(port, () => console.log(chalk.blueBright(`Server started on port ${po
 
 // Handle Routes 
 app.use('/', require(path.join(__dirname, 'server', 'gamesRoutes')));
+const routes = require('./server/gamesRoutes');
+app.use('/api', routes);
 console.log("PATH", path.join(__dirname, 'server', 'gamesRoutes'));
