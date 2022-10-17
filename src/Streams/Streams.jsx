@@ -8,15 +8,15 @@ import Appbackground from '../Components/Appbackground';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
 
-let port = ''
-if (process.env.NODE_ENV === 'production') {
-    port = process.env.PORT + '/api/'
-}
+// let port = ''
+// if (process.env.NODE_ENV === 'production') {
+//     port = process.env.PORT + '/api/'
+// }
 
 
-const  baseURL = port || `http://localhost:7000/api/` ;
+// const  baseURL = port || `http://localhost:7000/api/` ;
 
-// const baseURL = `http://localhost:7000/api/`;
+const baseURL = `http://localhost:7000/`;
 
 let api = axios.create({
     baseURL: baseURL,
@@ -95,7 +95,7 @@ export default class Streams extends React.Component {
     }
 
     handleGetStreamer = () => {
-        api.post(`/getStreamerChannel`, {streamerName: this.props.streamername}, (req, res) => {
+        api.post(`/api/getStreamerChannel`, {streamerName: this.props.streamername}, (req, res) => {
                 console.log("FRONTEND RES Inside: ", res.data)
             }).then(res => {
                 this.updateStreamsRendered(res);
@@ -118,13 +118,13 @@ export default class Streams extends React.Component {
     // }    
  
     handleSearchForStreamer = (chatInput) => {
-     api.post(`/getStreamerChannel`).then(res => {
+     api.post(`/api/getStreamerChannel`).then(res => {
         console.log('Streamer Search: ', res.data);
     })
     }
 
     handleGetTopStreams = () => {
-        api.get(`/getTopStreams`).then(res => {
+        api.get(`/api/getTopStreams`).then(res => {
             console.log('TOP STREAMS: ', res)
             this.updateStreamsRendered(res);
         }).catch((exception) => {
@@ -221,7 +221,7 @@ export default class Streams extends React.Component {
         this.setState({firstTimeUser: false})
         console.log("HandleGetTwitchChat: ");
         this.setState({chatInput: []})
-        api.post(`/getTwitchChat`).then(res => {
+        api.post(`/api/getTwitchChat`).then(res => {
             // TODO: Handle errors from twitch chat
             let chatArtPrompt = res.data.chatInput;
             console.log('arr or string', chatArtPrompt);
@@ -262,7 +262,7 @@ export default class Streams extends React.Component {
         console.log("Streamer Name: ", e.target.getAttribute("streamername"));
         this.setState({loadingArt: true});
         e.target.style.display = 'none';
-        api.post(`/getTwitchChat`, {
+        api.post(`/api/getTwitchChat`, {
             channelToJoin: channelToJoin
         }).then(res => { 
             if(res.data.noChat === true) {
@@ -281,7 +281,7 @@ export default class Streams extends React.Component {
                 });
             })
             // console.log('DATA PASSED: ', res)
-            api.post(`/postRenderChatArt`, {
+            api.post(`/api/postRenderChatArt`, {
                 artPrompt: chatArtPrompt,
             }).then((res)=> {
                 // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
@@ -292,7 +292,7 @@ export default class Streams extends React.Component {
                     console.log('Image filename: ', artFileName)
                     let streams = this.state.streams;
                     // console.log("Streams: ", streams);
-                    api.post(`/uploadFileAWS`, ({fileName: artFileName}), (req, res) => {
+                    api.post(`/api/uploadFileAWS`, ({fileName: artFileName}), (req, res) => {
                         if (res.data.s3ImageAddress === "NoImage") {
                             this.setState({oadingArt: false});
                         }
