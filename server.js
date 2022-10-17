@@ -24,7 +24,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 const port = process.env.PORT || 7000;
 
-app.use('/', require(path.join(__dirname, 'server', 'gamesRoutes')));
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('/build'));
@@ -32,6 +31,7 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 	});
 }
+app.use('/', require(path.join(__dirname, 'server', 'gamesRoutes')));
 
 app.listen(port, () => console.log(chalk.blueBright(`Server started on port ${port}. Listening...`)));
 
