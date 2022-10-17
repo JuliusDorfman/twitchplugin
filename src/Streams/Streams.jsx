@@ -11,7 +11,8 @@ import Button from 'react-bootstrap/Button'
 
 const api = axios.create({
     // baseURL:  process.env.PORT 
-    baseURL:  process.env.PORT || `http://localhost:7000/`
+    // baseURL:  process.env.PORT || 'https://state-of-twitch-art.herokuapp.com/' || `http://localhost:7000/`
+    baseURL:  'https://state-of-twitch-art.herokuapp.com/' 
 });
 
 export default class Streams extends React.Component {
