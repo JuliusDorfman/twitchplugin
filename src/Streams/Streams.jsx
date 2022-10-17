@@ -16,11 +16,17 @@ if (process.env.NODE_ENV === 'production') {
 
 const  baseURL = port || `http://localhost:7000/api` ;
 
+// const baseURL = `http://localhost:7000/api`;
+
 let api = axios.create({
     baseURL: baseURL,
-    mode: "cors"
+    mode: "cors",
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
 })
-console.log('PORT', port);
+// console.log('PORT', port);
 console.log("process.env.PORT: ", process.env.PORT);
 console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
 
