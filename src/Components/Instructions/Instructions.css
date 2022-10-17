@@ -1,0 +1,102 @@
+#instructions-component {
+  position: fixed;
+  width: 200px;
+  height: 60vh;
+  z-index: 1000000;
+  right: 0;
+  background-color: rgba(220, 208, 255, 0.99);
+  box-shadow: -10px -5px 5px black;
+  border-width: 0px 0px 2px 2px;
+  border-color: black;
+  border-style: solid;
+  transition: 0.5s;
+}
+
+.instructions-component-false {
+  transform: translateX(220px);
+}
+
+.instructions-wrapper {
+  display: flex;
+  padding: 7%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+}
+
+.instructions-title {
+  font-size: 1em;
+}
+
+.instructions-instructions {
+  font-size: 0.75em;
+}
+
+#hide-instructions-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 5%;
+  padding: 0;
+  border: 1px solid black;
+  border-radius: 3px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+#hide-instructions-button:hover {
+  background: #6441a5;
+  transition: 0.5s;
+  color: ghostwhite;
+  font-weight: bold;
+}
+#hide-instructions-button > p {
+  margin: 10px;
+}
+
+.instructions-toggle-true {
+  position: fixed;
+  top: 0px;
+  right: 0;
+  padding: 2%;
+  opacity: 1;
+  background-color: transparent;
+  border: solid lavender;
+  border-width: 0px 0px 0px 1px;
+  border-radius: 25% 0 0 25%;
+  font-size: 1em;
+  transition: 1s;
+  box-shadow: none;
+  z-index: 5;
+  opacity: 1;
+  cursor: pointer;
+}
+.instructions-toggle-true:hover {
+  opacity: 1;
+  box-shadow: -10px -5px 5px rgba(0, 0, 0, 0.5);
+  transition: 0.5s;
+  border-width: 1px 0 0px 1px;
+  border-color: black;
+}
+
+.instructions-toggle-false {
+  position: fixed;
+  top: 300px;
+  padding: 2%;
+  right: 0;
+  opacity: 0;
+  font-size: 1em;
+  transition: 1s;
+  z-index: 5;
+}
+
+@media (max-width: 1000px) {
+  .instructions-toggle-true {
+    padding: 0;
+  }
+  #instructions-component {
+    height: 60vh;
+  }
+}/*# sourceMappingURL=Instructions.css.map */

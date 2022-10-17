@@ -8,15 +8,15 @@ import Appbackground from '../Components/Appbackground';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
 
-// let port = ''
-// if (process.env.NODE_ENV === 'production') {
-//     port = process.env.PORT + '/api/'
-// }
+let port = ''
+if (process.env.NODE_ENV === 'production') {
+    port = process.env.PORT 
+}
 
 
-// const  baseURL = port || `http://localhost:7000/api/` ;
+const  baseURL = port || `http://localhost:7000/` ;
 
-const baseURL = `http://localhost:7000/`;
+// const baseURL = `http://localhost:7000/`;
 
 let api = axios.create({
     baseURL: baseURL,
