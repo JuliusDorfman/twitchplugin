@@ -37,7 +37,7 @@
         "websocket": "^1.0.34"
     },
     "scripts": {
-        "start": "concurrently \"/server.js\" \"react-scripts start\"",
+        "start": "concurrently \"PORT=7000 node ./server.js\" \"react-scripts start\"",
         "dev": "concurrently \"nodemon ./server.js\" \"react-scripts start\"",
         "build": "react-scripts build",
         "test": "react-scripts test",
@@ -61,5 +61,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    }
+    },
 }
