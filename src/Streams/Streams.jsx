@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button'
 
 let port = ''
 if (process.env.NODE_ENV === 'production') {
-    port = 'https://state-of-twitch-art.herokuapp.com/api/'
+    port = process.env.PORT
 }
 
 
