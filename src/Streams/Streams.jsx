@@ -9,10 +9,19 @@ import Appbackground from '../Components/Appbackground';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
 
+let port = ''
+if (process.env.NODE_ENV === 'production') {
+    port = 'https://state-of-twitch-art.herokuapp.com/'
+}
 
 
-const  baseURL = `http://localhost:7000` || process.env.PORT
+const  baseURL = port || `http://localhost:7000` ;
 
+let api = axios.create({
+    baseURL: baseURL,
+    mode: "cors"
+})
+console.log('PORT', port);
 console.log("process.env.PORT: ", process.env.PORT);
 console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
 
@@ -34,7 +43,7 @@ export default class Streams extends React.Component {
     }
 
     updateStreamsRendered = (res) =>{
-        // chalk.green(console.log('Incoming Stream Data', res.data));
+        chalk.green(console.log('Incoming Stream Data', res.data));
         let topStreamData = res.data.Message;
         let streamsList = {};
         for (let i = 0; i < topStreamData.length; i++) {
@@ -85,7 +94,7 @@ export default class Streams extends React.Component {
     }
 
     handleGetStreamer = () => {
-        axios.post(`${baseURL}/getStreamerChannel`, {streamerName: this.props.streamername}, (req, res) => {
+        api.post(`/getStreamerChannel`, {streamerName: this.props.streamername}, (req, res) => {
                 console.log("FRONTEND RES Inside: ", res.data)
             }).then(res => {
                 this.updateStreamsRendered(res);
@@ -108,13 +117,13 @@ export default class Streams extends React.Component {
     // }    
  
     handleSearchForStreamer = (chatInput) => {
-     axios.post(`${baseURL}/getStreamerChannel`).then(res => {
+     api.post(`/getStreamerChannel`).then(res => {
         console.log('Streamer Search: ', res.data);
     })
     }
 
     handleGetTopStreams = () => {
-        axios.get(`${baseURL}/getTopStreams`).then(res => {
+        api.get(`/getTopStreams`).then(res => {
             console.log('TOP STREAMS: ', res)
             this.updateStreamsRendered(res);
         }).catch((exception) => {
@@ -211,7 +220,7 @@ export default class Streams extends React.Component {
         this.setState({firstTimeUser: false})
         chalk.green(console.log("HandleGetTwitchChat: "));
         this.setState({chatInput: []})
-        axios.post(`${baseURL}/getTwitchChat`).then(res => {
+        api.post(`/getTwitchChat`).then(res => {
             // TODO: Handle errors from twitch chat
             let chatArtPrompt = res.data.chatInput;
             console.log('arr or string', chatArtPrompt);
@@ -251,9 +260,8 @@ export default class Streams extends React.Component {
         let channelToJoin = e.target.getAttribute("streamername");
         console.log("Streamer Name: ", e.target.getAttribute("streamername"));
         this.setState({loadingArt: true});
-        console.log("Streamer Name: ", e.target.getAttribute("streamername"));
         e.target.style.display = 'none';
-        axios.post(`${baseURL}/getTwitchChat`, {
+        api.post(`/getTwitchChat`, {
             channelToJoin: channelToJoin
         }).then(res => { 
             if(res.data.noChat === true) {
@@ -272,7 +280,7 @@ export default class Streams extends React.Component {
                 });
             })
             // console.log('DATA PASSED: ', res)
-            axios.post(`${baseURL}/postRenderChatArt`, {
+            api.post(`/postRenderChatArt`, {
                 artPrompt: chatArtPrompt,
             }).then((res)=> {
                 // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
@@ -283,7 +291,7 @@ export default class Streams extends React.Component {
                     console.log('Image filename: ', artFileName)
                     let streams = this.state.streams;
                     // console.log("Streams: ", streams);
-                    axios.post(`${baseURL}/uploadFileAWS`, ({fileName: artFileName}), (req, res) => {
+                    api.post(`/uploadFileAWS`, ({fileName: artFileName}), (req, res) => {
                         if (res.data.s3ImageAddress === "NoImage") {
                             this.setState({oadingArt: false});
                         }
