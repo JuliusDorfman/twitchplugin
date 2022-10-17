@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 const port = process.env.PORT || 7000;
 
-app.use('/api', require(path.resolve(__dirname, 'server', 'gamesRoutes'), next =>{
+app.use('/api', require(path.resolve(__dirname, 'server', 'gamesRoutes.js'), next =>{
 // app.use('/api', (req, res) =>{
 	res.header('Access-Control-Allow-Origin', true)
 	res.set('Content-Type', 'application/json');
