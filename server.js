@@ -23,6 +23,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 const port = process.env.PORT || 7000;
 
+app.use('/', require(path.join(__dirname, 'server', 'gamesRoutes')));
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('/build'));
@@ -34,7 +35,3 @@ if (process.env.NODE_ENV === 'production') {
 app.listen(port, () => console.log(chalk.blueBright(`Server started on port ${port}. Listening...`)));
 
 // Handle Routes 
-app.use('/', require(path.join(__dirname, 'server', 'gamesRoutes')));
-const routes = require('./server/gamesRoutes');
-app.use('/api', routes);
-console.log("PATH", path.join(__dirname, 'server', 'gamesRoutes'));

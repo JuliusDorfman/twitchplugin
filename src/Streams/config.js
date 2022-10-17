@@ -1,9 +1,9 @@
 const configs = {
     development: {
-        SERVER_URI: 'https://localhost:7000/',
+        SERVER_URI: 'https://localhost:7000/api',
     },
     production: {
-        SERVER_URI: 'HEROKU_URI',
+        SERVER_URI: 'https://state-of-twitch-art.herokuapp.com/api/',
     },
 };
 
