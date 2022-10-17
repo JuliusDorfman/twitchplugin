@@ -36,7 +36,7 @@
         "websocket": "^1.0.34"
     },
     "scripts": {
-        "start": "concurrently \"node PORT=7000 /server.js\" \"react-scripts start\"",
+        "start": "concurrently \"node PORT=7000 server.js\" \"react-scripts start\"",
         "dev": "concurrently \"nodemon ./server.js\" \"react-scripts start\"",
         "build": "react-scripts build",
         "test": "react-scripts test",
