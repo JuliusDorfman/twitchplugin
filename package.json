@@ -61,5 +61,5 @@
             "last 1 safari version"
         ]
     },
-    "proxy": "'https://state-of-twitch-art.herokuapp.com/"
+    "proxy": "https://state-of-twitch-art.herokuapp.com/"
 }
