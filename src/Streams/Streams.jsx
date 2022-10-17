@@ -8,15 +8,15 @@ import Appbackground from '../Components/Appbackground';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
 
-// let port = ''
-// if (process.env.NODE_ENV === 'production') {
-//     port = 'https://state-of-twitch-art.herokuapp.com/api/'
-// }
+let port = ''
+if (process.env.NODE_ENV === 'production') {
+    port = 'https://state-of-twitch-art.herokuapp.com/api/'
+}
 
 
-// const  baseURL = port || `http://localhost:7000/api` ;
+const  baseURL = port || `http://localhost:7000/api/` ;
 
-const baseURL = `http://localhost:7000/api/`;
+// const baseURL = `http://localhost:7000/api/`;
 
 let api = axios.create({
     baseURL: baseURL,
