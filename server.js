@@ -7,7 +7,7 @@ const express = require('express');
 // const connectDB = require(path.resolve(__dirname, 'server', 'config', 'mongoDB'));
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
+// const allowedOrigins = ['https://state-of-twitch-art.herokuapp.com/api/']
 // connectDB();
 
 
@@ -31,7 +31,9 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 	});
 }
-app.use('/', require(path.join(__dirname, 'server', 'gamesRoutes')));
+app.use('/', require(path.join(__dirname, 'server', 'gamesRoutes'), next =>{
+	res.header('Access-Control-Allow-Origin', true)
+}));
 
 app.listen(port, () => console.log(chalk.blueBright(`Server started on port ${port}. Listening...`)));
 
