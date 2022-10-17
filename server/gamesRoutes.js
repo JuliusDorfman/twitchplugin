@@ -35,7 +35,7 @@ const { spawn } = require('child_process');
 // // @desc Get Test Route
 // router.get('/', controller.getTestRoute);
 
-router.get('/api/test', (req, res) => {
+router.get('/test', (req, res) => {
     console.log('Get Test Route: ', res.statusCode);
     res.status(200).json({ Message: 'Get Test Route'});
 });
@@ -66,7 +66,7 @@ const getToken = (url, callback) => {
 // // @ desc Get Top Games from Twitch
 // router.get('/', controller.getTopGames);
 
-router.get('/api/getTopGames', (req, res) => {
+router.get('/getTopGames', (req, res) => {
    
     const getGames = (url, accessToken, callback) => {
         const gamesOptions = {
@@ -149,7 +149,7 @@ router.get('/getTopStreams', (req, res) => {
 // // @ desc Single Streamer Channel
 // ------------------------------------------------------
 
-router.post('/api/getStreamerChannel', (req, res) => {
+router.post('/getStreamerChannel', (req, res) => {
     let query = req.body.streamerName
     console.log("req", req.body.streamerName);
 
@@ -196,7 +196,7 @@ router.post('/api/getStreamerChannel', (req, res) => {
 const WebSocketClient = require('websocket').client;
 const client = new WebSocketClient();
 
-router.post('/api/getTwitchChat', (req, res, body) =>{
+router.post('/getTwitchChat', (req, res, body) =>{
 
     let channelToJoin = req.body.channelToJoin;
     
@@ -313,7 +313,7 @@ router.post('/api/getTwitchChat', (req, res, body) =>{
 // ------------------------------------------------------
 // @desc Create a Python Child Process for Stable Diffusion Art Generator
 // ------------------------------------------------------
-router.post('/api/postRenderChatArt', (req, res, body) => {
+router.post('/postRenderChatArt', (req, res, body) => {
     // const pythonPath = path.join(__dirname, 'stable-diffusion', 'text2img.py');
     const pythonPath = path.join(__dirname, 'dreamstudio.py');
     let artPrompt = req.body.artPrompt;
@@ -375,7 +375,7 @@ router.post('/api/postRenderChatArt', (req, res, body) => {
 // @desc Upload Generated Art Image to Amazon Web Services S3 Service
 // ------------------------------------------------------
 
-router.post('/api/uploadFileAWS', (req, res) => {
+router.post('/uploadFileAWS', (req, res) => {
     // Read content from the file
     // console.log('filename: ', req.body)
     fileName = req.body.fileName.trim()
