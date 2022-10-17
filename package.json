@@ -60,5 +60,7 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    }
+    },
+    "homepage": "https://state-of-twitch-art.herokuapp.com/",
+    "proxy": "http://localhost:7000"
 }
