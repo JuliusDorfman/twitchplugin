@@ -35,4 +35,4 @@ app.listen(port, () => console.log(chalk.blueBright(`Server started on port ${po
 
 // Handle Routes 
 app.use('/', require(path.join(__dirname, 'server', 'gamesRoutes')));
-console.log(path.join(__dirname, 'server', 'gamesRoutes'));
+console.log("PATH", path.join(__dirname, 'server', 'gamesRoutes'));
