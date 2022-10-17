@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button'
 
 let port = ''
 if (process.env.NODE_ENV === 'production') {
-    port = process.env.PORT
+    port = process.env.PORT + '/api/'
 }
 
 
