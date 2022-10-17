@@ -107,7 +107,7 @@ router.get('/api/getTopGames', (req, res) => {
 // // @ desc Streams with highest current viewers from Twitch
 // ------------------------------------------------------
 
-router.get('/api/getTopStreams', (req, res) => {
+router.get('/getTopStreams', (req, res) => {
 
     const getTopStreams = (url, accessToken, callback) => {
         const streamOptions = {
