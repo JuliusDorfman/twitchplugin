@@ -10,10 +10,10 @@ import Button from 'react-bootstrap/Button'
 
 
 
-const baseURL = `http://localhost:7000/`;
+// const baseURL = `http://localhost:7000/`;
 
 let api = axios.create({
-    // baseURL: process.env.REACT_APP_API_URL,
+    baseURL: process.env.REACT_APP_API_URL,
     baseURL: baseURL,
     mode: "cors",
 })
