@@ -291,7 +291,7 @@ export default class Streams extends React.Component {
                     //     }
                     //     console.log("res", res);
                     // }).then(res=> {
-                        console.log('AFTER UPLOAD', res);
+                        // console.log('AFTER UPLOAD', res);
                         this.setState({artPrompt: []}, ()=>{
                             // let newLink = res.data.s3ImageAddress;
                             let newLink = artFileName.trim();
