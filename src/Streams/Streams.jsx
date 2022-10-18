@@ -276,6 +276,7 @@ export default class Streams extends React.Component {
                 artPrompt: chatArtPrompt,
             }).then((res)=> {
                 // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
+                console.log('RENDER CHAT ART: ', res.data)
                 let artFileName = res.data.artFileName.replace(/\s/g, "");
                 channelToJoin = channelToJoin.replace(/\s/g, "");
                 this.setState({artPrompt: []})
@@ -283,16 +284,18 @@ export default class Streams extends React.Component {
                     console.log('Image filename: ', artFileName)
                     let streams = this.state.streams;
                     // console.log("Streams: ", streams);
-                    api.post(`/api/uploadFileAWS`, ({fileName: artFileName}), (req, res) => {
-                        if (res.data.s3ImageAddress === "NoImage") {
-                            this.setState({oadingArt: false});
-                        }
-                        console.log("res", res);
-                    }).then(res=> {
+                    // NOTE: DEPRECIATED AFTER DECISION TO S3 UPLOAD FROM PYTHON ENV 
+                    // api.post(`/api/uploadFileAWS`, ({fileName: artFileName}), (req, res) => {
+                    //     if (res.data.s3ImageAddress === "NoImage") {
+                    //         this.setState({oadingArt: false});
+                    //     }
+                    //     console.log("res", res);
+                    // }).then(res=> {
                         console.log('AFTER UPLOAD', res);
                         this.setState({artPrompt: []}, ()=>{
-                            // let newLink = `${this.state.artImageFileName}`;
-                            let newLink = res.data.s3ImageAddress;
+                            // let newLink = res.data.s3ImageAddress;
+                            let newLink = artFileName.trim();
+                            console.log("newLink: ", newLink)
                             let currentStream = this.state.streams[channelToJoin];
                             currentStream[4] = newLink;
                             // console.log("streams[channelToJoin]", streams[channelToJoin])
@@ -301,7 +304,7 @@ export default class Streams extends React.Component {
                             this.setState({[streams[channelToJoin]]: currentStream});
                             this.setState({loadingArt: false})
                         });
-                    })
+                    // })
                 })
             }).catch(err =>{
                 throw err;

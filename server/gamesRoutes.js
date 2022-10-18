@@ -371,72 +371,89 @@ router.post('/postRenderChatArt', (req, res, body) => {
    
 })
 
+
+// router.get('/getS3URL', (req, res) =>{
+
+// })
+
+module.exports = router;
+
+
+
+// DEPRECIATED NOW UPLOADING TO S3 IN PYTHON AND GETTING URL IN /getS3URL
 // ------------------------------------------------------
 // @desc Upload Generated Art Image to Amazon Web Services S3 Service
 // ------------------------------------------------------
 
-router.post('/uploadFileAWS', (req, res) => {
-    // Read content from the file
-    // console.log('filename: ', req.body)
-    fileName = req.body.fileName.trim()
-    // let publicPath = path.join(__dirname, '../src/Assets/', fileName.trim());
-    // console.log("publicPath: ", publicPath);
-    // let serverPath = path.join(__dirname, 'stable-diffusion', 'generatedimages.py', fileName.trim());
-    console.log('PRE FIX',fileName);
+// router.post('/uploadFileAWS', (req, res) => {
+//     // Read content from the file
+//     // console.log('filename: ', req.body)
+//     fileName = req.body.fileName.trim()
+//     // let publicPath = path.join(__dirname, '../src/Assets/', fileName.trim());
+//     // console.log("publicPath: ", publicPath);
+//     // let serverPath = path.join(__dirname, 'stable-diffusion', 'generatedimages.py', fileName.trim());
+//     console.log('PRE FIX',fileName);
 
-    let firstPointer = 0;
-    let secondPointer = 0;
-    let firstChar = '<';
-    let secondChar = '>';
-    let removedString = ''
-    for (let i = 0; i < fileName.length; i++) {
-        if (fileName[i]===firstChar){
-            firstPointer = i;
-        }
-        if (fileName[i]===secondChar){
-            secondPointer = i+1;
-        }
-        if (firstPointer !== 0 && secondPointer !== 0) {
+//     let firstPointer = 0;
+//     let secondPointer = 0;
+//     let firstChar = '<';
+//     let secondChar = '>';
+//     let removedString = ''
+//     for (let i = 0; i < fileName.length; i++) {
+//         if (fileName[i]===firstChar){
+//             firstPointer = i;
+//         }
+//         if (fileName[i]===secondChar){
+//             secondPointer = i+1;
+//         }
+//         if (firstPointer !== 0 && secondPointer !== 0) {
             
-          break
-        }
-    }
+//           break
+//         }
+//     }
     
-    removedString = fileName.slice(firstPointer, secondPointer);
+//     removedString = fileName.slice(firstPointer, secondPointer);
 
-    fileName = fileName.replace(removedString, '');
+//     fileName = fileName.replace(removedString, '');
 
-    console.log("POST FIX", fileName);
+//     console.log("POST FIX", fileName);
 
 
-    let serverPath = path.join(__dirname, 'generatedimages', fileName.trim());
-    // console.log("serverPath: ", serverPath);
+//     let serverPath = path.join(__dirname, 'generatedimages', fileName.trim());
+//     // console.log("serverPath: ", serverPath);
 
-    const fileContent = fs.createReadStream(serverPath)
+//     const fileContent = fs.createReadStream(serverPath)
         
-        console.log("fileContent", fileContent.path);
+//         console.log("fileContent", fileContent.path);
         
-        const parms = {
-            Bucket: process.env.AMZ_BUCKET_NAME,
-            Key: fileName.trim(),
-            Body: fileContent,
-            ACL: 'public-read',
-            ContentType: "image/png",
-        };
+//         const parms = {
+//             Bucket: process.env.AMZ_BUCKET_NAME,
+//             Key: fileName.trim(),
+//             Body: fileContent,
+//             ACL: 'public-read',
+//             ContentType: "image/png",
+//         };
         
-        s3.upload(parms, (err, data) => {
-            if (err) {
-                res.send({s3ImageAddress: "NoImage"})
-                throw err;
-            } 
-            console.log("File Uploaded: ", data.Location);
-            res.send({s3ImageAddress: data.Location});
+//         s3.upload(parms, (err, data) => {
+//             if (err) {
+//                 res.send({s3ImageAddress: "NoImage"})
+//                 throw err;
+//             } 
+//             console.log("File Uploaded: ", data.Location);
+//             res.send({s3ImageAddress: data.Location});
             
-    })
-})
+//     })
+// })
 
 
-module.exports = router;
+
+
+
+
+
+
+
+
 
 
 
