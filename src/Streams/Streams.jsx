@@ -35,7 +35,7 @@ export default class Streams extends React.Component {
     }
 
     updateStreamsRendered = (res) =>{
-        console.log('Incoming Stream Data', res.data);
+        // console.log('Incoming Stream Data', res.data);
         let topStreamData = res.data.Message;
         let streamsList = {};
         for (let i = 0; i < topStreamData.length; i++) {
@@ -116,7 +116,7 @@ export default class Streams extends React.Component {
 
     handleGetTopStreams = () => {
         api.get(`/api/getTopStreams`).then(res => {
-            console.log('TOP STREAMS: ', res)
+            // console.log('TOP STREAMS: ', res)
             this.updateStreamsRendered(res);
         }).catch((exception) => {
             console.log(exception);
@@ -276,12 +276,12 @@ export default class Streams extends React.Component {
                 artPrompt: chatArtPrompt,
             }).then((res)=> {
                 // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
-                console.log('RENDER CHAT ART: ', res.data)
+                // console.log('RENDER CHAT ART: ', res.data)
                 let artFileName = res.data.artFileName.replace(/\s/g, "");
                 channelToJoin = channelToJoin.replace(/\s/g, "");
                 this.setState({artPrompt: []})
                 this.setState({artImageFileName: artFileName}, ()=>{
-                    console.log('Image filename: ', artFileName)
+                    // console.log('Image filename: ', artFileName)
                     let streams = this.state.streams;
                     // console.log("Streams: ", streams);
                     // NOTE: DEPRECIATED AFTER DECISION TO S3 UPLOAD FROM PYTHON ENV 
@@ -295,7 +295,6 @@ export default class Streams extends React.Component {
                         this.setState({artPrompt: []}, ()=>{
                             // let newLink = res.data.s3ImageAddress;
                             let newLink = artFileName.trim();
-                            console.log("newLink: ", newLink)
                             let currentStream = this.state.streams[channelToJoin];
                             currentStream[4] = newLink;
                             // console.log("streams[channelToJoin]", streams[channelToJoin])
