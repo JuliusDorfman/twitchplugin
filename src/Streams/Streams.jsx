@@ -14,7 +14,7 @@ import Button from 'react-bootstrap/Button'
 
 let api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
-    baseURL: baseURL,
+    // baseURL: baseURL,
     mode: "cors",
 })
 
