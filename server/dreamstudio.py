@@ -11,7 +11,6 @@ from simple_chalk import chalk
 from stability_sdk import client
 import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
 from environs import Env
-from IPython.display import display
 from dotenv import load_dotenv
 
 keysFile = os.path.join('./', '.env')
@@ -44,8 +43,7 @@ for resp in answers:
         if artifact.type == generation.ARTIFACT_IMAGE:
             img = Image.open(io.BytesIO(artifact.binary))
             # img = Image.save(io.BytesIO(artifact.binary))
-            # display(img)
-# Create an image counter that resets at the end of the day
+            # Create an image counter that resets at the end of the day
 
             num = random.randrange(1, 100)
             today = datetime.now().strftime("%m%d%y%h%m")
