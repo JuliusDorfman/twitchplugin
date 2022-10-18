@@ -1,6 +1,6 @@
 import io
 import os, sys
-from tkinter.tix import DirSelectDialog
+# from tkinter.tix import DirSelectDialog
 import warnings
 from PIL import Image
 from array import array
