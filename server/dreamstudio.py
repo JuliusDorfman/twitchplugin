@@ -14,23 +14,22 @@ from environs import Env
 from dotenv import load_dotenv
 import boto3
 from botocore.exceptions import NoCredentialsError
-from boto.s3.connection import S3Connection
 
 keysFile = os.path.join('./', '.env')
 load_dotenv(keysFile)
 
 heroku_env = False
-if os.environ('ON_HEROKU_ENVIRONMENT') == "TRUE":
+if 'ON_HEROKU_ENVIRONMENT' in os.environ:
     heroku_env = True
 
 if heroku_env == False:
-    DREAM_STUDIO_KEY = os.getenv('DREAM_STUDIO_KEY')
-    AMZ_ACCESS_KEY = os.getenv('AMZ_ACCESS_KEY')
-    AMZ_SECRET_KEY = os.getenv('AMZ_SECRET_KEY')
+    DREAM_STUDIO_KEY = os.getenv['DREAM_STUDIO_KEY']
+    AMZ_ACCESS_KEY = os.getenv['AMZ_ACCESS_KEY']
+    AMZ_SECRET_KEY = os.getenv['AMZ_SECRET_KEY']
 else:
-    DREAM_STUDIO_KEY = os.environ('DREAM_STUDIO_KEY')
-    AMZ_ACCESS_KEY = os.environ('AMZ_ACCESS_KEY')
-    AMZ_SECRET_KEY = os.environ('AMZ_SECRET_KEY')
+    DREAM_STUDIO_KEY = os.environ['DREAM_STUDIO_KEY']
+    AMZ_ACCESS_KEY = os.environ['AMZ_ACCESS_KEY']
+    AMZ_SECRET_KEY = os.environ['AMZ_SECRET_KEY']
     
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
