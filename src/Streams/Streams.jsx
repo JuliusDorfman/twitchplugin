@@ -8,24 +8,15 @@ import Appbackground from '../Components/Appbackground';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
 
-// let port = ''
-// if (process.env.NODE_ENV === 'production') {
-//     port = process.env.PORT 
-// }
 
 
-// const  baseURL = port || `http://localhost:7000/` ;
-
-// const baseURL = `http://localhost:7000/`;
+const baseURL = `http://localhost:7000/`;
 
 let api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    // baseURL: process.env.REACT_APP_API_URL,
+    baseURL: baseURL,
     mode: "cors",
 })
-// // console.log('PORT', port);
-// console.log("process.env.PORT: ", process.env.PORT);
-// console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
-
 
 export default class Streams extends React.Component {
     constructor(props, ref) {

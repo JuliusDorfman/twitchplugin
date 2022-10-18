@@ -1,13 +1,11 @@
 const path = require ('path');
 require('dotenv').config({path: path.join(__dirname, 'server' ,'/')});
 
-// require('dotenv').config({path: '/server'});
 const chalk = require('chalk');
 const express = require('express');
 // const connectDB = require(path.resolve(__dirname, 'server', 'config', 'mongoDB'));
 const cors = require('cors');
 const bodyParser = require('body-parser');
-// const allowedOrigins = ['https://state-of-twitch-art.herokuapp.com/api/']
 // connectDB();
 
 
