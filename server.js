@@ -26,7 +26,8 @@ const port = process.env.PORT || 7000;
 
 app.use('/api', require(path.resolve(__dirname, 'server', 'gamesRoutes.js'), next =>{
 // app.use('/api', (req, res) =>{
-	res.header('Access-Control-Allow-Origin', true)
+	res.header("Access-Control-Allow-Origin", "https://state-of-twitch-art.herokuapp.com/"); // update to match the domain you will make the request from
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	res.set('Content-Type', 'application/json');
 }));
 // });
