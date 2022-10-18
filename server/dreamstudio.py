@@ -20,8 +20,9 @@ keysFile = os.path.join('./', '.env')
 load_dotenv(keysFile)
 
 heroku_env = False
-if "ON_HEROKU_ENVIRONMENT" in os.environ:
+if os.environ('ON_HEROKU_ENVIRONMENT') == "TRUE":
     heroku_env = True
+
 if heroku_env == False:
     DREAM_STUDIO_KEY = os.getenv('DREAM_STUDIO_KEY')
     AMZ_ACCESS_KEY = os.getenv('AMZ_ACCESS_KEY')
