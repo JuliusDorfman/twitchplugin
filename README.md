@@ -1,5 +1,7 @@
 # Twitch Web Application
 
+
+
 This application was created by Julius G. Dorfman [Create React App](https://www.linkedin.com/in/juliusgdorfman/).
 
 ## Available Scripts
