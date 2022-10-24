@@ -32,7 +32,7 @@ class Instructions extends Component {
                         <p className="instructions-instructions">
                             <span className="bolded">How To: </span>
                             <br />
-                            Click the render button associated 
+                            Click the create art button associated 
                             with your stream of interest and wait for the art to generate!
                             <br />
                             <br />
