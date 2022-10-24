@@ -27,79 +27,121 @@ export const Appbackground = () => {
       options={{
         background: {
           color: {
-            value: "#E6E6FA",
+            // value: "#E6E6FA",
+            value: "#B8CDF8",
           },
           size: "cover"
         },
         ZIndex: -100,
-        fpsLimit: 90,
-        interactivity: {
-          events: {
-            onClick: {
-              enable: true,
-              mode: "push",
-            },
-            onHover: {
-              enable: true,
-              mode: "repulse",
-            },
-            resize: true,
-          },
-          modes: {
-            push: {
-              quantity: randomNumber(5),
-            },
-            repulse: {
-              distance: 150,
-              duration: 10,
-            },
-          },
-        },
         particles: {
-          color: {
-            value: "#ffffff",
-          },
-          links: {
-            color: "#ffffff",
-            distance: 150,
-            enable: true,
-            opacity: 1,
-            width: 1,
-          },
-          collisions: {
-            enable: true,
-          },
+          color: { value: "#FD87AA" },
           move: {
-            directions: "none",
+            direction: "bottom",
             enable: true,
-            outModes: {
-              default: "bounce",
-            },
-            random: true,
-            speed: 1,
-            straight: false,
+            outModes: "out",
+            speed: 2
           },
           number: {
             density: {
               enable: true,
-              area: 800,
+              area: 100
             },
-            value: 20,
+            value: 2
           },
           opacity: {
-            value: .9,
+            value: 0.7
           },
           shape: {
-            type: "circle",
+            type: "circle"
           },
           size: {
-            value: { min: 1, max: 7 },
+            value: 10
           },
-        },
-        detectRetina: true,
+          wobble: {
+            enable: true,
+            distance: 10,
+            speed: 10
+          },
+          zIndex: {
+            value: { min: 0, max: 100 }
+          }
+        }        
+       
       }}
     />
   );
 };
 
 export default Appbackground;
+
+
+ // fpsLimit: 90,
+        // interactivity: {
+        //   events: {
+        //     onClick: {
+        //       enable: true,
+        //       mode: "push",
+        //     },
+        //     onHover: {
+        //       enable: true,
+        //       mode: "repulse",
+        //     },
+        //     resize: true,
+        //   },
+        //   modes: {
+        //     push: {
+        //       quantity: randomNumber(5),
+        //     },
+        //     repulse: {
+        //       distance: 150,
+        //       duration: 10,
+        //     },
+        //   },
+        // },
+        // particles: {
+        //   color: {
+        //     value: "#ffffff",
+        //   },
+        //   links: {
+        //     color: "#ffffff",
+        //     distance: 150,
+        //     enable: true,
+        //     opacity: 1,
+        //     width: 1,
+        //   },
+        //   collisions: {
+        //     enable: true,
+        //   },
+        //   move: {
+        //     directions: "none",
+        //     enable: true,
+        //     outModes: {
+        //       default: "bounce",
+        //     },
+        //     random: true,
+        //     speed: 1,
+        //     straight: false,
+        //     direction: "bottom",
+        //     gravity: {
+        //       enable: true,
+        //       acceleration: 10
+        //     }
+        //   },
+        //   number: {
+        //     density: {
+        //       enable: true,
+        //       area: 800,
+        //     },
+        //     value: 20,
+        //   },
+        //   opacity: {
+        //     value: .9,
+        //   },
+        //   shape: {
+        //     type: "circle",
+        //   },
+        //   size: {
+        //     value: { min: 1, max: 7 },
+        //   },
+        // },
+        // detectRetina: true,

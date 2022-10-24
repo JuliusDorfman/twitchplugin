@@ -52,10 +52,11 @@ $-lavender-color: #E6E6FA
 
 .instructions-toggle-true
     position: fixed
-    top: 0px      
+    top: 0
+    width: 150px
+    height: 75px
+    line-height: 75px
     right: 0
-    padding: 2%
-    opacity: 1
     background-color: transparent
     border: solid lavender
     border-width: 0px 0px 0px 1px
@@ -63,8 +64,7 @@ $-lavender-color: #E6E6FA
     font-size: 1em
     transition: 1s
     box-shadow: none
-    z-index: 5
-    opacity: 1
+    z-index: 15
     cursor: pointer
     &:hover
         opacity: 1
@@ -90,6 +90,8 @@ $-lavender-color: #E6E6FA
 
     .instructions-toggle-true
         padding: 0
+        height: 25px
+        line-height: 25px
 
     #instructions-component
         height: 60vh    

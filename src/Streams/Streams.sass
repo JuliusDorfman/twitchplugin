@@ -35,6 +35,7 @@ $twitch-color: #6441a5
     margin: 15px auto 0 auto
 
 .streamer-info-wrapper
+    position: relative
     display: flex
     flex-direction: column
     box-shadow: -10px -5px 5px black
@@ -43,12 +44,13 @@ $twitch-color: #6441a5
     border-color: black
     width: min-content
     height: min-content
-    background-color: $lavander-color
+    background-color: #F3D5CD
+
+    
 
 .streamer-info-wrapper,
 .streamer-art-wrapper
     margin-top: 80px
-
 
 .streamer-name
     position: relative
@@ -56,7 +58,7 @@ $twitch-color: #6441a5
     padding: 10px
     margin-top: 15px
     color: #1a1e25
-    background-color: $lavander-color
+    // background-color: $lavander-color
 
 .streamer-name > a  
     color: inherit
@@ -122,7 +124,7 @@ $twitch-color: #6441a5
 .streamer-game
     padding-left: 10px
     color: #1a1e25
-    background-color: $lavander-color
+    // background-color: $lavander-color
     
 .streamer-viewers
     font-size: .9em
@@ -147,21 +149,61 @@ $twitch-color: #6441a5
         width: inherit
 
 .render-art-button
-    border: 1px solid black
-    border-radius: 3px
+    //testing
+    position: absolute
+    left: 85%
+    top: 12%
+    height: 80px
+    width: 175px
+    // border: 1px solid black
     padding: 15px
     cursor: pointer
     transition: 1s
-    background-color: beige
-    box-shadow: -10px -5px 5px black
-    border-width: 2px
-    border-style: solid
-    border-color: black
+    background-color: rgba(255, 200, 255, 1)
+    // box-shadow: -2px -2px 5px black
+    // border-width: 2px
+    // border-style: solid
+    // border-color: black
+    border-color: #430E36
+    border-width: 0px
+    border-radius: 100%
+    font-weight: bold
+    z-index: 5
+    font-style: italic
+    animation: shineybutton 5s linear infinite
     &:hover
+        background-color: beige
         transition: .5s
+        animation-play-state: paused
+
+
+    .shine
+        height:100%
+        width: 50%
+        margin: auto
+        border: 2px solid black
+        border-radius: 50%
+
+@keyframes shineybutton
+    0%
+        background-color: #F3D5CD
+        box-shadow: 0 0 2px 2px #F3D5CD
+            
+    10%
         background-color: rgba(255, 200, 255, 1)
-        padding: 15px
-        // transform: translate(-10px, -1px)
+        box-shadow: 0 0 10px 10px rgba(255, 200, 255, 1)
+    // 25%
+    //     transform: translateX(1px)
+    // 75%
+    //     transform: translateX(-1px)
+
+    100%    
+        background-color: #F3D5CD
+        box-shadow: 0 0 2px 2px #F3D5CD
+    // 100%    
+    //     background-color: #E689CF
+    //     box-shadow: 0 0 2px 2px #E689CF
+
 
 .render-art-not-available 
     display: none
@@ -195,9 +237,9 @@ $twitch-color: #6441a5
         transition: .5s
         background-color: rgba(255, 200, 255, 1)
         // color: lavender
-        font-weight: bold
-        padding: 10px
-        transform: translate(-10px, -1px)
+        // font-weight: bold
+        // padding: 10px
+        // transform: translate(-10px, -1px)
 
 #alert-modal 
     position: fixed
@@ -235,6 +277,66 @@ $twitch-color: #6441a5
                     background-color: rgba(255, 200, 255, 1)
                     padding: 15px
 
+
+/* Wave Animation */
+
+/* html, body  height: 100% }
+body 
+  background:radial-gradient(ellipse at center, rgba(255,254,234,1) 0%, rgba(255,254,234,1) 35%, #B7E8EB 100%)
+  // overflow: hidden
+
+.ocean-wrapper
+  position: fixed 
+  bottom:0
+  left:0    
+  width: 6400px
+
+
+.ocean 
+  height: 100%
+  width: 100%
+  position: absolute
+  bottom:0
+  left:0
+//   background: #015871
+  z-index: -1
+
+
+.wave 
+  background: url(https://stateoftwitchart.s3.us-west-1.amazonaws.com/wave-1.svg) repeat-x 
+  position: absolute
+  top: -50px
+  width: 6400px
+  height: 198px
+  animation: wave 50s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite
+  transform: translate3d(0, 0, 0)
+
+
+.wave:nth-of-type(2) 
+  top: -25px
+  animation: wave 60s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -5s infinite, swell 14s ease -5s infinite
+  opacity: 1
+
+
+@keyframes wave 
+  0% 
+    margin-left: 0
+  
+  100% 
+    margin-left: -1600px
+  
+
+
+@keyframes swell 
+  0%, 100% 
+    transform: translate3d(0,-25px,0)
+  
+  50% 
+    transform: translate3d(0,5px,0)
+  
+
+
+    
     
 @media (max-width: 1000px)
     .streamer-windows-wrapper > *
@@ -244,3 +346,8 @@ $twitch-color: #6441a5
 
     .streamer-art-wrapper
         text-align: center
+
+    .render-art-button        
+        top: 100%
+        left: 20%
+        right: 0
