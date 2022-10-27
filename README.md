@@ -3,223 +3,144 @@
 
 <a name="readme-top"></a>
 
-[![LinkedIn][linkedin-shield]][https://www.linkedin.com/in/juliusgdorfman/]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-<!-- ABOUT THE PROJECT -->
+<div align="center">
+  <a href="https://github.com/github_username/repo_name">
+    <img src="https://stateoftwitchart.s3.us-west-1.amazonaws.com/100822Oct10-green-61.png" alt="Logo" width="250" height="250">
+  </a>
+
 ## About The Project
+
+I wanted to combine an exciting new technology that's been on everyone's radar recently with a favorite passtime of mine; a marriage of text-prompted <b>AI Generated Art</b> and <b>Twitchtv!</b>
 
 ### Built With
 
-<p> 
-
  ![React.js]
- ![Javascript]
- ![CSS]
- ![HTML5]
- ![JSON]
- ![Python]
- ![ESLINT]
- 
- ![Twitch]
- ![Sass][Sass]
- ![JQuery.com]
  ![AWS]
+ ![Twitch]
+ 
+ ![Javascript]
  ![Nodejs]
  ![Express]
- </p>
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+ ![Python]
+ 
+ ![JQuery.com]
+ ![ESLINT]
+ ![Sass][Sass] 
+ ![HTML5] 
+ ![CSS]
+ ![JSON]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/JuliusDorfman/
-juliusdorfmanportfolio.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-
-   
+ 
+  
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Search for your favorite Twitch.tv streamer or pick from one of the pre-populated streams, ordered by heighest current viewership.
+Click the Create Art button next to your streamer of choice and generate some art!
 
 
 
-<!-- ROADMAP -->
-## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/JuliusDorfman/
-juliusdorfmanportfolio/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
+<p align="left"> 
+While I do have plans to make this website better and am actively making changes,
+If you have any suggestions, please feel free to fork the repo and create a pull request. You can also simply open an issue.
+<ol align="left">
+  <li>Fork the Project</li>
+  <li>Create your Feature Branch (`git checkout -b feature/AmazingFeature`)</li>
+  <li>Commit your Changes (`git commit -m 'Add some AmazingFeature'`)</li>
+  <li>Push to the Branch (`git push origin feature/AmazingFeature`)</li>
+  <li>Open a Pull Request</li>
+</ol>
+</p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- PROJECT LOGO -->
+
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
     <img src="https://stateoftwitchart.s3.us-west-1.amazonaws.com/100822Oct10-green-61.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Art of Twitch</h3>
 
   <p align="center">
     Art Of Twitch is a fun project that monitors your favorite Twitch.tv stream and generates art based on the current "vibes".
     <br />
-    <a href="https://github.com/github_username/repo_name">See How It Works</a>
-    ·
     <a href="https://github.com/JuliusDorfman/twitchplugin/issues">Report Bug</a>
     ·
     <a href="https://github.com/JuliusDorfman/twitchplugin/issues">Request Feature</a>
   </p>
 </div>
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
 
-[![Art Of Twitch Screen Shot][product-screenshot]](https://stateoftwitchart.s3.us-west-1.amazonaws.com/art-of-twitch-chat.png)
+![Art Of Twitch Screen Shot][artoftwitch-screenshot]
 
 
-This application was created by Julius G. Dorfman [Create React App](https://www.linkedin.com/in/juliusgdorfman/).
+  Runs the app in the development mode.
+  Open http://localhost:3000 to view it in your browser.
+  Server runs on http://localhost:7000.
+  
+  ### Prerequisites:
+  
+<p align="left">  
+  * Twitch API Keys
+  <br />
+  * DreamStudio API Keys (Will soon be dropping this in favor of internal Stable-Diffusion operator after move to &nbsp;&nbsp;&nbsp;&nbsp;AWS: EC2)
+  <br />
+</p>
+
+</p>
 
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+See the [open issues](https://github.com/JuliusDorfman/juliusdorfmanportfolio/issues) for a full list of proposed features (and known issues).
 
 ## Available Scripts
 
-In the project directory, you can run:
 
+In the project directory, run:
+
+### `npm install`
 ### `npm run dev`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-Server runs on http://localhost:7000.
 
 
-<!-- CONTRIBUTING -->
-## Contributing
+  Runs the app in the development mode.
+  Open http://localhost:3000 to view it in your browser.
+  Server runs on http://localhost:7000.
+  
+  ### Prerequisites:
+  
+<p align="left">  
+  * Twitch API Keys
+  <br />
+  * DreamStudio API Keys (Will soon be dropping this in favor of internal Stable-Diffusion operator after move to AWS: EC2)
+  <br />
+</p>
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+</p>
 
 
-<!-- ROADMAP -->
-## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+See the [open issues](https://github.com/JuliusDorfman/juliusdorfmanportfolio/issues) for a full list of proposed features (and known issues).
 
-See the [open issues](https://github.com/JuliusDorfman/
-juliusdorfmanportfolio/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- LICENSE -->
+
+
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License.
 
 
 <!-- CONTACT -->
@@ -231,6 +152,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
+
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [issues-shield]: https://img.shields.io/github/issues/JuliusDorfman/juliusdorfmanportfolio.svg?style=for-the-badge
@@ -256,3 +178,4 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [Express]: https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white
 [Nodejs]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
 [Sass]: https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white
+[artoftwitch-screenshot]: https://stateoftwitchart.s3.us-west-1.amazonaws.com/aott-screeny.PNG?h=120&w=120
