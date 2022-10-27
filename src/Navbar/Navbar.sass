@@ -53,6 +53,33 @@
         // padding: 10px
         // transform: translate(-10px, -1px)
 
+.nav-title-wrapper
+    position: fixed
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    top: 10px
+    right: 15%
+    height: 60px
+    width: 40vh
+
+#display-true 
+    opacity: 1
+    transition: .5s
+
+
+#display-false 
+    opacity: 0
+    transition: .5s
+    transform: translateX(-50px)
+
+
+.nav-title    
+    font-size: 30px
+
+.nav-pepe
+    height: 25px
 
 @media (max-width: 1000px)
     #search-form
@@ -66,3 +93,8 @@
     #search-input
         min-width: 10vw
 
+    #display-true 
+        display: none
+
+    #display-false
+        display: none

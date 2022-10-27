@@ -43,6 +43,9 @@ class Instructions extends Component {
                             only one art piece may be generated at a time. 
                             <br />
                             <br />
+                            - NSFW filters are active
+                            <br />
+                            <br />
                             <span className="bolded">WARNING:</span> 
                             <br />
                             Do not close tab or refresh page or art will not generate. 

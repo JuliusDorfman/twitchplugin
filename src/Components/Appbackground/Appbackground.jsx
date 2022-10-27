@@ -46,7 +46,7 @@ export const Appbackground = () => {
               enable: true,
               area: 100
             },
-            value: 2
+            value: 1
           },
           opacity: {
             value: 0.7
