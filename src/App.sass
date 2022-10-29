@@ -40,4 +40,76 @@ $lavander-color: #E6E6FA
 .smaller-font
   font-size: .9em    
 
+#blob-button
+  position: fixed
+  top: 0
+  left: -5%
+  width: 300px
+
+.blob-1-true,
+.blob-1-false,
+.blob-2-true,
+.blob-2-false
+  cursor: pointer
+  position: absolute
+
+.blob-1-true
+  fill:#B8CDF8
+  transition: .5s
+
+.blob-1-false
+  fill:#FD87AA
+  transition: .5s
+
+.blob-2-true
+  fill:#B8CDF8
+  transition: .5s
+
+.blob-2-false
+  fill:#FD87AA
+  transition: .5s
+
+#background-2
+  position: fixed
+  background-color: #FD87AA
+  border-top-left-radius: 50%
+  border-bottom-left-radius: 70%
+  top: 0
+  left: 0
+  height: 100vh
+  width: 200vw
+  z-index: -1
+  // transform: translateX(100vw)
+  transition: 1s
+
+.background-2-true
+  transform: translateX(-100vw)
+  transition: .5s
+
+.background-2-false
+  transform: translateX(100vw)
+  transition: .5s
+
+
   
+@media (max-width: 1000px)  
+  #blob-button
+    width: 100px
+    top: -5%
+
+
+// .spacer
+//     position: absolute
+//     top: 10%
+//     left: 0
+//     aspect-ratio: 960/300
+//     width: 100vw
+//     background-repeat: no-repeat
+//     background-position: center
+//     background-size: cover
+//     z-index: -1
+  
+
+// .layer1
+//     background-image: url("./Assets/layered-waves-haikei.svg")
+ 

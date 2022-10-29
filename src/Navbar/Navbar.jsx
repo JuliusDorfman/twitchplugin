@@ -48,9 +48,9 @@ export default class Navbar extends React.Component {
 
   render() {
     const navWrapper = this.props.navWrapper;
-    
+    let bgmShift = this.props.bgmShift;
     return(
-      <div id="navbar-component">
+      <div id="navbar-component" className={`navbar-component-${bgmShift}`}>
         <div className="navbar-wrapper">
           <ul className="navbar-links">
             <li id="home-button"></li>
