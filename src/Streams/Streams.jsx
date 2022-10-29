@@ -227,7 +227,7 @@ export default class Streams extends React.Component {
 
   handleGetTwitchChat = (e) => {
     e.preventDefault();
-    console.log(e)
+    console.log('e', e)
     if (e.noChat === true) {
       this.setState({ chatTimeOut: true })
       return
@@ -282,8 +282,8 @@ export default class Streams extends React.Component {
       if (res.data.noChat === true) {
         const noChatInput = "Sorry! Your channel is dead! There weren't enough chatters!";
         this.setState({ loadingArt: false })
-        this.modalErrorRender()
-        console.log("true no chat", noChatInput);
+        this.setState({ chatTimeOut: true })
+        // console.log("true no chat", noChatInput);
         return noChatInput;
       }
       let chatArtPrompt = res.data.chatInput
@@ -338,25 +338,25 @@ export default class Streams extends React.Component {
 
   handleHideModal = (e) => {
     e.preventDefault();
-    let chatState = this.state.chatState === true ? false : true;
+    let chatTimeOut = this.state.chatTimeOut ? false : true;
 
-    this.setState({ chatTimeOut: chatState });
+    this.setState({ chatTimeOut: chatTimeOut });
   }
 
   componentDidMount() {
     this.handleGetTopStreams();
-    this.modalErrorRender();
   }
+
   modalErrorRender = () => {
     return (
-      this.state.chatTimeOut === true ?
         <Modal.Dialog id="alert-modal">
           <Modal.Header>
-            <Modal.Title>No Response from Twitch</Modal.Title>
+            {/* <Modal.Title>No Response from Twitch</Modal.Title> */}
           </Modal.Header>
 
           <Modal.Body>
-            <p>Your channel might not be active enough.</p>
+            <p>Your channel might not be active enough, 
+              or the result had triggered the NSFW filter.</p>
             <p>It is worth trying a few more times!</p>
           </Modal.Body>
 
@@ -366,12 +366,12 @@ export default class Streams extends React.Component {
             {/* <Button variant="primary">Save changes</Button> */}
           </Modal.Footer>
         </Modal.Dialog>
-        :
-        null
     )
-
   }
   render() {
+
+    const chatTimeOut = this.state.chatTimeOut;
+    
     return (
       <div id='streams-component'>
         {this.state.loadingArt === false
@@ -383,7 +383,11 @@ export default class Streams extends React.Component {
           </div>
         }
         <div className="streams-wrapper">
-          {this.modalErrorRender()}
+          { chatTimeOut ? 
+          this.modalErrorRender()
+          :
+          null
+          }
           <div className="streamer-windows-wrapper">
             {/* <button onClick={this.handleGetTest}>GET TEST</button> */}
             {/* <button onClick={this.handleGetTopStreams}>getTopStreams BUTTON</button> */}
