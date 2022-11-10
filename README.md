@@ -6,7 +6,7 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/JuliusDorfman/twitchplugin">
     <img src="https://stateoftwitchart.s3.us-west-1.amazonaws.com/100822Oct10-green-61.png" alt="Logo" width="250" height="250">
   </a>
 
@@ -65,7 +65,7 @@ If you have any suggestions, please feel free to fork the repo and create a pull
 
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/JuliusDorfman/twitchplugin">
     <img src="https://stateoftwitchart.s3.us-west-1.amazonaws.com/100822Oct10-green-61.png" alt="Logo" width="80" height="80">
   </a>
 
