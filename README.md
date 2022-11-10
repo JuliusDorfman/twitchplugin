@@ -117,24 +117,6 @@ In the project directory, run:
   Open http://localhost:3000 to view it in your browser.
   Server runs on http://localhost:7000.
   
-  ### Prerequisites:
-  
-<p align="left">  
-  * Twitch API Keys
-  <br />
-  * DreamStudio API Keys (Will soon be dropping this in favor of internal Stable-Diffusion operator after move to AWS: EC2)
-  <br />
-</p>
-
-</p>
-
-
-
-See the [open issues](https://github.com/JuliusDorfman/juliusdorfmanportfolio/issues) for a full list of proposed features (and known issues).
-
-
-
-
 <!-- LICENSE -->
 
 
