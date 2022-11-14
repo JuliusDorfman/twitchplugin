@@ -3,7 +3,7 @@ $-lavender-color: #E6E6FA
 #instructions-component
     position: fixed
     width: 200px
-    height: 60vh
+    // height: 60vh
     z-index: 1000000   
     right: 0
     background-color: rgba(220, 208, 255, .99)
@@ -42,11 +42,14 @@ $-lavender-color: #E6E6FA
     border-radius: 3px
     transition: .5s            
     cursor: pointer
-    &:hover
-        background: #6441a5
-        transition: .5s    
-        color: ghostwhite
-        font-weight: bold
+    background: #6441a5
+    color: ghostwhite
+    font-weight: bold
+    // &:hover
+    //     background: #6441a5
+    //     transition: .5s    
+    //     color: ghostwhite
+    //     font-weight: bold
     > p
         margin: 10px
 
@@ -57,10 +60,14 @@ $-lavender-color: #E6E6FA
     height: 75px
     line-height: 75px
     right: 0
-    background-color: transparent
+    background-color: #6441a5
+    color: ghostwhite
+    font-weight: bold
+    letter-spacing: .1em
     border: solid lavender
-    border-width: 0px 0px 0px 0px
+    border-width: 0px 0px 1px 1px
     border-radius: 25% 0 0 25%
+    border-color: black
     font-size: 1em
     transition: 1s
     box-shadow: none
@@ -71,7 +78,6 @@ $-lavender-color: #E6E6FA
         box-shadow: -10px -5px 5px rgba(0, 0, 0, .5)
         transition: .5s
         border-width: 0px 0 0px 0px
-        background-color: #FD87AA
         border-color: black
 
 
@@ -79,6 +85,9 @@ $-lavender-color: #E6E6FA
 .instructions-toggle-false
     position: fixed
     top: 300px      
+    width: 150px
+    height: 75px
+    line-height: 75px
     padding: 2% 
     right: 0
     opacity: 0
@@ -93,6 +102,3 @@ $-lavender-color: #E6E6FA
         padding: 0
         height: 25px
         line-height: 25px
-
-    #instructions-component
-        height: 60vh    

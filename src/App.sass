@@ -46,6 +46,17 @@ $lavander-color: #E6E6FA
   top: 0
   left: -5%
   width: 300px
+  animation: blob-spin 5s infinite alternate-reverse
+
+// Blob Animation
+@keyframes blob-spin
+  0%
+    transform: rotateZ(0) scale(1.1)
+  50%
+    transform: rotateZ(45deg) scale(.8)
+  100%
+    transform: rotateZ-(45deg) scale(1.1)     
+    
 
 .blob-1-true,
 .blob-1-false,
@@ -53,22 +64,19 @@ $lavander-color: #E6E6FA
 .blob-2-false
   cursor: pointer
   position: absolute
+  transition: .1s
 
 .blob-1-true
   fill:#B8CDF8
-  transition: .5s
 
 .blob-1-false
   fill:#FD87AA
-  transition: .5s
 
 .blob-2-true
   fill:#B8CDF8
-  transition: .5s
 
 .blob-2-false
   fill:#FD87AA
-  transition: .5s
 
 #background-2
   position: fixed

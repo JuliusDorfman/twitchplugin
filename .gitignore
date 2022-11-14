@@ -26,6 +26,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Image Folder
+/server/generatedimages
 
 # Large Folder
 /server/stable-diffusion/*

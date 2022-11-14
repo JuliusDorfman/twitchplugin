@@ -60,7 +60,7 @@ class App extends React.Component {
       '#blob-1',
       { path: '#blob-1' },
       { path: '#blob-2' },
-      { repeat: 999, duration: 3000, yoyo: true }
+      { repeat: 999, duration: 2000, yoyo: true }
     )
     blobAnim.start();
   }

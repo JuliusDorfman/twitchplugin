@@ -1,6 +1,8 @@
 $lavander-color: #E6E6FA90
 $twitch-color: #6441a5
-  
+$--size: 50px
+$--R: calc(var(--size)*1.28)
+
 
 #streams-component 
     position: relative
@@ -31,6 +33,7 @@ $twitch-color: #6441a5
     text-align: left    
     width: 80vw
     height: 380px
+    margin: 0 0 48px 0
       
 .streamer-window > *
     margin: 15px auto 0 auto
@@ -39,17 +42,19 @@ $twitch-color: #6441a5
     position: relative
     display: flex
     flex-direction: column
-    box-shadow: -10px -5px 5px black
-    border-width: 2px
-    border-style: solid
-    border-color: black
+    // box-shadow: -10px -5px 5px black
+    // border-width: 2px
+    // border-style: solid
+    // border-color: black
     width: min-content
     height: min-content
-    background-color: #F3D5CD
+    background-color: rgba(220, 208, 255, 0.99)
+    // background-color: #FCF7ED
 
 .streamer-info-wrapper,
 .streamer-art-wrapper
     margin-top: 80px
+    outline: 5px solid black
 
 .streamer-name
     position: relative
@@ -141,47 +146,120 @@ $twitch-color: #6441a5
 // Art Windows
 
 .art-rendered
-    height: 295px
+    height: 300px
     width: 295px
     img
         height: inherit
         width: inherit
 
+.render-art-button-wrapper
+    position: relative
+    overflow: hidden
+    text-align: right
+    width: 49%
+    margin: 0 0 0 auto
+    border-bottom-left-radius: 12px
+
+.render-art-button-wrapper *
+    transition: 1s
+
+
 .render-art-button
     //testing
-    position: absolute
-    left: 85%
-    top: 12%
+    position: relative
     height: 80px
-    width: 175px
-    // border: 1px solid black
+    width: 100%
+    margin: 0 0 0 auto
     padding: 15px
     cursor: pointer
     transition: 1s
-    background-color: rgba(255, 200, 255, 1)
-    // box-shadow: -2px -2px 5px black
-    // border-width: 2px
-    // border-style: solid
-    // border-color: black
-    border-color: #430E36
-    border-width: 0px
-    border-radius: 100%
+    background-color: #6441a5
+    // background-color: rgba(255, 200, 255, 1)
+    border-color: black
+    border-width: 0 0 1px 1px
+    border-bottom-left-radius: 12px
     font-weight: bold
     z-index: 5
     font-style: italic
-    animation: shineybutton 5s linear infinite
+    color: ghostwhite
+    font-size: 16px
+    // animation: shineybutton 5s linear infinite
     &:hover
-        background-color: beige
+        // background-color: beige
         transition: .5s
         animation-play-state: paused
 
+#wave-wrapper
+    pointer-events: none
 
-    .shine
-        height:100%
-        width: 50%
-        margin: auto
-        border: 2px solid black
-        border-radius: 50%
+.button-waves
+    position: absolute
+    top: 0
+    height: 500px
+    width: 500px
+    padding: 0
+    mix-blend-mode: color
+    z-index: 5
+    overflow: hidden
+    transition: 1s
+
+    // #8CV75A
+.button-waves:before
+        // content: ''
+        // height: 33%
+        // width: 63%
+        // position: absolute
+        // top: -20%
+        // left: -32px
+        // background-color: inherit
+        // mix-blend-mode: difference
+        // border-radius: 150% 50% 150% 150%
+
+.button-waves > svg 
+    position: absolute
+    height: inherit
+    top: -30%
+    left: -15%
+    width: 150%
+    fill: deeppink
+    transform: translate(-40px, -30px)
+
+
+.render-art-button:hover > svg 
+    width: 125%
+    height: auto
+    animation: flowing-waves 10s infinite alternate ease-in-out
+    transition: 1s
+
+@keyframes flowing-waves
+    0%
+        top: -20%
+    25%
+        top: -20%
+        left: -10%
+    50%
+        top: -30%
+        left: -20%
+    75%
+        top: -40%
+        left: -30%
+    100%
+        top: -40%
+        left: -30%
+
+// .button-waves:after
+//         content: ''
+//         height: 33%
+//         width: 47%
+//         position: absolute
+//         top: -7%
+//         left: -32px
+//         background-color: inherit
+//         mix-blend-mode: difference
+//         border-radius: 150% 50% 150% 150%
+
+
+
 
 @keyframes shineybutton
     0%
@@ -345,7 +423,7 @@ body
     .streamer-art-wrapper
         text-align: center
 
-    .render-art-button        
-        top: 100%
-        left: 20%
-        right: 0
+    // .render-art-button        
+    //     top: 100%
+    //     left: 20%
+    //     right: 0

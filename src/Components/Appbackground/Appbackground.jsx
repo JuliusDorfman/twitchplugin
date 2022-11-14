@@ -44,7 +44,7 @@ export const Appbackground = () => {
           number: {
             density: {
               enable: true,
-              area: 100
+              area: 200
             },
             value: 1
           },

@@ -150,20 +150,27 @@ export default class Streams extends React.Component {
         <div id={`${streamerName}-${index}`} className="streamer-window">
           <div className="streamer-info-wrapper">
             {/* TESTING */}
-          {this.state.loadingArt === false
-                ?
+            {this.state.loadingArt === false
+              ?
+              <div className="render-art-button-wrapper">
                 <button id={`id-${streamerName}`} buttonvalue={streamerName} className="render-art-button" streamername={streamerName} onClick={this.handleGetArt}>
-                  <div className="smaller-font" streamername={streamerName}> 
-                    Create
+                  <div streamername={streamerName}>
+                    Generate
                     <br />
-                    <div className="bolded" streamername={streamerName}>{streamChannel}</div>
+                    {/* <div className="bolded" streamername={streamerName}>{streamChannel}</div> */}
                     Art
-                    <div className="shine"></div>
                   </div>
                 </button>
-                :
-                null
-              }
+                <div className="button-waves render-art-button" buttonvalue={streamerName} streamername={streamerName} onClick={this.handleGetArt}>
+                <svg id="wave-wrapper" viewBox="0 0 960 540" width="960" height="540">
+                  <path d="M0 232L16 246.5C32 261 64 290 96 296.3C128 302.7 160 286.3 192 288.3C224 290.3 256 310.7 288 323.8C320 337 352 343 384 325.5C416 308 448 267 480 258C512 249 544 272 576 280.2C608 288.3 640 281.7 672 285C704 288.3 736 301.7 768 310.3C800 319 832 323 864 316.7C896 310.3 928 293.7 944 285.3L960 277L960 541L944 541C928 541 896 541 864 541C832 541 800 541 768 541C736 541 704 541 672 541C640 541 608 541 576 541C544 541 512 541 480 541C448 541 416 541 384 541C352 541 320 541 288 541C256 541 224 541 192 541C160 541 128 541 96 541C64 541 32 541 16 541L0 541Z" strokeLinecap="round" strokeLinejoin="miter">
+                </path>
+                </svg>
+                </div>
+              </div>
+              :
+              null
+            }
             <div className="streamer-name">
               <a href={streamURL} rel="noreferrer" target="_blank">
                 <span className="bolded">{streamChannel}</span>
@@ -220,7 +227,7 @@ export default class Streams extends React.Component {
             </div>
 
           </div>
-        </div>
+        </div >
       )
     })
   };
@@ -272,15 +279,20 @@ export default class Streams extends React.Component {
   }
 
   handleGetArt = (e) => {
+    const noChatInput = "Sorry! Your channel is dead! There weren't enough chatters!";
     let channelToJoin = e.target.getAttribute("streamername");
     console.log("Streamer Name: ", e.target.getAttribute("streamername"));
+    if (channelToJoin === null) {
+      this.setState({loadingArt: false})
+      this.setState({chatTimeOut: true})
+      return noChatInput;
+    }
     this.setState({ loadingArt: true });
     e.target.style.display = 'none';
     api.post(`/api/getTwitchChat`, {
       channelToJoin: channelToJoin
     }).then(res => {
       if (res.data.noChat === true) {
-        const noChatInput = "Sorry! Your channel is dead! There weren't enough chatters!";
         this.setState({ loadingArt: false })
         this.setState({ chatTimeOut: true })
         // console.log("true no chat", noChatInput);
@@ -349,29 +361,29 @@ export default class Streams extends React.Component {
 
   modalErrorRender = () => {
     return (
-        <Modal.Dialog id="alert-modal">
-          <Modal.Header>
-            {/* <Modal.Title>No Response from Twitch</Modal.Title> */}
-          </Modal.Header>
+      <Modal.Dialog id="alert-modal">
+        <Modal.Header>
+          {/* <Modal.Title>No Response from Twitch</Modal.Title> */}
+        </Modal.Header>
 
-          <Modal.Body>
-            <p>Your channel might not be active enough, 
-              or the result had triggered the NSFW filter.</p>
-            <p>It is worth trying a few more times!</p>
-          </Modal.Body>
+        <Modal.Body>
+          <p>Your channel might not be active enough,
+            or the result had triggered the NSFW filter.</p>
+          <p>It is worth trying a few more times!</p>
+        </Modal.Body>
 
-          <Modal.Footer>
-            <Button variant="secondary" onClick={(e) => this.handleHideModal(e)}>I'll Try Again</Button>
-            {/* <Button variant="secondary" onClick={(e) => {this.handleHideModal(e)}}>I'll Try Again</Button> */}
-            {/* <Button variant="primary">Save changes</Button> */}
-          </Modal.Footer>
-        </Modal.Dialog>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={(e) => this.handleHideModal(e)}>I'll Try Again</Button>
+          {/* <Button variant="secondary" onClick={(e) => {this.handleHideModal(e)}}>I'll Try Again</Button> */}
+          {/* <Button variant="primary">Save changes</Button> */}
+        </Modal.Footer>
+      </Modal.Dialog>
     )
   }
   render() {
 
     const chatTimeOut = this.state.chatTimeOut;
-    
+
     return (
       <div id='streams-component'>
         {this.state.loadingArt === false
@@ -383,10 +395,10 @@ export default class Streams extends React.Component {
           </div>
         }
         <div className="streams-wrapper">
-          { chatTimeOut ? 
-          this.modalErrorRender()
-          :
-          null
+          {chatTimeOut ?
+            this.modalErrorRender()
+            :
+            null
           }
           <div className="streamer-windows-wrapper">
             {/* <button onClick={this.handleGetTest}>GET TEST</button> */}
@@ -400,14 +412,14 @@ export default class Streams extends React.Component {
                         </div> */}
           </div>
         </div>
-        
+
         <Appbackground />
         <div className="ocean-wrapper">
           <div className="ocean">
             <div className="wave"></div>
             <div className="wave"></div>
             {/* <div className="wave"></div> */}
-          </div>    
+          </div>
         </div>
       </div>
     )
