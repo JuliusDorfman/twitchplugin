@@ -1,0 +1,71 @@
+#recent-images-component {
+  position: relative;
+  display: inline-block;
+  height: 53%;
+  width: 100%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+#recent-images-component ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent-images-list li {
+  margin: auto
+}
+
+.recent-image-wrapper {
+  width: 100px;
+}
+
+.recent-image-wrapper img {
+  width: 100%;
+}
+
+// Scrollbar Styles and animation
+#recent-images-component::-webkit-scrollbar {
+  width: 1em;
+}
+
+#recent-images-component::-webkit-scrollbar-track {
+  background: #BAA7DC;
+  border-radius: 100vw;
+  margin-block: .5em;
+}
+
+#recent-images-component::-webkit-scrollbar-thumb {
+  background: #6441A5;
+  border: .25em solid #BAA7DC;
+  border-radius: 100vw;
+  -webkit-border-radius: 100vw;
+  -moz-border-radius: 100vw;
+  -ms-border-radius: 100vw;
+  -o-border-radius: 100vw;
+  transition: .5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+  -ms-transition: .5s;
+  -o-transition: .5s;
+}
+#recent-images-component::-webkit-scrollbar-thumb:hover {
+  background: #6441A5;
+  transition: .5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+  -ms-transition: .5s;
+  -o-transition: .5s;
+}
+
+.scroll-to-top-recents {
+  cursor: pointer;
+}
+
+@supports (scrollbar-color: #6441A5 #BAA7DC) {
+  * {
+    scrollbar-color: #6441A5 #BAA7DC;
+    scrollbar-width: thin;
+  }
+}

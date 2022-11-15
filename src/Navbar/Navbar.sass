@@ -12,12 +12,29 @@
     // border-bottom: 1px solid black
     z-index: 10
 
+.navbar-background-wrapper
+    position: fixed
+    top: -12%
+    left: 0
+    z-index: 1
+    overflow: hidden
+    pointer-events: none
+
+.navbar-background > svg
+    width: 500px
+    height: 500px
+    opacity: .5
+    transform: scaleX(.2) scaleY(.2)
+
+
 .navbar-component-true
-    background: linear-gradient(180deg, #B8CDF8 0%, #B8CDF8 50%, #B8CDF8 75%, transparent 100% )
+    // background: #B8CDF8
+    // background: linear-gradient(180deg, #B8CDF8 0%, #B8CDF8 50%, #B8CDF8 75%, transparent 100% )
     transition: .5s
 
 .navbar-component-false
-    background: linear-gradient(180deg, #FD87AA 0%, #FD87AA 50%, #FD87AA 75%, transparent 100% )
+    // background: #FD87AA
+    // background: linear-gradient(180deg, #FD87AA 0%, #FD87AA 50%, #FD87AA 75%, transparent 100% )
     transition: .5s
 
 .navbar-links 

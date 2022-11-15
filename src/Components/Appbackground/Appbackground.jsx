@@ -44,15 +44,15 @@ export const Appbackground = () => {
           number: {
             density: {
               enable: true,
-              area: 200
+              area: 300
             },
             value: 1
           },
           opacity: {
-            value: 0.7
+            value: 1
           },
           shape: {
-            type: "circle"
+            type: "edge"
           },
           size: {
             value: 10

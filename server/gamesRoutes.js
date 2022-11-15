@@ -372,9 +372,21 @@ router.post('/postRenderChatArt', (req, res, body) => {
 })
 
 
-// router.get('/getS3URL', (req, res) =>{
+router.get('/getS3URL', (req, res) =>{
 
-// })
+    let params = {
+        Bucket: 'stateoftwitchart',
+        MaxKeys: 20,
+    }
+
+    s3.listObjectsV2(params, (err, data) => {
+        if (err) console.log("err", err.stack);
+        else {
+            res.json({Data: data})
+            // console.log("data", data);
+        }
+    })
+})
 
 module.exports = router;
 

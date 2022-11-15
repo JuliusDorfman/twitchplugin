@@ -18,7 +18,7 @@ class App extends React.Component {
       navWrapper: false,
       bgmShift: false
     }
-    
+
   }
 
   // dummyFunction = (props) => {
@@ -40,8 +40,8 @@ class App extends React.Component {
   // handleSetHome =() =>{
   //   this.setState({getHome: false})
   // }
-  
-  
+
+
   handleScroll = () => {
     let scrollTop = window.scrollY;
     scrollTop > 150 ? this.setState({ navWrapper: true }) : this.setState({ navWrapper: false });
@@ -50,7 +50,7 @@ class App extends React.Component {
   handleBlobButton = () => {
     let bgmShift = this.state.bgmShift;
     bgmShift = bgmShift ? false : true;
-    this.setState({bgmShift: bgmShift});
+    this.setState({ bgmShift: bgmShift });
 
   }
 
@@ -76,6 +76,7 @@ class App extends React.Component {
     let bgmShift = this.state.bgmShift;
     return (
       <div className="App" onScroll={this.handleScroll}>
+
         <Instructions />
         <header className="App-header">
           <Navbar bgmShift={bgmShift} navWrapper={navWrapper} searchSubmit={this.state.searchInput} pageRerender={this.state.pageRerender}
@@ -89,17 +90,20 @@ class App extends React.Component {
         </main>
         {/* <Appbackground /> */}
         {/* <div className="spacer layer1"></div> */}
-        <svg id="blob-button"  viewBox="0 0 960 300" width="960" height="300" version="1.1">
+        <svg id="blob-button" viewBox="0 0 960 300" width="960" height="300" version="1.1">
           <g className={`blob-button-${bgmShift}`} transform="translate(484.1535820659599 145.4810835912449)" onClick={this.handleBlobButton}>
             <path id="blob-1" className={`blob-1-${bgmShift}`} d="M84.1 -77.4C105.9 -62.2 118.4 -31.1 111.7 -6.7C105 17.7 79 35.4 57.2 55C35.4 74.7 17.7 96.3 -2.5 98.8C-22.6 101.3 -45.3 84.6 -70.3 64.9C-95.3 45.3 -122.6 22.6 -121.8 0.8C-121 -21 -92 -42 -67 -57.1C-42 -72.3 -21 -81.6 5.1 -86.7C31.1 -91.8 62.2 -92.6 84.1 -77.4" >
             </path>
           </g>
-          <g transform="translate(475.31093316137367 152.90827363030346)" style={{visibility: "hidden"}}>
+          <g transform="translate(475.31093316137367 152.90827363030346)" style={{ visibility: "hidden" }}>
             <path id="blob-2" className={`blob-2-${bgmShift}`} d="M60.4 -54.9C85.4 -35.4 117.7 -17.7 119.8 2.1C121.9 21.9 93.8 43.8 68.8 62.3C43.8 80.8 21.9 95.9 2 93.9C-17.9 91.9 -35.8 72.8 -58 54.3C-80.2 35.8 -106.6 17.9 -110.1 -3.5C-113.7 -25 -94.3 -50 -72.1 -69.5C-50 -89 -25 -103 -3.7 -99.3C17.7 -95.7 35.4 -74.4 60.4 -54.9">
             </path>
           </g>
         </svg>
         <div id="background-2" className={`background-2-${bgmShift}`}></div>
+        <div className="navbar-background-wrapper">
+          <svg id="navbar-svg" viewBox="0 0 2500 540" width="2500" height="540"><path d="M0 201L109 201L109 206L217 206L217 222L326 222L326 190L435 190L435 233L543 233L543 212L652 212L652 212L761 212L761 201L870 201L870 195L978 195L978 195L1087 195L1087 201L1196 201L1196 228L1304 228L1304 206L1413 206L1413 212L1522 212L1522 222L1630 222L1630 228L1739 228L1739 195L1848 195L1848 217L1957 217L1957 212L2065 212L2065 201L2174 201L2174 195L2283 195L2283 228L2391 228L2391 212L2500 212L2500 195L2500 0L2500 0L2391 0L2391 0L2283 0L2283 0L2174 0L2174 0L2065 0L2065 0L1957 0L1957 0L1848 0L1848 0L1739 0L1739 0L1630 0L1630 0L1522 0L1522 0L1413 0L1413 0L1304 0L1304 0L1196 0L1196 0L1087 0L1087 0L978 0L978 0L870 0L870 0L761 0L761 0L652 0L652 0L543 0L543 0L435 0L435 0L326 0L326 0L217 0L217 0L109 0L109 0L0 0Z" fill="#fd87aa"></path><path d="M0 422L109 422L109 417L217 417L217 422L326 422L326 401L435 401L435 422L543 422L543 417L652 417L652 411L761 411L761 411L870 411L870 411L978 411L978 411L1087 411L1087 422L1196 422L1196 406L1304 406L1304 411L1413 411L1413 406L1522 406L1522 411L1630 411L1630 406L1739 406L1739 417L1848 417L1848 417L1957 417L1957 401L2065 401L2065 417L2174 417L2174 406L2283 406L2283 406L2391 406L2391 406L2500 406L2500 417L2500 193L2500 210L2391 210L2391 226L2283 226L2283 193L2174 193L2174 199L2065 199L2065 210L1957 210L1957 215L1848 215L1848 193L1739 193L1739 226L1630 226L1630 220L1522 220L1522 210L1413 210L1413 204L1304 204L1304 226L1196 226L1196 199L1087 199L1087 193L978 193L978 193L870 193L870 199L761 199L761 210L652 210L652 210L543 210L543 231L435 231L435 188L326 188L326 220L217 220L217 204L109 204L109 199L0 199Z" fill="transparent"></path></svg>
+        </div>
       </div>
     );
   }
