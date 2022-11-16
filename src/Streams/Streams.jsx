@@ -148,7 +148,6 @@ export default class Streams extends React.Component {
       return (
         <div id={`${streamerName}-${index}`} key={`${streamerName}-${index}`} className="streamer-window">
           <div className="streamer-info-wrapper">
-            {/* TESTING */}
             {this.state.loadingArt === false
               ?
               <div className="render-art-button-wrapper">

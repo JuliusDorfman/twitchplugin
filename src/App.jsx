@@ -3,7 +3,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import Instructions from './Components/Instructions';
 import Streams from './Streams';
-import chatting from './Assets/chatting.gif';
+// import chatting from './Assets/chatting.gif';
 import KUTE from 'kute.js';
 // import Appbackground from './Components/Appbackground';
 
