@@ -46,64 +46,62 @@ stability_api = client.StabilityInference(
 
 
 # testing
-savedFileName = "100822Oct10-green-61.png"
-prompt="frog girl fighting demon hawks on a boat"
+# savedFileName = "100822Oct10-green-61.png"
+# prompt="frog girl fighting demon hawks on a boat"
 # testing 
 
-# Testing new
-# prompt = str(sys.argv[1])
+prompt = str(sys.argv[1])
 
-# answers = stability_api.generate(prompt)
+answers = stability_api.generate(prompt)
 
-# for resp in answers:
-#     for artifact in resp.artifacts:
-#         if artifact.finish_reason == generation.FILTER:
-#             warnings.warn(
-#                 "Your request activated the API's safety filters and could not be processed."
-#                 "Please modify the prompt and try again.")
-#         if artifact.type == generation.ARTIFACT_IMAGE:
-#             img = Image.open(io.BytesIO(artifact.binary))
-#             # img = Image.save(io.BytesIO(artifact.binary))
-#             # Create an image counter that resets at the end of the day
+for resp in answers:
+    for artifact in resp.artifacts:
+        if artifact.finish_reason == generation.FILTER:
+            warnings.warn(
+                "Your request activated the API's safety filters and could not be processed."
+                "Please modify the prompt and try again.")
+        if artifact.type == generation.ARTIFACT_IMAGE:
+            img = Image.open(io.BytesIO(artifact.binary))
+            # img = Image.save(io.BytesIO(artifact.binary))
+            # Create an image counter that resets at the end of the day
 
-#             num = random.randrange(1, 100)
-#             today = datetime.now().strftime("%m%d%y%h%m")
-#             promptSubstr = prompt.replace(" ", "")
+            num = random.randrange(1, 100)
+            today = datetime.now().strftime("%m%d%y%h%m")
+            promptSubstr = prompt.replace(" ", "")
 
-#             if len(promptSubstr) > 5:
-#                 promptSubstr = promptSubstr[0:5]
+            if len(promptSubstr) > 5:
+                promptSubstr = promptSubstr[0:5]
                 
-#             savedFileName = f'{today}-{promptSubstr}-{num}.png'
+            savedFileName = f'{today}-{promptSubstr}-{num}.png'
    
-#             os.chdir('./generatedimages')
-#             img.save(savedFileName)
-#             # print(savedFileName)
+            os.chdir('./generatedimages')
+            img.save(savedFileName)
+            # print(savedFileName)
 
-# def upload_to_aws(local_file, bucket, s3_file):
-#     s3 = boto3.client('s3', 
-#                       aws_access_key_id=AMZ_ACCESS_KEY,
-#                       aws_secret_access_key=AMZ_SECRET_KEY,
-#                       region_name="us-west-1") 
+def upload_to_aws(local_file, bucket, s3_file):
+    s3 = boto3.client('s3', 
+                      aws_access_key_id=AMZ_ACCESS_KEY,
+                      aws_secret_access_key=AMZ_SECRET_KEY,
+                      region_name="us-west-1") 
 
-#     try:
-#         s3.upload_file(local_file, bucket, s3_file, ExtraArgs={
-#                         "ACL": "public-read",
-#                         "ContentType": "image/png"
-#                         })
-#         # print("Upload Successful")
-#         return True
-#     except FileNotFoundError:
-#         # print("The file was not found")
-#         return False
-#     except NoCredentialsError:
-#         # print("Credentials not available")
-#         return False
+    try:
+        s3.upload_file(local_file, bucket, s3_file, ExtraArgs={
+                        "ACL": "public-read",
+                        "ContentType": "image/png"
+                        })
+        # print("Upload Successful")
+        return True
+    except FileNotFoundError:
+        # print("The file was not found")
+        return False
+    except NoCredentialsError:
+        # print("Credentials not available")
+        return False
 
 
 
-# uploaded = upload_to_aws(savedFileName, 'stateoftwitchart', savedFileName)
+uploaded = upload_to_aws(savedFileName, 'stateoftwitchart', savedFileName)
 
-# Testing new
 
 
 publicURL = f'https://stateoftwitchart.s3.us-west-1.amazonaws.com/{savedFileName}'
