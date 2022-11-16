@@ -8,6 +8,7 @@ $lavander-color: #E6E6FA
   // color: ghostwhite
   color: #1a1e25
   padding-bottom: 5%
+  
   // background-color: $lavander-color
 
 .App-header 
@@ -29,7 +30,9 @@ $lavander-color: #E6E6FA
   font-size: .5em
 
 #site-title
-  margin-bottom: 0  
+  // font-family: 'Candal', sans-serif
+  font-weight: 100
+  letter-spacing: .3em
 
 .bolded 
   font-weight: bold
@@ -46,6 +49,7 @@ $lavander-color: #E6E6FA
   top: 0
   left: -5%
   width: 300px
+  z-index: 10
   animation: blob-spin 5s infinite alternate-reverse
 
 // Blob Animation
@@ -99,6 +103,8 @@ $lavander-color: #E6E6FA
   transform: translateX(100vw)
   transition: .5s
 
+.main-scroll-to-top
+  cursor: pointer
 
   
 @media (max-width: 1000px)  

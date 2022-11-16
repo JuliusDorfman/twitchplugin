@@ -63,6 +63,8 @@
   cursor: pointer;
 }
 
+// Firefox CSS Compatibility
+
 @supports (scrollbar-color: #6441A5 #BAA7DC) {
   * {
     scrollbar-color: #6441A5 #BAA7DC;

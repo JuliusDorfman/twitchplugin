@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState} from 'react';
 import './RecentImages.scss';
 
 
@@ -29,43 +29,35 @@ export default function RecentImages() {
     Key: String
   }
 
-  const getRecentImages = () => {
-    api.get<RecentImagesList>('/api/getS3URL')
-      .then(res => {
-        let IrecentImagesResults = res.data.Data.Contents;
-        // console.log(IrecentImagesResults)
-        setImageURL(IrecentImagesResults)
-        // Object.keys(recentImagesResults).map((image, index) => {
-        let returnRender = IrecentImagesResults.map((image, index) => {
-          // console.log(image.Key);
-          // setImageURL(image.Key)
-          // return (
-          //   <li id={`recentImage-${index}`}>
-          //     <img src={`https://stateoftwitchart.s3.us-west-1.amazonaws.com/${image.key}`} alt="" />
-          //   </li>
-          // )
-        })
-      }).catch(err => {
-        throw err
-      })
-  }
+
 
   useEffect(() => {
-    getRecentImages();
+    (() => {
+      api.get<RecentImagesList>('/api/getS3URL')
+        .then(res => {
+          let IrecentImagesResults = res.data.Data.Contents;
+          // console.log(IrecentImagesResults)
+          setImageURL(IrecentImagesResults)
+          // Object.keys(recentImagesResults).map((image, index) => {
+          // let returnRender = IrecentImagesResults.map((image, index) => {
+            // console.log(image.Key);
+            // setImageURL(image.Key)
+            // return (
+            //   <li id={`recentImage-${index}`}>
+            //     <img src={`https://stateoftwitchart.s3.us-west-1.amazonaws.com/${image.key}`} alt="" />
+            //   </li>
+            // )
+          // })
+        }).catch(err => {
+          throw err
+        })
+    })()    
   }, [])
 
-  useCallback(
-    () => {
-      console.log(this.returnRender)
-    },
-    [],
-  )
 
   const handleScrollToTop = (e) => {
     let nestedWindow = document.getElementById('recent-images-component');
     nestedWindow?.scrollTo(0, 0);
-    console.log("clicked");
-    
   }
 
   return (
@@ -82,7 +74,7 @@ export default function RecentImages() {
               )
             })
           }
-          <p className="scroll-to-top-recents" onClick={(e) => { handleScrollToTop() }}>Back To Top</p>
+          <p className="scroll-to-top-recents" onClick={(e) => { handleScrollToTop(e) }}>Back To Top</p>
         </ul>
       </div>
     </section>

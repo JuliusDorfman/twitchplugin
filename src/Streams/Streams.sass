@@ -9,8 +9,6 @@ $--R: calc(var(--size)*1.28)
     display: flex
     justify-content: center
     align-items: center
-    width: 80vw
-    margin: auto
     overflow: hidden
 
 .streams-wrapper
@@ -18,8 +16,12 @@ $--R: calc(var(--size)*1.28)
     display: flex
     justify-content: center
     align-items: center
-    background: #ffffff10
+    background: linear-gradient(to right, #6441a530 0%, #ffffff10 20%, #ffffff10 80%, #6441a530 100%)
     backdrop-filter: blur(10px)
+    border-top-left-radius: 24px
+    border-top-right-radius: 24px
+    border-bottom-left-radius: 150px
+    border-bottom-right-radius: 150px
 
 // Streamer Windows
 
@@ -27,8 +29,16 @@ $--R: calc(var(--size)*1.28)
     position: relative
     display: flex
     flex-direction: column
-    justify-content: center    
-    
+    justify-content: center   
+    border-width: 0 1px 1px 1px
+    border-color: black
+    border-style: solid
+    border-top-left-radius: 24px
+    border-top-right-radius: 24px
+    border-bottom-left-radius: 150px
+    border-bottom-right-radius: 150px
+    padding-bottom: 96px
+
 .streamer-window 
     display: flex
     flex-direction: row

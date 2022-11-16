@@ -16,9 +16,9 @@ export const Appbackground = () => {
     // await console.log("container 2", container);
   }, []);
 
-  const randomNumber = (num) => {
-    Math.floor(Math.random() * num)
-  }
+  // const randomNumber = (num) => {
+  //   Math.floor(Math.random() * num)
+  // }
   return (
     <Particles
       id="tsparticles"

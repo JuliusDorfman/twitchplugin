@@ -1,3 +1,43 @@
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* // Scrollbar Styles and animation */
+::-webkit-scrollbar {
+  width: 1em;
+}
+
+::-webkit-scrollbar-track {
+  background: #BAA7DC;
+  border-radius: 100vw;
+  margin-block: -.5em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6441A5;
+  border: .25em solid #BAA7DC;
+  border-radius: 100vw;
+  -webkit-border-radius: 100vw;
+  -moz-border-radius: 100vw;
+  -ms-border-radius: 100vw;
+  -o-border-radius: 100vw;
+  transition: .5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+  -ms-transition: .5s;
+  -o-transition: .5s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6441A5;
+  transition: .5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+  -ms-transition: .5s;
+  -o-transition: .5s;
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
