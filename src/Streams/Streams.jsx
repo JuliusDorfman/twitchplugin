@@ -13,9 +13,9 @@ import Button from 'react-bootstrap/Button'
 
 let api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  // baseURL: baseURL,
   mode: "cors",
 })
+
 
 export default class Streams extends React.Component {
   constructor(props, ref) {
@@ -308,6 +308,7 @@ export default class Streams extends React.Component {
       api.post(`/api/postRenderChatArt`, {
         artPrompt: chatArtPrompt,
       }).then((res) => {
+        console.log("post render response", res);
         // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
         // console.log('RENDER CHAT ART: ', res.data)
         let artFileName = res.data.artFileName.replace(/\s/g, "");

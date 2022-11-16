@@ -277,7 +277,7 @@ router.post('/getTwitchChat', (req, res, body) =>{
             console.log('Message', message);
             chatInput.push(message);
             chatCounter += 1;
-            if (chatCounter === 10) {
+            if (chatCounter === 1) {
                 tmiClient.disconnect().then(()=> {
                     chalk.bold.blueBright(console.log('Return Data', chatInput));
                     res.status(200).json({
@@ -314,61 +314,64 @@ router.post('/getTwitchChat', (req, res, body) =>{
 // @desc Create a Python Child Process for Stable Diffusion Art Generator
 // ------------------------------------------------------
 router.post('/postRenderChatArt', (req, res, body) => {
+res.json({artFileName: 'https://stateoftwitchart.s3.us-west-1.amazonaws.com/100822Oct10-green-61.png'})
+    // TESTING START
     // const pythonPath = path.join(__dirname, 'stable-diffusion', 'text2img.py');
-    const pythonPath = path.join(__dirname, 'dreamstudio.py');
-    let artPrompt = req.body.artPrompt;
+    // const pythonPath = path.join(__dirname, 'dreamstudio.py');
+    // let artPrompt = req.body.artPrompt;
   
-    artPrompt = artPrompt.join().replaceAll(",", " ");
-    console.log(chalk.yellow.underline('Art Generation Prompt: '));
-    console.log(chalk.yellowBright(artPrompt));
+    // artPrompt = artPrompt.join().replaceAll(",", " ");
+    // console.log(chalk.yellow.underline('Art Generation Prompt: '));
+    // console.log(chalk.yellowBright(artPrompt));
 
-    return new Promise((resolve, reject) => {
-        // console.log("Done1")
-        callPythonScript = (artPrompt) => {
-            const childPython = spawn('python', [pythonPath, artPrompt], {
-                cwd: process.cwd(),
-                detached: false,
-                stdio: [null, "pipe", "inherit"]
-            });
-        //    console.log("Done4")
-           let finalResponse = '';
-           childPython.stdout.on('data', function(message) {
-                // console.log("Done8")
-                console.log(chalk.yellowBright("Image Filename: ", message));
-                // console.log("Done9")
-                finalResponse += message.toString();
+    // return new Promise((resolve, reject) => {
+    //     // console.log("Done1")
+    //     callPythonScript = (artPrompt) => {
+    //         const childPython = spawn('python', [pythonPath, artPrompt], {
+    //             cwd: process.cwd(),
+    //             detached: false,
+    //             stdio: [null, "pipe", "inherit"]
+    //         });
+    //     //    console.log("Done4")
+    //        let finalResponse = '';
+    //        childPython.stdout.on('data', function(message) {
+    //             // console.log("Done8")
+    //             console.log(chalk.yellowBright("Image Filename: ", message));
+    //             // console.log("Done9")
+    //             finalResponse += message.toString();
                 
-            });
-            childPython.stdout.on('end', ()=>{
-                // console.log("Done10: ");
-                console.log("DONE11:")
-                res.json({artFileName: finalResponse})
+    //         });
+    //         childPython.stdout.on('end', ()=>{
+    //             // console.log("Done10: ");
+    //             console.log("DONE11:")
+    //             res.json({artFileName: artPrompt})
+    //             // res.json({artFileName: finalResponse})
 
 
-                // UNUSED MULTER S3 FOR UPLOADING SAVED FILES
-                // let imagePath = '100822Oct10-green-61.png';
-                // uploadFileToAWS(finalResponse);
-            })
-        }
+    //             // UNUSED MULTER S3 FOR UPLOADING SAVED FILES
+    //             // let imagePath = 'https://stateoftwitchart.s3.us-west-1.amazonaws.com/100822Oct10-green-61.png';
+    //             // uploadFileToAWS(finalResponse);
+    //         })
+    //     }
 
-        // console.log("Done2")
-        resolve(pythonPromise());
-        // console.log("Done5")
-    });
+    //     // console.log("Done2")
+    //     resolve(pythonPromise());
+    //     // console.log("Done5")
+    // });
 
 
-    async function pythonPromise() {
-        try {
-            // console.log("Done3")
-            const pythonPromiseResult = await callPythonScript(artPrompt);
-            // console.log("Done6:  does not return this pythonPromiseResult")
-        } catch(err) {
-            throw err
-        }
-        // console.log("Done7")
-    }
+    // async function pythonPromise() {
+    //     try {
+    //         // console.log("Done3")
+    //         const pythonPromiseResult = await callPythonScript(artPrompt);
+    //         // console.log("Done6:  does not return this pythonPromiseResult")
+    //     } catch(err) {
+    //         throw err
+    //     }
+    //     // console.log("Done7")
+    // }
 // console.log("Never Reached")
-   
+//    TESTING END
 })
 
 
