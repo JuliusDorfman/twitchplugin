@@ -68,7 +68,7 @@ export default function RecentImages() {
           {
             imageURL?.map((image, index) => {
               return (
-                <li id={`recentImage-${index}`} className="recent-image-wrapper">
+                <li id={`recentImage-${index}`} key={`recentImage-${index}`} className="recent-image-wrapper">
                   <img src={`https://stateoftwitchart.s3.us-west-1.amazonaws.com/${image.Key}`} alt="" />
                 </li>
               )

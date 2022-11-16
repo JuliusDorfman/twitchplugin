@@ -361,7 +361,7 @@ router.post('/postRenderChatArt', (req, res, body) => {
         try {
             // console.log("Done3")
             const pythonPromiseResult = await callPythonScript(artPrompt);
-            // console.log("Done6: ", pythonPromiseResult)
+            // console.log("Done6:  does not return this pythonPromiseResult")
         } catch(err) {
             throw err
         }

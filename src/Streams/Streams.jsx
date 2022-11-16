@@ -146,7 +146,7 @@ export default class Streams extends React.Component {
         return '300';
       })
       return (
-        <div id={`${streamerName}-${index}`} className="streamer-window">
+        <div id={`${streamerName}-${index}`} key={`${streamerName}-${index}`} className="streamer-window">
           <div className="streamer-info-wrapper">
             {/* TESTING */}
             {this.state.loadingArt === false
@@ -207,7 +207,7 @@ export default class Streams extends React.Component {
               {
                 this.state.streamArtLink !== ''
                   ?
-                  <div id={`art-wrapper-${streamerName}`} className={`art-rendered art-rendered-${streamerName}`}>
+                  <div id={`art-wrapper-${streamerName}`} key={`art-wrapper-${streamerName}`} className={`art-rendered art-rendered-${streamerName}`}>
                     {this.state.streams[streamerName][4]
                       ?
                       <img id={`img-${index}`} alt={`art-generated-for-${streamerName}`} src={streamArtLink} />
