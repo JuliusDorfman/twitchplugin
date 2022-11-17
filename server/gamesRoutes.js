@@ -277,7 +277,7 @@ router.post('/getTwitchChat', (req, res, body) =>{
             console.log('Message', message);
             chatInput.push(message);
             chatCounter += 1;
-            if (chatCounter === 1) {
+            if (chatCounter === 10) {
                 tmiClient.disconnect().then(()=> {
                     chalk.bold.blueBright(console.log('Return Data', chatInput));
                     res.status(200).json({

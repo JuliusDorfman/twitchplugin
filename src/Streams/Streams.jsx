@@ -307,7 +307,7 @@ export default class Streams extends React.Component {
       api.post(`/api/postRenderChatArt`, {
         artPrompt: chatArtPrompt,
       }).then((artResponse) => {
-        console.log("post render response", artResponse);
+        // console.log("post render response", artResponse);
         // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
         // console.log('RENDER CHAT ART: ', res.data)
         let artFileName = artResponse.data.artFileName.replace(/\s/g, "");
