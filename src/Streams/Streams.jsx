@@ -289,14 +289,14 @@ export default class Streams extends React.Component {
     e.target.style.display = 'none';
     api.post(`/api/getTwitchChat`, {
       channelToJoin: channelToJoin
-    }).then(res => {
-      if (res.data.noChat === true) {
+    }).then(chatResponse => {
+      if (chatResponse.data.noChat === true) {
         this.setState({ loadingArt: false })
         this.setState({ chatTimeOut: true })
         // console.log("true no chat", noChatInput);
         return noChatInput;
       }
-      let chatArtPrompt = res.data.chatInput
+      let chatArtPrompt = chatResponse.data.chatInput
       const regexCharCheck = /[^A-Za-z0-9 ]/g;
 
       chatArtPrompt = chatArtPrompt.map((input, index) => {
@@ -304,14 +304,13 @@ export default class Streams extends React.Component {
           return '';
         });
       })
-      // console.log('DATA PASSED: ', res)
       api.post(`/api/postRenderChatArt`, {
         artPrompt: chatArtPrompt,
-      }).then((res) => {
-        console.log("post render response", res);
+      }).then((artResponse) => {
+        console.log("post render response", artResponse);
         // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
         // console.log('RENDER CHAT ART: ', res.data)
-        let artFileName = res.data.artFileName.replace(/\s/g, "");
+        let artFileName = artResponse.data.artFileName.replace(/\s/g, "");
         channelToJoin = channelToJoin.replace(/\s/g, "");
         this.setState({ artPrompt: [] })
         this.setState({ artImageFileName: artFileName }, () => {

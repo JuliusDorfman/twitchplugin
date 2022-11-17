@@ -342,8 +342,7 @@ router.post('/postRenderChatArt', (req, res, body) => {
             childPython.stdout.on('end', ()=>{
                 // console.log("Done10: ");
                 console.log("DONE11:")
-                res.json({artFileName: artPrompt})
-                // res.json({artFileName: finalResponse})
+                res.json({artFileName: finalResponse})
 
 
                 // UNUSED MULTER S3 FOR UPLOADING SAVED FILES
