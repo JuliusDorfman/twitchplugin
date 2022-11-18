@@ -18,12 +18,13 @@ $--R: calc(var(--size)*1.28)
     align-items: center
     background: linear-gradient(to right, #6441a530 0%, #ffffff10 20%, #ffffff10 80%, #6441a530 100%)
     backdrop-filter: blur(10px)
+    -webkit-backdrop-filter: blur(10px)
     border-top-left-radius: 24px
     border-top-right-radius: 24px
     border-bottom-left-radius: 150px
     border-bottom-right-radius: 150px
 
-// Streamer Windows
+// Streamer Windows 
 
 .streamer-windows-wrapper
     position: relative
@@ -68,6 +69,8 @@ $--R: calc(var(--size)*1.28)
     margin-top: 80px
     background: #ffffff50
     backdrop-filter: blur(10px)
+    -webkit-backdrop-filter: blur(10px)
+
     outline: 5px solid black
 
 .streamer-name
@@ -447,10 +450,17 @@ body
         flex-direction: column
         margin-bottom: 500px
 
-
     .streamer-art-wrapper
         text-align: center
 
+    .streams-wrapper
+        backdrop-filter: none
+        -webkit-backdrop-filter: none
+        
+    .streamer-info-wrapper,
+    .streamer-art-wrapper
+        backdrop-filter: none
+        -webkit-backdrop-filter: none
     // .render-art-button        
     //     top: 100%
     //     left: 20%
