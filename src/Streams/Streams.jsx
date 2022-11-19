@@ -29,7 +29,7 @@ export default class Streams extends React.Component {
       artImageFileName: '',
       loadingArt: false,
       firstTimeUser: true,
-      chatTimeOut: true
+      chatTimeOut: false
     }
   }
 
