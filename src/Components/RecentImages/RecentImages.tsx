@@ -36,6 +36,7 @@ export default function RecentImages() {
       api.get<RecentImagesList>('/api/getS3URL')
         .then(res => {
           let IrecentImagesResults = res.data.Data.Contents;
+          IrecentImagesResults.reverse();
           // console.log(IrecentImagesResults)
           setImageURL(IrecentImagesResults)
           // Object.keys(recentImagesResults).map((image, index) => {

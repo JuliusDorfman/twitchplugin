@@ -376,7 +376,8 @@ router.get('/getS3URL', (req, res) =>{
 
     let params = {
         Bucket: 'stateoftwitchart',
-        MaxKeys: 20,
+        StartAfter: '111622Nov11-Mucho-17.png'
+        // MaxKeys: 20,
     }
 
     s3.listObjectsV2(params, (err, data) => {

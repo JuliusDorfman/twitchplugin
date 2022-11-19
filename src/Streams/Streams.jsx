@@ -29,7 +29,7 @@ export default class Streams extends React.Component {
       artImageFileName: '',
       loadingArt: false,
       firstTimeUser: true,
-      chatTimeOut: false
+      chatTimeOut: true
     }
   }
 
@@ -177,12 +177,12 @@ export default class Streams extends React.Component {
                 ?
                 <a id={`${streamChannel}-link-live`} href={streamURL} rel="noreferrer" target="_blank">
                   <div className="live">
-                    <p>Live: </p>
+                    <p>Stream is Live: </p>
                   </div>
                 </a>
                 :
                 <div id={`${streamChannel}-not-live`} className="not-live">
-                  <p>Not Live: </p>
+                  <p>Stream is Not Live: </p>
                 </div>}
             </div>
             <div className="streamer-game"><span className="smaller-font">Category: </span><span className="bolded">{streamGame}</span></div>
@@ -307,10 +307,16 @@ export default class Streams extends React.Component {
       api.post(`/api/postRenderChatArt`, {
         artPrompt: chatArtPrompt,
       }).then((artResponse) => {
+        let artFileName = artResponse.data.artFileName.replace(/\s/g, "");
         // console.log("post render response", artResponse);
         // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
         // console.log('RENDER CHAT ART: ', res.data)
-        let artFileName = artResponse.data.artFileName.replace(/\s/g, "");
+        if (artFileName.trim() === "NSFW") {
+          this.setState({ loadingArt: false })
+          this.setState({ chatTimeOut: true })
+          this.modalErrorRender();
+          return;
+        }
         channelToJoin = channelToJoin.replace(/\s/g, "");
         this.setState({ artPrompt: [] })
         this.setState({ artImageFileName: artFileName }, () => {
@@ -365,11 +371,12 @@ export default class Streams extends React.Component {
         </Modal.Header>
 
         <Modal.Body>
+          <h2>Unfortunately...</h2>
           <p>Your channel might not be active enough,
             or the result had triggered the NSFW filter.</p>
           <p>It is worth trying a few more times!</p>
         </Modal.Body>
-        recentImages
+        
         <Modal.Footer>
           <Button variant="secondary" onClick={(e) => this.handleHideModal(e)}>I'll Try Again</Button>
           {/* <Button variant="secondary" onClick={(e) => {this.handleHideModal(e)}}>I'll Try Again</Button> */}
@@ -384,6 +391,11 @@ export default class Streams extends React.Component {
 
     return (
       <div id='streams-component'>
+        {chatTimeOut ?
+          this.modalErrorRender()
+          :
+          null
+        }
         {this.state.loadingArt === false
           ?
           <div className="secret-home-button" onClick={this.handleGetTopStreams}>Home</div>
@@ -393,11 +405,6 @@ export default class Streams extends React.Component {
           </div>
         }
         <div className="streams-wrapper">
-          {chatTimeOut ?
-            this.modalErrorRender()
-            :
-            null
-          }
           <div className="streamer-windows-wrapper">
             {/* <button onClick={this.handleGetTest}>GET TEST</button> */}
             {/* <button onClick={this.handleGetTopStreams}>getTopStreams BUTTON</button> */}

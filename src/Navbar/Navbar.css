@@ -47,7 +47,9 @@
   padding: 5px;
   cursor: pointer;
   transition: 1s;
+  background: #6441a5;
 }
+
 #search-submit:hover {
   transition: 0.5s;
   background-color: rgb(255, 200, 255);

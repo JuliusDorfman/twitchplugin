@@ -6,7 +6,7 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <div align="center">
-  <a href="https://github.com/JuliusDorfman/twitchplugin">
+  <a href="https://art-of-twitch.herokuapp.com/">
     <img src="https://stateoftwitchart.s3.us-west-1.amazonaws.com/100822Oct10-green-61.png" alt="Logo" width="250" height="250">
   </a>
 

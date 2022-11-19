@@ -1,2 +1,0 @@
-# twitchplugin
-Twitch Plugin TBD

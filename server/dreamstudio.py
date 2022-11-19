@@ -60,6 +60,8 @@ for resp in answers:
             warnings.warn(
                 "Your request activated the API's safety filters and could not be processed."
                 "Please modify the prompt and try again.")
+            print("NSFW")
+            exit()
         if artifact.type == generation.ARTIFACT_IMAGE:
             img = Image.open(io.BytesIO(artifact.binary))
             # img = Image.save(io.BytesIO(artifact.binary))
