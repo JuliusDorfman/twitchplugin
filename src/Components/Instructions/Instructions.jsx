@@ -6,8 +6,8 @@ class Instructions extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            show: true,
-            sliderButton: false
+            show: false,
+            sliderButton: true
         }
     }
 
