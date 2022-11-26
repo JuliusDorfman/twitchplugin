@@ -182,7 +182,7 @@ export default class Streams extends React.Component {
                   </span>
                   :
                   <span className="centered">
-                    Generate Art for:  ${streamChannel}
+                    Generate Art for:  {streamChannel}
                   </span>
                 }
               </div>
