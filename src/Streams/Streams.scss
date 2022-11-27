@@ -693,6 +693,10 @@ $--R: calc(var(--size)*1.28);
     // -o-transform: translate(scaleX(2)scaleY(1.5));
 }
 
+svg.staggered-steps path:first-child {
+    fill: rgba(233, 159, 216, .5)!important;
+}
+
 // .absolute {
 //     position: absolute;
 //     top: 0;
