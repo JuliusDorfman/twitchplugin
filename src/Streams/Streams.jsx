@@ -1,19 +1,13 @@
 import React from 'react';
 import './Streams.scss';
 import axios from 'axios';
-// import noImageFound from '../Assets/piano_falling.jpg'
 import Spinner from '../Components/Spinner';
-// import Typewriter from 'typewriter-effect';
 import Appbackground from '../Components/Appbackground';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import StreamersList from '../Components/StreamersList';
 import chatting from '../Assets/chatting.gif';
 import { saveAs } from 'file-saver';
-
-
-
-// const baseURL = `http://localhost:7000/`;
 
 let api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -59,30 +53,13 @@ export default class Streams extends React.Component {
       streamsList[streamName] = [streamViewers, streamGame, streamThumbnail,
         streamChannel, streamerArtImage, streamURL, streamLive, streamSelected];
       streamerName.push(streamChannel);
+      // console.log(streamSelected);
       listItemSelected.push(streamSelected);
     }
     this.setState({ streams: streamsList });
     this.setState({ streamerNames: streamerName });
     this.setState({ listItemSelected: listItemSelected });
   }
-  // handleGetTest = (e) => {
-  //     e.preventDefault();
-  //     console.log('handleGetTest', this.props);
-
-  // let chatInput = ["Fema%%!le Ali!@#)($(*%&*^^en runn2ing through",  "forest m51ade of broc^$#!olli"];
-  // chatInput = chatInput.join(" ");
-  // const regexCharCheck = /[^A-Za-z0-9 ]/g;
-
-  // chatInput = chatInput.replace(regexCharCheck, '');        
-  // console.log("Post Processing Chat Input: ", chatInput)
-  // api.post('/postRenderChatArt', {
-  //     artPrompt: chatInput,
-  // }).then((res)=> {
-  //     console.log('handleGetTest res.data: ', res.data)
-  // }).catch(err =>{
-  //     throw err;
-  // }) 
-  // }
 
   getSnapshotBeforeUpdate(prevProps) {
     return {
@@ -109,19 +86,6 @@ export default class Streams extends React.Component {
       throw err
     })
   }
-
-  // handleGetTopGames = () => {
-  //     api.get('/getTopGames').then(res => {
-  //         console.log('HandleTopGames', res)
-  //         let games = [];
-  //         for (let i = 0; i < res.data.Message.length; i++) {
-  //             games.push(res.data.Message[i].name)
-  //         }
-  //         this.setState({games: [...games]});
-  //     }).catch((exception) => {
-  //         console.log(exception);
-  //     })
-  // }    
 
   handleSearchForStreamer = (chatInput) => {
     api.post(`/api/getStreamerChannel`).then(res => {
@@ -206,18 +170,6 @@ export default class Streams extends React.Component {
           </div>
           <div id={`streamer-art-wrapper-${streamerName}`} className="streamer-art-wrapper">
             <div className="art-positioning">
-              {/* {this.state.loadingArt === false
-                ?
-                <button id={`id-${streamerName}`} buttonvalue={streamerName} className="render-art-button" streamername={streamerName} onClick={this.handleGetArt}>
-                  <div className="smaller-font" streamername={streamerName}> 
-                    Show me 
-                  </div>
-                  <div className="bolded" streamername={streamerName}>{streamChannel}
-                  </div>
-                </button>
-                :
-                null
-              } */}
               {
                 this.state.streamArtLink !== ''
                   ?
@@ -274,19 +226,14 @@ export default class Streams extends React.Component {
     api.post(`/api/getTwitchChat`).then(res => {
       // TODO: Handle errors from twitch chat
       let chatArtPrompt = res.data.chatInput;
-      console.log('arr or string', chatArtPrompt);
       const regexCharCheck = /[^A-Za-z0-9 ]/g;
 
       chatArtPrompt = chatArtPrompt.map((input, index) => {
-        console.log("input: ", input)
         return input = input.replaceAll(regexCharCheck, (input) => {
-          console.log('inside input', input)
           return '';
         });
       })
-
-      // console.log('chatArtPrompt: ', chatArtPrompt.join(" "));
-      console.log("CHAT ART PROMPT: ", chatArtPrompt);
+      // console.log("CHAT ART PROMPT: ", chatArtPrompt);
       // Wait for {number} of chats 
       this.setState({ chatInput: chatArtPrompt }, () => {
         this.renderTwitchChat();
@@ -323,7 +270,6 @@ export default class Streams extends React.Component {
       if (chatResponse.data.noChat === true) {
         this.setState({ loadingArt: false })
         this.setState({ chatTimeOut: true })
-        // console.log("true no chat", noChatInput);
         return noChatInput;
       }
       let chatArtPrompt = chatResponse.data.chatInput
@@ -338,7 +284,6 @@ export default class Streams extends React.Component {
         artPrompt: chatArtPrompt,
       }).then((artResponse) => {
         let artFileName = artResponse.data.artFileName.replace(/\s/g, "");
-        // console.log("post render response", artResponse);
         // HIDDEN WHITESPACE .replace(/\s/g, ""); 10+ hours now go back and fix S3 upload
         // console.log('RENDER CHAT ART: ', res.data)
         if (artFileName.trim() === "NSFW") {
@@ -350,29 +295,15 @@ export default class Streams extends React.Component {
         channelToJoin = channelToJoin.replace(/\s/g, "");
         this.setState({ artPrompt: [] })
         this.setState({ artImageFileName: artFileName }, () => {
-          // console.log('Image filename: ', artFileName)
           let streams = this.state.streams;
           // console.log("Streams: ", streams);
-          // NOTE: DEPRECIATED AFTER DECISION TO S3 UPLOAD FROM PYTHON ENV 
-          // api.post(`/api/uploadFileAWS`, ({fileName: artFileName}), (req, res) => {
-          //     if (res.data.s3ImageAddress === "NoImage") {
-          //         this.setState({oadingArt: false});
-          //     }
-          //     console.log("res", res);
-          // }).then(res=> {
-          // console.log('AFTER UPLOAD', res);
           this.setState({ artPrompt: [] }, () => {
-            // let newLink = res.data.s3ImageAddress;
             let newLink = artFileName.trim();
             let currentStream = this.state.streams[channelToJoin];
             currentStream[4] = newLink;
-            // console.log("streams[channelToJoin]", streams[channelToJoin])
-            // console.log('currentStream', currentStream)
-
             this.setState({ [streams[channelToJoin]]: currentStream });
             this.setState({ loadingArt: false })
           });
-          // })
         })
       }).catch(err => {
         throw err;
@@ -406,8 +337,6 @@ export default class Streams extends React.Component {
 
         <Modal.Footer>
           <Button variant="secondary" onClick={(e) => this.handleHideModal(e)}>I'll Try Again</Button>
-          {/* <Button variant="secondary" onClick={(e) => {this.handleHideModal(e)}}>I'll Try Again</Button> */}
-          {/* <Button variant="primary">Save changes</Button> */}
         </Modal.Footer>
       </Modal.Dialog>
     )
@@ -460,26 +389,13 @@ export default class Streams extends React.Component {
         }
         <div className="streams-wrapper">
           <div className="streamer-windows-wrapper">
-            {/* <button onClick={this.handleGetTest}>GET TEST</button> */}
-            {/* <button onClick={this.handleGetTopStreams}>getTopStreams BUTTON</button> */}
             {this.renderTopStreams()}
           </div>
           <div className="art-wrapper">
-            {/* <button onClick={this.handleGetTwitchChat}>getTwitchChat Button</button>
-                        <div className="chats-wrapper">
-                            {this.renderTwitchChat()}
-                        </div> */}
           </div>
         </div>
 
         <Appbackground />
-        {/* <div className="ocean-wrapper">
-          <div className="ocean">
-            <div className="wave"></div>
-            <div className="wave"></div>
-          </div>
-        </div> */}
-
 
         <div className="staggered-steps-wrapper">
           <svg className="staggered-steps" viewBox="0 0 4000 4000"><path className="absolute" d="M0 3761L174 3761L174 3401L348 3401L348 3801L522 3801L522 3561L696 3561L696 3041L870 3041L870 3321L1043 3321L1043 2801L1217 2801L1217 3761L1391 3761L1391 3801L1565 3801L1565 3041L1739 3041L1739 3921L1913 3921L1913 3801L2087 3801L2087 3361L2261 3361L2261 3881L2435 3881L2435 3761L2609 3761L2609 3001L2783 3001L2783 3761L2957 3761L2957 3881L3130 3881L3130 2881L3304 2881L3304 3761L3478 3761L3478 3721L3652 3721L3652 3161L3826 3161L3826 3441L4000 3441L4000 3841L4000 1959L4000 1599L3826 1599L3826 1839L3652 1839L3652 2519L3478 2519L3478 2959L3304 2959L3304 639L3130 639L3130 1679L2957 1679L2957 2999L2783 2999L2783 2439L2609 2439L2609 2639L2435 2639L2435 2559L2261 2559L2261 1999L2087 1999L2087 719L1913 719L1913 679L1739 679L1739 959L1565 959L1565 1039L1391 1039L1391 3079L1217 3079L1217 1639L1043 1639L1043 1999L870 1999L870 1679L696 1679L696 2199L522 2199L522 1679L348 1679L348 1439L174 1439L174 1159L0 1159Z" fill="#e99fd8"></path><path className="absolute" d="M0 4001L174 4001L174 4001L348 4001L348 4001L522 4001L522 4001L696 4001L696 4001L870 4001L870 4001L1043 4001L1043 4001L1217 4001L1217 4001L1391 4001L1391 4001L1565 4001L1565 4001L1739 4001L1739 4001L1913 4001L1913 4001L2087 4001L2087 4001L2261 4001L2261 4001L2435 4001L2435 4001L2609 4001L2609 4001L2783 4001L2783 4001L2957 4001L2957 4001L3130 4001L3130 4001L3304 4001L3304 4001L3478 4001L3478 4001L3652 4001L3652 4001L3826 4001L3826 4001L4000 4001L4000 4001L4000 3839L4000 3439L3826 3439L3826 3159L3652 3159L3652 3719L3478 3719L3478 3759L3304 3759L3304 2879L3130 2879L3130 3879L2957 3879L2957 3759L2783 3759L2783 2999L2609 2999L2609 3759L2435 3759L2435 3879L2261 3879L2261 3359L2087 3359L2087 3799L1913 3799L1913 3919L1739 3919L1739 3039L1565 3039L1565 3799L1391 3799L1391 3759L1217 3759L1217 2799L1043 2799L1043 3319L870 3319L870 3039L696 3039L696 3559L522 3559L522 3799L348 3799L348 3399L174 3399L174 3759L0 3759Z" fill="#fd87aa"></path></svg>

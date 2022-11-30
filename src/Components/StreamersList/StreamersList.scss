@@ -18,6 +18,7 @@ $-blue-theme: #B8CDF8;
   direction: rtl;
   backdrop-filter: blur(10px);  
   background: #ffffff50;  
+  z-index: 20;
 }
 
 #streamer-sidebar-component::-webkit-scrollbar-thumb {

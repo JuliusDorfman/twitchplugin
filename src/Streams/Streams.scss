@@ -155,19 +155,16 @@ $--R: calc(var(--size)*1.28);
 
 @keyframes live-animation {
     0% {
-
         border: 1px solid red;
         opacity: 1;
     }
 
     50% {
-
         border: 1px solid white;
         opacity: .7;
     }
 
     100% {
-
         opacity: 1;
         border: 1px solid red;
     }
@@ -322,15 +319,6 @@ $--R: calc(var(--size)*1.28);
     -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(0, 0, 0, 0.6));
 }
 
-// .render-art-button-wrapper:nth-child(1) {
-//     filter: hue-rotate(270deg);
-//     -webkit-filter: hue-rotate(270deg);
-// }
-
-// .render-art-button-wrapper:nth-child(2) {
-//     filter: hue-rotate(110deg);
-//     -webkit-filter: hue-rotate(110deg);
-// }
 
 .render-art-button-wrapper span {
     position: absolute;
@@ -447,20 +435,6 @@ $--R: calc(var(--size)*1.28);
     -o-transition: 1s;
 }
 
-// #8CV75A
-.button-waves:before {
-
-    // content: ''
-    // height: 33%
-    // width: 63%
-    // position: absolute
-    // top: -20%
-    // left: -32px
-    // background-color: inherit
-    // mix-blend-mode: difference
-    // border-radius: 150% 50% 150% 150%
-}
-
 .button-waves>svg {
     position: absolute;
     height: inherit;
@@ -474,7 +448,6 @@ $--R: calc(var(--size)*1.28);
     -ms-transform: translate(-40px, -30px);
     -o-transform: translate(-40px, -30px);
 }
-
 
 .render-art-button:hover>svg {
     width: 125%;
@@ -519,19 +492,6 @@ $--R: calc(var(--size)*1.28);
     }
 }
 
-// .button-waves:after
-//         content: ''
-//         height: 33%
-//         width: 47%
-//         position: absolute
-//         top: -7%
-//         left: -32px
-//         background-color: inherit
-//         mix-blend-mode: difference
-//         border-radius: 150% 50% 150% 150%
-
-
-
 
 @keyframes shineybutton {
     0% {
@@ -545,19 +505,10 @@ $--R: calc(var(--size)*1.28);
         box-shadow: 0 0 10px 10px rgba(255, 200, 255, 1);
     }
 
-    // 25%
-    //     transform: translateX(1px)
-    // 75%
-    //     transform: translateX(-1px)
-
     100% {
         background-color: #F3D5CD;
         box-shadow: 0 0 2px 2px #F3D5CD;
     }
-
-    // 100%    
-    //     background-color: #E689CF
-    //     box-shadow: 0 0 2px 2px #E689CF
 }
 
 .chats-wrapper {
@@ -602,13 +553,9 @@ $--R: calc(var(--size)*1.28);
 }
 
 .secret-home-button:hover {
-    transition: .5s;
     background-color: rgba(255, 200, 255, 1);
     color: black;
-    //color:lavender;
-    //font-weight:bold;
-    //padding:10px;
-    //transform: translate(-10px, -1px);
+    transition: .5s;
     -webkit-transition: .5s;
     -moz-transition: .5s;
     -ms-transition: .5s;
@@ -686,22 +633,11 @@ $--R: calc(var(--size)*1.28);
     width: 500px;
     height: 500px;
     opacity: 1;
-    // transform: translate(scaleX(2)scaleY(1.5));
-    // -webkit-transform: translate(scaleX(2)scaleY(1.5));
-    // -moz-transform: translate(scaleX(2)scaleY(1.5));
-    // -ms-transform: translate(scaleX(2)scaleY(1.5));
-    // -o-transform: translate(scaleX(2)scaleY(1.5));
 }
 
 svg.staggered-steps path:first-child {
     fill: rgba(233, 159, 216, .2)!important;
 }
-
-// .absolute {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-// }
 
 @media (max-width: 1000px) {
     #navbar-component {

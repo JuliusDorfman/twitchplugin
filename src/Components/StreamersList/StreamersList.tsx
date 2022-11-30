@@ -1,11 +1,5 @@
 import React from 'react';
 import './StreamersList.scss';
-interface props {
-  streamerNames: Array<string>;
-  handleSelected: any;
-  streams: Array<string>;
-}
-
 
 export default class StreamersList extends React.Component
 <{streamerNames: Array<string>, listItemSelected: Array<boolean>, streams: any, setSelectedListItem: any},
@@ -19,14 +13,11 @@ export default class StreamersList extends React.Component
 
   handleSelected = (e) => {
     e.preventDefault();
+    
     let setListItemSelected = Array(this.props.listItemSelected.length).fill(false);
     // console.log("(e.target as HTMLInputElement).getAttribute('data-streamerId')", (e.target as HTMLInputElement).getAttribute('data-streamerId'));
-    let streamerClicked = (e.target as HTMLInputElement).getAttribute('data-streamerId')
-    let listItem = (e.target as HTMLInputElement).getAttribute('data-listItem')
-    // console.log('Selected: ', streamerClicked);
-    // console.log('Selected List Item: ', listItem);
-    // console.log('setListItemSelected', setListItemSelected);
-    // console.log("STREAMS", this.props.streams)
+    let streamerClicked = (e.target as HTMLLIElement).getAttribute('data-streamerid')
+    let listItem = (e.target as HTMLLIElement).getAttribute('data-listitem')
     this.props.setSelectedListItem(streamerClicked);
     setListItemSelected[String(listItem)] = true;
     
@@ -37,8 +28,7 @@ export default class StreamersList extends React.Component
   }
 
   render() {
-    let listItemSelected = this.state.listItemSelected
-    // console.log('this.props', this.props)
+    let listItemSelected = this.props.listItemSelected
     return (
     <div id="streamer-sidebar-component">
       <div className="streamer-list-wrapper">
@@ -49,8 +39,8 @@ export default class StreamersList extends React.Component
                 <li
                   className={`streamer-list-item streamer-list-item-${listItemSelected[index]}`}
                   key={`${val}-${index}`}
-                  data-listItem = {index}
-                  data-streamerId = {val.toLowerCase()}
+                  data-listitem = {index}
+                  data-streamerid = {val.toLowerCase()}
                   onClick={this.handleSelected}
                 >{`${val}`}</li>
               )
