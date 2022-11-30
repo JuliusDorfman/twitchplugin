@@ -636,7 +636,7 @@ $--R: calc(var(--size)*1.28);
 }
 
 svg.staggered-steps path:first-child {
-    fill: rgba(233, 159, 216, .2)!important;
+    fill: rgba(233, 159, 216, .2) !important;
 }
 
 @media (max-width: 1000px) {
@@ -673,4 +673,111 @@ svg.staggered-steps path:first-child {
         padding: 4px;
         line-height: 16px;
     }
+
+    #streams-component {
+        justify-content: flex-end;
+        height: 800px;
+        align-items: start;
+    }
+
+    .streams-wrapper {
+        height: 99%;
+        width: 60%;
+        margin-right: 12px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+
+    .streamer-viewers,
+    .streamer-game {
+        width: 90%;
+        padding-left: 0;
+        margin: auto;
+    }
+
+    .streamer-info-wrapper {
+        height: initial;
+        width: initial;
+        margin: 12px;
+    }
+
+    .streamer-window {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .render-art-button-wrapper {
+        margin: 12px auto;
+        padding: 0;
+        width: 150px;
+    }
+
+    .streamer-name {
+        margin: auto;
+        width: 90%;
+        padding: 0;
+    }
+
+    .streamer-screenshot {
+        width: 100%;
+    }
+
+    .streamer-thumbnail {
+        margin: auto;
+    }
+
+    .stream-link-wrapper {
+        width: 90%;
+        margin: auto;
+    }
+
+    .image-options {
+        margin: 8px auto;
+    }
+
+    .art-positioning {
+        margin: 0 auto;
+    }
+
+    .stream-link-wrapper {
+        display: none;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    #navbar-component {
+        min-height: 15vh;
+    }
+
+
+    #streams-component {
+        height: 730px;
+    }
+
+    .live>p {
+        top: 51px;
+        left: 138px;
+    }
+
+    .live:after {
+        top: 69px;
+        left: 171px;
+    }
+
+    .streams-wrapper {
+        backdrop-filter: none;
+        background: #ffffff99;
+        width: 68%;
+    }
+
+    #alert-modal {
+        left: 23%;
+    }
+
+    .image-options {
+        margin: 8px 48px;
+    }
+
 }

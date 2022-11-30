@@ -165,7 +165,7 @@ export default class Streams extends React.Component {
             </div>
             <div className="streamer-game"><span className="smaller-font">Category: </span><span className="bolded">{streamGame}</span></div>
             <div className="streamer-viewers"><span className="italicized smaller-font">Current Viewers: {streamViewers}</span></div>
-            <div className="`streamer-thu`mbnail"><img className="streamer-screenshot" alt="streamer-thumbnail" src={streamThumbnail} /></div>
+            <div className="streamer-thumbnail"><img className="streamer-screenshot" alt="streamer-thumbnail" src={streamThumbnail} /></div>
             <p className="stream-link-wrapper"><a href={streamURL} rel="noreferrer" target="_blank">Check out the stream at Twitch.tv</a></p>
           </div>
           <div id={`streamer-art-wrapper-${streamerName}`} className="streamer-art-wrapper">
