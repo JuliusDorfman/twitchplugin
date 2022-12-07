@@ -28,7 +28,7 @@ python-libmagic==0.4.0
 s3transfer==0.6.0
 simple-chalk==0.1.0
 six==1.16.0
-stability-sdk==0.2.6
+stability-sdk==0.3.0
 traitlets==5.4.0
 urllib3==1.26.12
 wcwidth==0.2.5
