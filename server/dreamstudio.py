@@ -1,10 +1,11 @@
+import os
 import io
-import os, sys
+import sys
 # from tkinter.tix import DirSelectDialog
 import warnings
 from PIL import Image
 from array import array
-import random 
+import random
 from datetime import datetime
 import numpy as np
 from simple_chalk import chalk
@@ -30,29 +31,40 @@ else:
     DREAM_STUDIO_KEY = os.environ['DREAM_STUDIO_KEY']
     AMZ_ACCESS_KEY = os.environ['AMZ_ACCESS_KEY']
     AMZ_SECRET_KEY = os.environ['AMZ_SECRET_KEY']
-    
+
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-promptAppender = ["4k", "detailed", "dark fantasy", 
-                   "concept art", "illustration", "cyberpunk", 
-                   "trending on art station", "elegant", "digital painting"]
+promptAppender = ["4k", "detailed", "dark fantasy",
+                  "concept art", "illustration", "cyberpunk",
+                  "trending on art station", "elegant", "digital painting"]
 
 stability_api = client.StabilityInference(
     key=DREAM_STUDIO_KEY,
     verbose=True,
-    )
-
+    engine="stable-diffusion-v1-5",
+)
 
 
 # testing
 # savedFileName = "100822Oct10-green-61.png"
 # prompt="frog girl fighting demon hawks on a boat"
-# testing 
+# testing
 
 prompt = str(sys.argv[1])
 
-answers = stability_api.generate(prompt)
+# TESTING START
+
+answers = stability_api.generate(
+    # prompt=prompt,
+    prompt=prompt,
+    # steps=30,
+    cfg_scale=5.0,
+    # width=512,
+    # height=512,
+    # samples=1
+    # sampler=generation.k_dpmpp_2m
+)
 
 for resp in answers:
     for artifact in resp.artifacts:
@@ -73,24 +85,25 @@ for resp in answers:
 
             if len(promptSubstr) > 5:
                 promptSubstr = promptSubstr[0:5]
-                
+
             savedFileName = f'{today}-{promptSubstr}-{num}.png'
-   
+
             os.chdir('./generatedimages')
             img.save(savedFileName)
             # print(savedFileName)
 
+
 def upload_to_aws(local_file, bucket, s3_file):
-    s3 = boto3.client('s3', 
+    s3 = boto3.client('s3',
                       aws_access_key_id=AMZ_ACCESS_KEY,
                       aws_secret_access_key=AMZ_SECRET_KEY,
-                      region_name="us-west-1") 
+                      region_name="us-west-1")
 
     try:
         s3.upload_file(local_file, bucket, s3_file, ExtraArgs={
-                        "ACL": "public-read",
-                        "ContentType": "image/png"
-                        })
+            "ACL": "public-read",
+            "ContentType": "image/png"
+        })
         # print("Upload Successful")
         return True
     except FileNotFoundError:
@@ -101,9 +114,7 @@ def upload_to_aws(local_file, bucket, s3_file):
         return False
 
 
-
 uploaded = upload_to_aws(savedFileName, 'stateoftwitchart', savedFileName)
-
 
 
 publicURL = f'https://stateoftwitchart.s3.us-west-1.amazonaws.com/{savedFileName}'
