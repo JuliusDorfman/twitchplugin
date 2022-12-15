@@ -4,7 +4,6 @@ import Navbar from './Navbar';
 import Instructions from './Components/Instructions';
 import Streams from './Streams';
 // import chatting from './Assets/chatting.gif';
-import KUTE from 'kute.js';
 // import Appbackground from './Components/Appbackground';
 
 class App extends React.Component {
@@ -34,9 +33,7 @@ class App extends React.Component {
   }
 
   handleBlobButton = () => {
-    let bgmShift = this.state.bgmShift;
-    bgmShift = bgmShift ? false : true;
-    this.setState({ bgmShift: bgmShift });
+
   }
 
   handleScrollToTop = () => {
@@ -44,13 +41,7 @@ class App extends React.Component {
   }
 
   componentDidMount = () => {
-    const blobAnim = KUTE.fromTo(
-      '#blob-1',
-      { path: '#blob-1' },
-      { path: '#blob-2' },
-      { repeat: 999, duration: 2000, yoyo: true }
-    )
-    blobAnim.start();
+
   }
 
   render() {
@@ -68,16 +59,6 @@ class App extends React.Component {
         <main className="streams-component-wrapper">
           <Streams streamername={this.state.streamerName} getHome={[this.state.getHome, this.state.currentPage]} />
         </main>
-        <svg id="blob-button" viewBox="0 0 960 300" width="960" height="300" version="1.1">
-          <g className={`blob-button-${bgmShift}`} transform="translate(484.1535820659599 145.4810835912449)" onClick={this.handleBlobButton}>
-            <path id="blob-1" className={`blob-1-${bgmShift}`}
-              d="M84.1 -77.4C105.9 -62.2 118.4 -31.1 111.7 -6.7C105 17.7 79 35.4 57.2 55C35.4 74.7 17.7 96.3 -2.5 98.8C-22.6 101.3 -45.3 84.6 -70.3 64.9C-95.3 45.3 -122.6 22.6 -121.8 0.8C-121 -21 -92 -42 -67 -57.1C-42 -72.3 -21 -81.6 5.1 -86.7C31.1 -91.8 62.2 -92.6 84.1 -77.4" ></path>
-          </g>
-          <g transform="translate(475.31093316137367 152.90827363030346)" style={{ visibility: "hidden" }}>
-            <path id="blob-2" className={`blob-2-${bgmShift}`}
-              d="M60.4 -54.9C85.4 -35.4 117.7 -17.7 119.8 2.1C121.9 21.9 93.8 43.8 68.8 62.3C43.8 80.8 21.9 95.9 2 93.9C-17.9 91.9 -35.8 72.8 -58 54.3C-80.2 35.8 -106.6 17.9 -110.1 -3.5C-113.7 -25 -94.3 -50 -72.1 -69.5C-50 -89 -25 -103 -3.7 -99.3C17.7 -95.7 35.4 -74.4 60.4 -54.9"></path>
-          </g>
-        </svg>
         <div id="background-2" className={`background-2-${bgmShift}`}></div>
         <div className="navbar-background-wrapper">
           <svg id="navbar-svg" viewBox="0 0 200 400" width="200" height="400"><path d="M0 161L9 161L9 169L17 169L17 149L26 149L26 169L35 169L35 145L43 145L43 169L52 169L52 165L61 165L61 149L70 149L70 149L78 149L78 165L87 165L87 149L96 149L96 145L104 145L104 149L113 149L113 173L122 173L122 149L130 149L130 157L139 157L139 157L148 157L148 149L157 149L157 157L165 157L165 153L174 153L174 173L183 173L183 165L191 165L191 173L200 173L200 169L200 0L200 0L191 0L191 0L183 0L183 0L174 0L174 0L165 0L165 0L157 0L157 0L148 0L148 0L139 0L139 0L130 0L130 0L122 0L122 0L113 0L113 0L104 0L104 0L96 0L96 0L87 0L87 0L78 0L78 0L70 0L70 0L61 0L61 0L52 0L52 0L43 0L43 0L35 0L35 0L26 0L26 0L17 0L17 0L9 0L9 0L0 0Z" fill="#fd87aa"></path><path d="M0 265L9 265L9 269L17 269L17 245L26 245L26 265L35 265L35 241L43 241L43 265L52 265L52 253L61 253L61 245L70 245L70 249L78 249L78 257L87 257L87 241L96 241L96 241L104 241L104 245L113 245L113 261L122 261L122 253L130 253L130 249L139 249L139 253L148 253L148 245L157 245L157 261L165 261L165 249L174 249L174 261L183 261L183 269L191 269L191 265L200 265L200 269L200 167L200 171L191 171L191 163L183 163L183 171L174 171L174 151L165 151L165 155L157 155L157 147L148 147L148 155L139 155L139 155L130 155L130 147L122 147L122 171L113 171L113 147L104 147L104 143L96 143L96 147L87 147L87 163L78 163L78 147L70 147L70 147L61 147L61 163L52 163L52 167L43 167L43 143L35 143L35 167L26 167L26 147L17 147L17 167L9 167L9 159L0 159Z" fill="#fd87aa"></path></svg>
