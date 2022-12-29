@@ -331,8 +331,8 @@ $--R: calc(var(--size)*1.28);
     width: 100%;
     height: 2px;
     background: linear-gradient(90deg, transparent, $-purple-theme);
-    animation: animate1 2s linear infinite;
-    -webkit-animation: animate1 2s linear infinite;
+    animation: animate1 8s linear infinite;
+    -webkit-animation: animate1 8s linear infinite;
 }
 
 @keyframes animate1 {
@@ -352,9 +352,9 @@ $--R: calc(var(--size)*1.28);
     width: 2px;
     height: 100%;
     background: linear-gradient(180deg, transparent, $-purple-theme);
-    animation: animate2 2s linear infinite;
-    -webkit-animation: animate2 2s linear infinite;
-    animation-delay: 0.5s;
+    animation: animate2 8s linear infinite;
+    -webkit-animation: animate2 8s linear infinite;
+    animation-delay: 1s;
 }
 
 @keyframes animate2 {
@@ -374,9 +374,9 @@ $--R: calc(var(--size)*1.28);
     width: 100%;
     height: 2px;
     background: linear-gradient(270deg, transparent, $-purple-theme);
-    animation: animate3 2s linear infinite;
-    -webkit-animation: animate3 2s linear infinite;
-    animation-delay: 1s;
+    animation: animate3 8s linear infinite;
+    -webkit-animation: animate3 8s linear infinite;
+    animation-delay: 2s;
 }
 
 @keyframes animate3 {
@@ -396,9 +396,9 @@ $--R: calc(var(--size)*1.28);
     width: 2px;
     height: 100%;
     background: linear-gradient(360deg, transparent, $-purple-theme);
-    animation: animate4 2s linear infinite;
-    -webkit-animation: animate4 2s linear infinite;
-    animation-delay: 1.5s;
+    animation: animate4 8s linear infinite;
+    -webkit-animation: animate4 8s linear infinite;
+    animation-delay: 3s;
 }
 
 @keyframes animate4 {
@@ -626,13 +626,70 @@ $--R: calc(var(--size)*1.28);
     display: flex;
     flex-direction: row;
     bottom: 0vh;
+    // bottom: -7vh;
     z-index: -1;
+}
+
+.staggered-foundation {
+    position: absolute;
+    top: 80%;
+    height: 100%;
+    width: 100%;
+    background: #fd87aa;
 }
 
 .staggered-steps {
     width: 500px;
     height: 500px;
     opacity: 1;
+}
+
+.second-variation {
+    top: 13vh;
+    right: 37%;
+    position: absolute;
+    width: 1000px;
+    opacity: 1;
+}
+
+.third-variation {
+    top: 13vh;
+    right: 41%;
+    position: absolute;
+    width: 1000px;
+    opacity: 1;
+}
+
+.fourth-variation {
+    top: 13vh;
+    right: 45%;
+    position: absolute;
+    width: 1000px;
+    opacity: 1;
+}
+
+.second-variation path{
+  transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  -o-transform: scale(1.5);
+}
+
+.third-variation path{
+  transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  -o-transform: scale(1.5);
+}
+
+.fourth-variation path{
+  transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  -o-transform: scale(1.5);
 }
 
 svg.staggered-steps path:first-child {

@@ -81,19 +81,16 @@ If you have any suggestions, please feel free to fork the repo and create a pull
 </div>
 
 
-![Art Of Twitch Screen Shot][artoftwitch-screenshot]
-
-
   Runs the app in the development mode.
   Open http://localhost:3000 to view it in your browser.
   Server runs on http://localhost:7000.
   
-  ### Prerequisites:
+  ### Prerequisites to run locally:
   
 <p align="left">  
   * Twitch API Keys
   <br />
-  * DreamStudio API Keys (Will soon be dropping this in favor of internal Stable-Diffusion operator after move to &nbsp;&nbsp;&nbsp;&nbsp;AWS: EC2)
+  * DreamStudio API Keys (Will soon be dropping this in favor of proprietary Stable-Diffusion fork after move to AWS: EC2)
   <br />
 </p>
 

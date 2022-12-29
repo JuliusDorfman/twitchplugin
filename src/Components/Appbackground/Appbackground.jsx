@@ -27,7 +27,7 @@ export const Appbackground = () => {
       options={{
         background: {
           color: {
-            value: "#E6E6FA",
+            value: "#FDFFFC",
             // value: "#B8CDF8",
           },
           size: "cover"
