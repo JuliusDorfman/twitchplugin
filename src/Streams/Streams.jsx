@@ -166,7 +166,17 @@ export default class Streams extends React.Component {
             <div className="streamer-game"><span className="smaller-font">Category: </span><span className="bolded">{streamGame}</span></div>
             <div className="streamer-viewers"><span className="italicized smaller-font">Current Viewers: {streamViewers}</span></div>
             <div className="streamer-thumbnail"><img className="streamer-screenshot" alt="streamer-thumbnail" src={streamThumbnail} /></div>
-            <p className="stream-link-wrapper"><a href={streamURL} rel="noreferrer" target="_blank">Check out the stream at Twitch.tv</a></p>
+            <p className="stream-link-wrapper">
+              <a href={streamURL} rel="noreferrer" target="_blank">
+                Check out the stream at Twitch.tv
+                <svg viewBox="-25 -25 700 700" xmlns="http://www.w3.org/2000/svg">
+                  <g fillRule="evenodd">
+                    <path d="m527.41 237.75c-4.4844 0-8.7812 1.7812-11.953 4.9531-3.168 3.168-4.9492 7.4688-4.9492 11.953v236.55h-371.72v-371.72h236.55c5.9062-0.1875 11.285-3.4492 14.188-8.5977 2.8984-5.1523 2.8984-11.441 0-16.594-2.9023-5.1484-8.2812-8.4102-14.188-8.5977h-253.43c-4.4805 0-8.7773 1.7773-11.949 4.9453-3.168 3.1641-4.9531 7.4609-4.957 11.941v405.51c0 4.4844 1.7812 8.7852 4.9531 11.953 3.168 3.1719 7.4688 4.9531 11.953 4.9531h405.51c4.4844 0 8.7852-1.7812 11.953-4.9531 3.1719-3.168 4.9531-7.4688 4.9531-11.953v-253.43c0-4.4844-1.7812-8.7852-4.9531-11.953-3.168-3.1719-7.4688-4.9531-11.953-4.9531z" />
+                    <path d="m578.09 35h-101.38c-5.9102 0.19141-11.289 3.4531-14.188 8.6016-2.8984 5.1484-2.8984 11.441 0 16.59 2.8984 5.1484 8.2773 8.4102 14.188 8.6016h60.531l-224.56 224.59c-4.2734 4.2734-5.9375 10.5-4.3711 16.336 1.5664 5.8359 6.125 10.391 11.961 11.953s12.062-0.10938 16.332-4.3828l224.59-224.54v60.531c-0.14844 4.5781 1.5664 9.0156 4.7539 12.305 3.1836 3.2891 7.5664 5.1445 12.145 5.1445 4.5742 0 8.957-1.8555 12.145-5.1445 3.1836-3.2891 4.8984-7.7266 4.75-12.305v-101.38c0-4.4844-1.7812-8.7852-4.9531-11.953-3.168-3.1719-7.4688-4.9531-11.953-4.9531z" />
+                  </g>
+                </svg>
+              </a>
+            </p>
           </div>
           <div id={`streamer-art-wrapper-${streamerName}`} className="streamer-art-wrapper">
             <div className="art-positioning">
@@ -203,7 +213,7 @@ export default class Streams extends React.Component {
                     >Download Image</li>
                   </ul>
                   :
-                  <div></div>
+                  <div>Generate Art to get started</div>
               }
             </div>
 

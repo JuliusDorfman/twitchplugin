@@ -25,6 +25,7 @@ $--R: calc(var(--size)*1.28);
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     border: 1px solid #292929;
+    background: linear-gradient(transparent, #E99FD860);
 }
 
 // Streamer Windows 
@@ -207,6 +208,7 @@ $--R: calc(var(--size)*1.28);
 
 .streamer-screenshot {
     width: 97.5%;
+    outline: black 2px solid;    
 }
 
 .streamer-thumbnail {
@@ -219,6 +221,7 @@ $--R: calc(var(--size)*1.28);
 .art-rendered {
     height: 300px;
     width: 295px;
+    outline: 2px solid black;    
 }
 
 .art-rendered img {
@@ -299,7 +302,54 @@ $--R: calc(var(--size)*1.28);
     color: black;
 }
 
-.stream-link:hover {}
+
+
+.stream-link-wrapper svg {
+    fill: black;
+    width: 28px;
+    transition: .5s;
+    -webkit-transition: .5s;
+    -moz-transition: .5s;
+    -ms-transition: .5s;
+    -o-transition: .5s;
+}
+
+
+// GitHub Link
+.stream-link-wrapper svg {
+    width: 24px;
+    margin-left: 14px;
+    transition: .5s;
+    -webkit-transition: .5s;
+    -moz-transition: .5s;
+    -ms-transition: .5s;
+    -o-transition: .5s;
+    transform: scale(1) translateY(6px);
+    -webkit-transform: scale(1) translateY(6px);
+    -moz-transform: scale(1) translateY(6px);
+    -ms-transform: scale(1) translateY(6px);
+    -o-transform: scale(1) translateY(6px);
+}
+
+.stream-link-wrapper a:hover svg {
+    fill: #6441A5;
+    transform: scale(1.5) translateY(6px);
+    -webkit-transform: scale(1.5) translateY(6px);
+    -moz-transform: scale(1.5) translateY(6px);
+    -ms-transform: scale(1.5) translateY(6px);
+    -o-transform: scale(1.5) translateY(6px);
+    transition: .5s;
+    -webkit-transition: .5s;
+    -moz-transition: .5s;
+    -ms-transition: .5s;
+    -o-transition: .5s;
+}
+
+
+
+
+
+
 
 .render-art-button:hover {
     transition: .5s;
@@ -668,28 +718,28 @@ $--R: calc(var(--size)*1.28);
     opacity: 1;
 }
 
-.second-variation path{
-  transform: scale(1.5);
-  -webkit-transform: scale(1.5);
-  -moz-transform: scale(1.5);
-  -ms-transform: scale(1.5);
-  -o-transform: scale(1.5);
+.second-variation path {
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
 }
 
-.third-variation path{
-  transform: scale(1.5);
-  -webkit-transform: scale(1.5);
-  -moz-transform: scale(1.5);
-  -ms-transform: scale(1.5);
-  -o-transform: scale(1.5);
+.third-variation path {
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
 }
 
-.fourth-variation path{
-  transform: scale(1.5);
-  -webkit-transform: scale(1.5);
-  -moz-transform: scale(1.5);
-  -ms-transform: scale(1.5);
-  -o-transform: scale(1.5);
+.fourth-variation path {
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
 }
 
 svg.staggered-steps path:first-child {
